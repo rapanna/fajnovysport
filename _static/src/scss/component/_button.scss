@@ -1,0 +1,93 @@
+.button {
+	$this: &;
+
+	align-items: center;
+	border: 0;
+	border-radius: $border-radius;
+	display: flex;
+	font-family: $font-family;
+	font-size: 1rem;
+	grid-gap: 1rem;
+	justify-content: space-between;
+
+	// prettier-ignore
+	padding: .64rem 1.65rem;
+	text-align: center;
+	text-decoration: none;
+	transition:
+		$transition-time background-color,
+		$transition-time border-color,
+		$transition-time color;
+	width: fit-content;
+
+	@include media-bp-down(md) {
+		margin: 0 auto;
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	&--primary {
+		background: $primary;
+		color: $white;
+
+		&:disabled {
+			background-color: lighten($primary, 50);
+			pointer-events: none;
+		}
+
+		&:hover,
+		&:focus,
+		&:active {
+			background-color: lighten($primary, 30);
+		}
+
+		&:hover {
+			background-color: lighten($primary, 30);
+
+			&:focus {
+				background-color: lighten($primary, 30);
+			}
+		}
+	}
+
+	&--secondary {
+		background: $secondary;
+		color: $white;
+
+		&:disabled {
+			background-color: lighten($secondary, 50);
+			pointer-events: none;
+		}
+
+		&:hover {
+			background-color: lighten($secondary, 30);
+
+			&:focus {
+				background-color: lighten($secondary, 30);
+			}
+		}
+	}
+
+	&--sm {
+		// prettier-ignore
+		padding: .75rem 1.25rem;
+
+		@include media-bp-down(lg) {
+			// prettier-ignore
+			font-size: .875rem;
+
+			// prettier-ignore
+			padding: .63rem 1rem;
+		}
+
+		#{$this}__text {
+			display: flex;
+			flex-wrap: wrap;
+
+			// prettier-ignore
+			grid-gap: .5rem;
+		}
+	}
+}

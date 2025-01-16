@@ -1,0 +1,25 @@
+{
+	"name": "vanilla",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"devDependencies": {
+		"@eslint/js": "^9.18.0",
+		"@trivago/prettier-plugin-sort-imports": "^5.2.1",
+		"@types/eslint-config-prettier": "^6.11.3",
+		"@typescript-eslint/eslint-plugin": "^8.20.0",
+		"@typescript-eslint/parser": "^8.20.0",
+		"eslint": "^9.18.0",
+		"eslint-config-prettier": "^10.0.1",
+		"prettier": "^3.4.2",
+		"prettier-eslint": "^16.3.0",
+		"sass": "^1.83.4",
+		"stylelint": "^16.13.2",
+		"stylelint-config-standard": "^37.0.0",
+		"stylelint-config-standard-scss": "^14.0.0",
+		"stylelint-order": "^6.0.4",
+		"stylelint-prettier": "^5.0.2",
+		"stylelint-selector-bem-pattern": "^4.0.1",
+		"typescript": "~5.6.2"
+	}
+}

@@ -1,0 +1,10 @@
+@use "../abstract/variables" as variables 
+@use "../abstract/mixin" as mixin
+
+.publication
+    @include mixin.displayflex(row, wrap, center, flex-end, center)
+    font-size: 0.68421em
+    margin: 
+        top: 0.76923em
+        bottom: 1.92308em
+    

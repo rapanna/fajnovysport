@@ -1,0 +1,95 @@
+// stylelint-disable media-feature-range-notation
+// stylelint-disable unit-allowed-list
+@use 'sass:map';
+
+@mixin display-flex(
+	$align-content: normal,
+	$align-items: normal,
+	$flex-direction: row,
+	$flex-wrap: wrap,
+	$justify-content: normal
+) {
+	align-items: $align-items;
+	display: flex;
+	flex-flow: $flex-direction $flex-wrap;
+	place-content: $align-content $justify-content;
+}
+
+$breakpoints: (
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+	xxl: 1400px,
+);
+$containers: (
+	sm: 540px,
+	md: 720px,
+	lg: 960px,
+	xl: 1140px,
+	xxl: 1320px,
+);
+
+// prettier-ignore
+$container-padding: .9375rem;
+
+@mixin media-bp-up($bp) {
+	$width: map.get($breakpoints, $bp);
+
+	@media (min-width: #{width}) {
+		@content;
+	}
+}
+
+@mixin media-bp-height() {
+	@media (max-height: 31.25rem) {
+		@content;
+	}
+}
+
+@mixin media-bp-down($bp) {
+	$width: map.get($breakpoints, $bp) - 0.1;
+
+	@media (max-width: #{width}) {
+		@content;
+	}
+}
+
+@mixin reset-container-spacing {
+	@include media-bp-down(md) {
+		padding-left: $container-padding;
+		padding-right: $container-padding;
+	}
+}
+
+$font-family-sans-serif:
+	'barlow',
+	arial,
+	system-ui,
+	-apple-system,
+	'Segoe UI',
+	sans-serif;
+$font-family-sans-serif-bold:
+	'barlowbold',
+	arial,
+	system-ui,
+	-apple-system,
+	'Segoe UI',
+	sans-serif;
+$font-family-sans-serif-italic:
+	'barlowitalic',
+	arial,
+	system-ui,
+	-apple-system,
+	'Segoe UI',
+	sans-serif;
+$font-size-root: 1.2rem;
+$font-size-base: 1rem;
+
+// prettier-ignore
+$font-size-sm: $font-size-base * .75 !default; // 12px
+$font-size-lg: $font-size-base * 1.1875 !default; // 19px
+$font-size-h1: $font-size-base * 2.3125 !default; // 37px
+$font-size-h2: $font-size-base * 1.875 !default; // 30px
+$font-size-h3: $font-size-base * 1.5625 !default; // 25px
+$font-size-h4: $font-size-base * 1.3125 !default; // 21px

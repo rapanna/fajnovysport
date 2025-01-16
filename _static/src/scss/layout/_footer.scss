@@ -1,0 +1,77 @@
+@use '../global' as *;
+
+.footer__bottom {
+	background-color: var(--ov-footer-darker);
+	color: var(--ov-bila);
+	font-size: 0.84em;
+	font-weight: 400;
+	margin: 0;
+	padding: 2.1875em 4em;
+
+	a {
+		color: var(--ov-bila);
+	}
+}
+
+.footer__boxs {
+	@include display-flex(row, wrap, center, space-between, center);
+
+	align-items: stretch;
+	background-color: var(--ov-footer);
+	color: var(--ov-bila);
+	margin: 0;
+	padding: 0;
+
+	ul {
+		list-style: none;
+		margin: 2.21em 1rem 2.21em 3.36em;
+		padding: 0;
+	}
+
+	li {
+		margin: 0 0 1rem;
+	}
+
+	a {
+		color: var(--ov-bila);
+		font-weight: 600;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.footer__box {
+	flex: 1;
+}
+
+.footer__box:nth-child(1) {
+	background-color: var(--ov-footer-lighter);
+}
+
+.footer__box:nth-child(2) {
+	background-color: var(--ov-footer-light);
+}
+
+.footer__box:nth-child(4) {
+	background-color: var(--ov-footer-dark);
+}
+
+.footer__box:nth-child(5) {
+	background-color: var(--ov-footer-dark);
+}
+
+.footer__box__pack {
+	margin: 2.21em 1em 2.21em 3.36em;
+
+	strong {
+		text-transform: uppercase;
+	}
+
+	img {
+		height: auto;
+		max-width: 10em;
+	}
+}

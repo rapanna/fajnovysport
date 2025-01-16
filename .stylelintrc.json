@@ -1,0 +1,47 @@
+{
+	"extends": ["stylelint-config-standard-scss"],
+	"plugins": [
+		"stylelint-order",
+		"stylelint-selector-bem-pattern",
+		"stylelint-prettier"
+	],
+	"rules": {
+		"prettier/prettier": true,
+		"color-function-notation": "legacy",
+		"order/properties-alphabetical-order": true,
+		"font-family-name-quotes": null,
+		"declaration-no-important": true,
+		"color-named": "never",
+		"color-no-invalid-hex": true,
+		"selector-class-pattern": null,
+		"scss/no-global-function-names": null,
+		"plugin/selector-bem-pattern": {
+			"preset": "bem",
+			"componentName": "(([a-z0-9]+(?!-$)-?)+)",
+			"componentSelectors": {
+				"initial": "\\.{componentName}(((__|--)(([a-z0-9\\[\\]'=]+(?!-$)-?)+))+)?$"
+			},
+			"ignoreSelectors": [".*\\.has-.*", ".*\\.is-.*"]
+		},
+		"rule-empty-line-before": [
+			"always",
+			{
+				"except": ["after-single-line-comment", "first-nested"],
+				"ignore": ["after-comment", "first-nested"]
+			}
+		],
+		"unit-allowed-list": [
+			["deg", "em", "rem", "%", "fr", "vh", "s"],
+			{
+				"ignoreProperties": {
+					"px": [
+						"border",
+						"border-bottom",
+						"border-top",
+						"box-shadow"
+					]
+				}
+			}
+		]
+	}
+}

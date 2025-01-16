@@ -1,0 +1,52 @@
+version: "3"
+
+set:
+    - pipefail
+    - nounset
+shopt:
+    - globstar
+
+dotenv:
+    - global.env
+    - .env
+
+env:
+    VERSION:
+        # sh: git describe --dirty TODO
+
+includes:
+    static:
+        taskfile: ./_static/
+        dir: ./_static/
+
+tasks:
+    install:
+        desc: Install all node_modules
+        cmds:
+            - npm ci --no-audit
+            - task: static:install
+
+    update:
+        desc: Update all dependencies
+        cmds:
+            - npm update --save
+            - task: static:update
+
+    configure:
+        desc: Generate files dependent on configuration
+        cmds:
+            - task: static:configure
+
+    check:
+        desc: Check everything
+        cmds:
+            - npm audit
+            - npx prettier . --check
+            - npx stylelint "**/*.scss"
+            - npx eslint .
+            - task: static:check
+
+    build:
+        desc: Build everything
+        cmds:
+            - task: static:build

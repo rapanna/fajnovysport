@@ -1,0 +1,38 @@
+@use "../abstract/variables" as variables 
+@use "../abstract/mixin" as mixin
+
+.topmenu
+    width: 100% 
+    @include mixin.displayflex(row, wrap, center, space-between, center)   
+    gap: 0 
+    align-items: stretch
+
+.topmenu__left
+    width: calc(100% - 16.8421em - 1.2632em)
+    @include mixin.displayflex(row, wrap, center, space-between, center)    
+
+.topmenu__logo
+    padding:
+        left: 3.2105em
+    @media screen and (max-width: 1330px)
+        padding:
+            left: 1em
+
+    a.topmenu__logo__link 
+        display: block
+
+
+        img 
+            display: block
+            padding:
+                top: 0.4737em // 9 px
+                bottom: 0.4737em
+
+.topmenu__right        
+    width: calc(16.8421em + 1.2632em)
+    background-color: var(--ov-bgtext)
+    color: var(--ov-bila)
+    @include mixin.displayflex(row, wrap, center, flex-start, center)    
+
+
+

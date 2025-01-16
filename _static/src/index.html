@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Fajnovy sport</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,500;0,700;1,500;1,700&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- <link href="./css/index.sass.min.css" rel="stylesheet">     -->
+	</head>
+
+	<body>
+		<a href="" class="none">Skip to menu</a>
+		<a href="" class="none">Skip to content</a>
+		<header>
+			<div class="bar">
+				<form class="search" role="search" action="" method="post">
+					<label class="search__label" for="search"
+						>Web search
+						<p id="error" class="" role="alert"></p>
+					</label>
+					<input
+						id="search"
+						class="search__input"
+						type="search"
+						name="search"
+						aria-label="Web search"
+					/>
+					<button
+						id="searchBtn"
+						class="search__btn"
+						type="submit"
+						aria-labelledby="Search"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="22"
+							height="25"
+							viewBox="0 0 22 25"
+							fill="none"
+						>
+							<title id="search">Search</title>
+							<g clip-path="url(#clip0_114_944)">
+								<path
+									d="M9.79843 19.5969C4.39469 19.5969 0 15.2022 0 9.79843C0 4.39469 4.39469 0 9.79843 0C15.2022 0 19.5969 4.39469 19.5969 9.79843C19.5969 15.2022 15.2022 19.5969 9.79843 19.5969ZM9.79843 1.3277C5.12493 1.3277 1.3277 5.12493 1.3277 9.79843C1.3277 14.4719 5.12493 18.2692 9.79843 18.2692C14.4719 18.2692 18.2692 14.4719 18.2692 9.79843C18.2692 5.12493 14.4719 1.3277 9.79843 1.3277Z"
+									fill="#00345F"
+								/>
+								<path
+									d="M21.6548 22.0133L16.3838 16.0652C15.8528 16.7556 15.1756 17.3531 14.3392 17.7646L19.6765 23.7791C19.9421 24.0712 20.3005 24.2305 20.6723 24.2305C20.991 24.2305 21.2963 24.1243 21.5486 23.8986C22.0929 23.4074 22.1461 22.5709 21.6548 22.0266V22.0133Z"
+									fill="#00345F"
+								/>
+							</g>
+							<defs>
+								<clipPath id="clip0_114_944">
+									<rect
+										width="22"
+										height="24.2173"
+										fill="white"
+									/>
+								</clipPath>
+							</defs>
+						</svg>
+					</button>
+				</form>
+				<div class="bar__ico">
+					<a
+						href=""
+						class="bar__ico__img bar__ico__img--instagram"
+						aria-label="External link"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="40"
+							height="40"
+							viewBox="0 0 40 40"
+							fill="none"
+							aria-labelledby="instagram"
+						>
+							<title id="instagram">Instagram</title>
+							<g clip-path="url(#clip0_114_950)">
+								<path
+									d="M19.9861 40C8.95357 40 0 31.0464 0 20.0139C0 8.95357 8.95357 0 19.9861 0C31.0187 0 39.9723 8.95357 39.9723 19.9861C39.9723 31.0187 31.0187 39.9723 19.9861 39.9723V40Z"
+									fill="white"
+								/>
+								<path
+									d="M19.9861 11.0049C22.9245 11.0049 23.2571 11.0049 24.4214 11.0603C25.5024 11.1157 26.0846 11.2821 26.4449 11.4484C26.9439 11.6424 27.332 11.8919 27.6923 12.28C28.0804 12.6681 28.3022 13.0284 28.5239 13.5274C28.6625 13.9155 28.8566 14.4976 28.912 15.5509C28.9674 16.7152 28.9674 17.0478 28.9674 19.9861C28.9674 22.9245 28.9674 23.2571 28.912 24.4214C28.8566 25.5024 28.6902 26.0846 28.5239 26.4449C28.3299 26.9439 28.0804 27.332 27.6923 27.6923C27.3042 28.0804 26.9439 28.3022 26.4449 28.5239C26.0568 28.6625 25.4747 28.8566 24.4214 28.912C23.2571 28.9674 22.9245 28.9674 19.9861 28.9674C17.0478 28.9674 16.7152 28.9674 15.5509 28.912C14.4699 28.8566 13.8877 28.6902 13.5274 28.5239C13.0284 28.3299 12.6403 28.0804 12.28 27.6923C11.8919 27.3042 11.6701 26.9439 11.4484 26.4449C11.3098 26.0568 11.1157 25.4747 11.0603 24.4214C11.0049 23.2571 11.0049 22.9245 11.0049 19.9861C11.0049 17.0478 11.0049 16.7152 11.0603 15.5509C11.1157 14.4699 11.2821 13.8877 11.4484 13.5274C11.6424 13.0284 11.8919 12.6403 12.28 12.28C12.6681 11.8919 13.0284 11.6701 13.5274 11.4484C13.9155 11.3098 14.4976 11.1157 15.5509 11.0603C16.7152 11.0049 17.0478 11.0049 19.9861 11.0049ZM19.9861 9.03674C17.0201 9.03674 16.632 9.03674 15.4678 9.09218C14.3035 9.14762 13.4997 9.34166 12.8067 9.59114C12.0859 9.86834 11.4761 10.2564 10.8663 10.8663C10.2564 11.4761 9.86834 12.0859 9.59114 12.8067C9.31394 13.4997 9.14762 14.3035 9.09218 15.4678C9.03674 16.632 9.03674 17.0201 9.03674 19.9861C9.03674 22.9522 9.03674 23.3403 9.09218 24.5045C9.14762 25.6688 9.34166 26.4726 9.59114 27.1656C9.86834 27.8864 10.2564 28.4962 10.8663 29.106C11.4761 29.7159 12.0859 30.104 12.8067 30.3812C13.4997 30.6584 14.3035 30.8247 15.4678 30.8801C16.632 30.9356 17.0201 30.9356 19.9861 30.9356C22.9522 30.9356 23.3403 30.9356 24.5045 30.8801C25.6688 30.8247 26.4726 30.6306 27.1656 30.3812C27.8864 30.104 28.4962 29.7159 29.106 29.106C29.7159 28.4962 30.104 27.8864 30.3812 27.1656C30.6584 26.4726 30.8247 25.6688 30.8801 24.5045C30.9356 23.3403 30.9356 22.9522 30.9356 19.9861C30.9356 17.0201 30.9356 16.632 30.8801 15.4678C30.8247 14.3035 30.6306 13.4997 30.3812 12.8067C30.104 12.0859 29.7159 11.4761 29.106 10.8663C28.4962 10.2564 27.8864 9.86834 27.1656 9.59114C26.4726 9.31394 25.6688 9.14762 24.5045 9.09218C23.3403 9.03674 22.9522 9.03674 19.9861 9.03674Z"
+									fill="#00345F"
+								/>
+								<path
+									d="M19.9862 14.359C16.8815 14.359 14.359 16.8815 14.359 19.9862C14.359 23.0908 16.8815 25.6133 19.9862 25.6133C23.0908 25.6133 25.6133 23.0908 25.6133 19.9862C25.6133 16.8815 23.0908 14.359 19.9862 14.359ZM19.9862 23.6452C17.9626 23.6452 16.3271 22.0097 16.3271 19.9862C16.3271 17.9626 17.9626 16.3271 19.9862 16.3271C22.0097 16.3271 23.6452 17.9626 23.6452 19.9862C23.6452 22.0097 22.0097 23.6452 19.9862 23.6452Z"
+									fill="#00345F"
+								/>
+								<path
+									d="M27.1656 14.1373C27.1656 14.858 26.5835 15.4401 25.8628 15.4401C25.1421 15.4401 24.5599 14.858 24.5599 14.1373C24.5599 13.4165 25.1421 12.8344 25.8628 12.8344C26.5835 12.8344 27.1656 13.4165 27.1656 14.1373Z"
+									fill="#00345F"
+								/>
+							</g>
+							<defs>
+								<clipPath id="clip0_114_950">
+									<rect width="40" height="40" fill="white" />
+								</clipPath>
+							</defs>
+						</svg>
+					</a>
+					<a
+						href=""
+						class="bar__ico__img bar__ico__img--facebook"
+						aria-label="External link"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="40"
+							height="40"
+							viewBox="0 0 40 40"
+							fill="none"
+							aria-labelledby="facebook"
+						>
+							<title id="facebook">Facebook</title>
+							<g clip-path="url(#clip0_114_959)">
+								<path
+									d="M19.9861 40C8.95357 40 0 31.0464 0 20.0139C0 8.95357 8.95357 0 19.9861 0C31.0187 0 39.9723 8.95357 39.9723 19.9861C39.9723 31.0187 31.0187 39.9723 19.9861 39.9723V40Z"
+									fill="white"
+								/>
+								<path
+									d="M17.0478 31.6285H21.9265V19.4317H25.3084L25.6687 15.3569H21.8988V13.0284C21.8988 12.0582 22.0928 11.6978 23.0353 11.6978H25.6687V7.45667H22.2869C18.6556 7.45667 17.0201 9.06443 17.0201 12.1136V15.3569H14.4976V19.4872H17.0201V31.6285H17.0478Z"
+									fill="#00345F"
+								/>
+							</g>
+							<defs>
+								<clipPath id="clip0_114_959">
+									<rect width="40" height="40" fill="white" />
+								</clipPath>
+							</defs>
+						</svg>
+					</a>
+					<a
+						href=""
+						class="bar__ico__img bar__ico__img--email"
+						aria-label="External link"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="40"
+							height="40"
+							viewBox="0 0 40 40"
+							fill="none"
+							aria-labelledby="email"
+						>
+							<title id="email">E-mail</title>
+							<path
+								d="M20 40C8.95978 40 0 31.0464 0 20.0139C0 8.95357 8.95978 0 20 0C31.0402 0 40 8.95357 40 19.9861C40 31.0187 31.0402 39.9723 20 39.9723V40Z"
+								fill="white"
+							/>
+							<path
+								d="M30.3189 11.282H9.90286C8.71007 11.282 7.7392 12.2522 7.7392 13.4442V26.5003C7.7392 27.6923 8.71007 28.6625 9.90286 28.6625H30.3189C31.5117 28.6625 32.4826 27.6923 32.4826 26.5003V13.4442C32.4826 12.2522 31.5117 11.282 30.3189 11.282ZM29.9861 12.7512C29.2926 13.4442 21.0263 21.7602 20.6657 22.0929C20.3883 22.3701 19.8335 22.3701 19.5284 22.0929L10.208 12.7512H29.9583H29.9861ZM9.1539 26.2509V13.7214L15.3952 19.9861L9.1539 26.2509ZM10.2357 27.2488L16.4493 21.0118L18.5298 23.0908C19.3897 23.9501 20.8599 23.9501 21.7198 23.0908L23.8002 21.0118L30.0138 27.2488H10.2357ZM31.0402 26.2509L24.7988 19.9861L31.0402 13.7214V26.2509Z"
+								fill="#00345F"
+							/>
+						</svg>
+					</a>
+				</div>
+			</div>
+			<div class="topmenu">
+				<div class="topmenu__left">
+					<div class="topmenu__logo">
+						<a
+							href="https://fajnovysport.cz"
+							class="topmenu__logo__link"
+							aria-label="Návrat na úvodní stránku"
+						>
+							<img
+								src="./img/logo-fajnovysport.png"
+								alt="logo fajnový sport - oficiální stránky města Ostravy v oblasti sportu"
+							/>
+						</a>
+					</div>
+					<div class="topmenu__nav">
+						<nav class="nav">
+							<ul>
+								<li><a href="">Akce</a></li>
+								<li><a href="">Dotace</a></li>
+								<li><a href="">Projekty</a></li>
+								<li><a href="">Kontakty</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<div class="topmenu__right">
+					<a href="" class="viewmap">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="45"
+							height="50"
+							viewBox="0 0 45 50"
+							fill="none"
+							class="viewmap__ico"
+							aria-labelledby="viewmapIco"
+						>
+							<title id="viewmapIco">Pin</title>
+							<path
+								d="M22.0248 0.678955C13.796 0.678955 7.14246 7.3597 7.14246 15.5884C7.14246 21.8075 15.6428 34.4357 19.7979 40.2203C20.8842 41.7411 23.1654 41.7411 24.2517 40.2203C28.4068 34.4357 36.9071 21.8075 36.9071 15.5884C36.9342 7.3597 30.2535 0.678955 22.0248 0.678955ZM22.0248 21.5631C18.277 21.5631 15.2626 18.5214 15.2626 14.8009C15.2626 11.0803 18.3042 8.03864 22.0248 8.03864C25.7454 8.03864 28.787 11.0803 28.787 14.8009C28.787 18.5214 25.7454 21.5631 22.0248 21.5631Z"
+								fill="white"
+							/>
+							<path
+								opacity="0.5"
+								d="M22.3235 47.933C28.248 47.933 33.0508 47.0211 33.0508 45.8962C33.0508 44.7713 28.248 43.8594 22.3235 43.8594C16.3991 43.8594 11.5963 44.7713 11.5963 45.8962C11.5963 47.0211 16.3991 47.933 22.3235 47.933Z"
+								fill="white"
+							/>
+						</svg>
+						<span class="viewmap__text"
+							>Zobrazit mapu sportovišť</span
+						>
+					</a>
+				</div>
+			</div>
+		</header>
+		<main class="content" role="main">
+			<section class="content__slider">
+				<div class="sliders js-sliders">
+					<div class="slider">
+						<div class="slider__block">
+							<img
+								class="slider__img"
+								src="./img/univerzal.png"
+							/>
+							<div class="slider__red"></div>
+							<div class="slider__orange"></div>
+							<div class="slider__icona slider__icona--beh"></div>
+						</div>
+					</div>
+
+					<div class="slider">
+						<div class="slider__block slider__block--bezkyne">
+							<img class="slider__img" src="./img/beh.jpg" />
+							<div class="slider__top"></div>
+							<div class="slider__bottom"></div>
+							<div class="slider__icona"></div>
+						</div>
+						<div class="slider__text slider__block--bezkyne">
+							<h2>
+								Ostrava pořádá první ročník mezinárodního
+								maratonu Emila Zátopka!
+							</h2>
+							<a href="" class="slider__button">Číst více</a>
+						</div>
+					</div>
+
+					<div class="slider">
+						<div class="slider__block slider__block--bezec">
+							<img class="slider__img" src="./img/beh.jpg" />
+							<div class="slider__top"></div>
+							<div class="slider__bottom"></div>
+							<div class="slider__icona"></div>
+						</div>
+						<div class="slider__text slider__block--bezec">
+							<h2>
+								Ostrava pořádá první ročník mezinárodního
+								maratonu Emila Zátopka!
+							</h2>
+							<a href="" class="slider__button">Číst více</a>
+						</div>
+					</div>
+
+					<div class="slider">
+						<div class="slider__block slider__block--deti">
+							<img class="slider__img" src="./img/beh.jpg" />
+							<div class="slider__top"></div>
+							<div class="slider__bottom"></div>
+							<div class="slider__icona"></div>
+						</div>
+						<div class="slider__text slider__block--deti">
+							<h2>
+								Ostrava pořádá první ročník mezinárodního
+								maratonu Emila Zátopka!
+							</h2>
+							<a href="" class="slider__button">Číst více</a>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="news">
+				<ul class="news__list" role="list">
+					<li class="news__item">
+						<img src="./img/news1.png" alt="" />
+						<time
+							datetime="2024-10-14 6:17:00 AM"
+							class="item__time"
+						>
+							<span class="item__day">sobota</span>
+							<span class="item__date">26.10.2024</span>
+						</time>
+						<h2 class="item__title">
+							<a href=""
+								>Ostrava pořádá první ročník mezinárodního
+								maraton Emila Zátopka!</a
+							>
+						</h2>
+					</li>
+					<li class="news__item">
+						<img src="./img/news2.png" alt="" />
+						<time
+							datetime="2024-10-14 6:17:00 AM"
+							class="item__time"
+						>
+							<span class="item__day">sobota</span>
+							<span class="item__date">26.10.2024</span>
+						</time>
+						<h2 class="item__title">
+							<a href=""
+								>Ostrava pořádá první ročník mezinárodního
+								maraton Emila Zátopka!</a
+							>
+						</h2>
+					</li>
+					<li class="news__item">
+						<img src="./img/news3.png" alt="" />
+						<time
+							datetime="2024-10-14 6:17:00 AM"
+							class="item__time"
+						>
+							<span class="item__day">sobota</span>
+							<span class="item__date">26.10.2024</span>
+						</time>
+						<h2 class="item__title">
+							<a href=""
+								>Ostrava pořádá první ročník mezinárodního
+								maraton Emila Zátopka!</a
+							>
+						</h2>
+					</li>
+					<li class="news__item news__item--primary">
+						<img src="./img/news4.png" alt="" />
+						<time
+							datetime="2024-10-14 6:17:00 AM"
+							class="item__time"
+						>
+							<span class="item__day">sobota</span>
+							<span class="item__date">26.10.2024</span>
+						</time>
+						<h2 class="item__title">
+							<a href=""
+								>Ostrava pořádá první ročník mezinárodního
+								maraton Emila Zátopka!</a
+							>
+						</h2>
+					</li>
+				</ul>
+				<div class="news__more">
+					<a href="" class="news__link button">Zobrazit více akcí</a>
+				</div>
+			</section>
+			<section class="advertising">
+				<div class="advertising__azure"></div>
+				<div class="advertising__red"></div>
+				<div class="advertising__green"></div>
+				<div class="advertising__info">
+					<div class="advertising__text">
+						<h2 class="advertising__title">
+							Vítejte na stránkách fajnovy sport!
+						</h2>
+						<p>
+							Lorem ipsum dolor sit amet, consectetuer adipiscing
+							elit. Nullam eget nisl. Suspendisse sagittis
+							ultrices augue. Vivamus luctus egestas leo.
+						</p>
+					</div>
+					<div class="advertising__athletic"></div>
+				</div>
+			</section>
+			<section class="map"></section>
+			<section class="block">
+				<div class="block__container block__title">
+					<h2>V roce <strong>2024</strong> jsme podpořili</h2>
+				</div>
+				<div class="block__container block__number">
+					<div class="block__item">
+						<h2 class="blocknumber">
+							<span class="blocknumber__number">220</span>
+							<span class="blocknumber__title">projektů</span>
+						</h2>
+						<h3 class="blocktext">
+							Podpořených statutárním městem Ostrava na rok 2024
+						</h3>
+					</div>
+					<div class="block__item">
+						<h2 class="blocknumber">
+							<span class="blocknumber__number">173</span>
+							<span class="blocknumber__title">milionů Kč</span>
+						</h2>
+						<h3 class="blocktext">Schválené finanční podpory</h3>
+					</div>
+				</div>
+			</section>
+			<section class="block block__grey">
+				<div class="block__container">
+					<div class="block__item">
+						<h2>
+							<strong>Buďte i vy</strong> součástí ostravského
+							sportu!
+						</h2>
+					</div>
+					<div class="block__item block__item--bubliny">
+						<img
+							src="./img/bubliny.png"
+							alt="grafika s textovými hesly Sport2you, Přeskoč!!!, Přelez!!!, Nepodlez!!!"
+						/>
+					</div>
+				</div>
+			</section>
+		</main>
+		<footer>
+			<div class="footer__boxs">
+				<div class="footer__box">
+					<ul role="list">
+						<li><a href="">Aktuality</a></li>
+						<li><a href="">Projekty města</a></li>
+						<li><a href="">Příprava</a></li>
+						<li><a href="">Zrealizováno</a></li>
+						<li><a href="">Dotace</a></li>
+					</ul>
+				</div>
+				<div class="footer__box">
+					<ul role="list">
+						<li><a href="">Akce</a></li>
+						<li><a href="">Sportoviště a kluby</a></li>
+						<li>
+							<a href="">Pumptrack, workout a fitness hřiště</a>
+						</li>
+						<li><a href="">Zásady a cookies</a></li>
+					</ul>
+				</div>
+				<div class="footer__box">
+					<div class="footer__box__pack">
+						<p>
+							<strong>Magistrát města Ostravy</strong><br />
+							Prokešovo náměstí 8<br />729 30 Ostrava
+						</p>
+						<p>
+							<a
+								href="tel:+420599444444"
+								aria-label="Kontaktní číslo: +420 599 444 444"
+								>+420 599 444 444</a
+							>
+						</p>
+						<p>
+							<a
+								href="mailto:info@ostrava.cz"
+								aria-label="Kontaktní email: info@ostrava.cz"
+								>info@ostrava.cz</a
+							>
+						</p>
+					</div>
+				</div>
+				<div class="footer__box">
+					<div class="footer__box__pack">
+						<p>
+							<strong
+								>Městské společnosti v oblasti sportu</strong
+							>
+						</p>
+						<p>
+							OSTRAVAR ARÉNA<br /><a
+								href="https://arena-vitkovice.cz"
+								>arena-vitkovice.cz</a
+							>
+						</p>
+						<p>
+							SAREZA<br /><a href="https://sareza.cz"
+								>sareza.cz</a
+							>
+						</p>
+					</div>
+				</div>
+				<div class="footer__box">
+					<div class="footer__box__pack">
+						<a
+							href=""
+							aria-label="odkaz na oficiální web prezentaci Ostravy"
+						>
+							<img
+								src="./img/svg/ostrava-logo.svg"
+								alt="logo Ostrava"
+							/>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="footer__bottom">
+				© 2018 - 2024 Copyright | Všechna práva vyhrazena - použití
+				obsahu nebo jeho částí je možné pouze se souhlasem <a
+					href="https://ostrava.cz"
+					aria-label="oficiální stránky"
+					>Magistrátu města Ostravy</a
+				>. | <a href="">Prohlášení o přístupnosti</a>
+			</div>
+		</footer>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<!-- <script type="module" src="./main.js"></script>
+		<script type="text/javascript" src="./js/slick.js"></script> -->
+		<!-- <script>
+			jQuery(".js-sliders").slick({
+				dots: true,
+				infinite: true,
+				speed: 300,
+				slidesToShow: 1,
+				adaptiveHeight: true,
+				autoplay: true,
+			});
+
+			jQuery(document).ready(function () {
+				jQuery(".slider__block").each(function () {
+					var imgHeight = jQuery(this)
+						.find(".slider__img")
+						.outerHeight();
+					var imgWidth = jQuery(this)
+						.find(".slider__img")
+						.outerWidth();
+
+					if (imgHeight >= 453) {
+						var fontSize = 31;
+						var topHeight = 38;
+						var buttonSize = 17;
+						var buttonPaddingTop = 10;
+					} else {
+						var fontSize = (imgHeight / 453) * 31;
+						if (fontSize < 15) {
+							fontSize = 15;
+						}
+
+						var topHeight = (imgHeight / 453) * 38;
+						var buttonSize = (imgHeight / 453) * 17;
+						if (buttonSize < 12) {
+							buttonSize = 12;
+						}
+						var buttonPaddingTop = (imgHeight / 453) * 10;
+					}
+					if (imgWidth >= 1921) {
+						var leftWidth = 380;
+						var hWidth = 446;
+						var buttonPaddingLeft = 36;
+					} else {
+						var leftWidth = (imgWidth / 1920) * 380;
+						var hWidth = (imgWidth / 1920) * 446;
+						var buttonPaddingLeft = (imgWidth / 1920) * 36;
+					}
+					jQuery(this)
+						.find(".slider__icona")
+						.attr("style", "height: " + imgHeight + "px;");
+					if (imgWidth <= 1920) {
+						jQuery(this)
+							.next(".slider__text")
+							.attr(
+								"style",
+								"top: " +
+									topHeight +
+									"px; left: " +
+									leftWidth +
+									"px; width: " +
+									hWidth +
+									"px; ",
+							);
+						jQuery(this)
+							.next(".slider__text")
+							.find("h2")
+							.attr("style", "font-size: " + fontSize + "px;");
+						jQuery(this)
+							.next(".slider__text")
+							.find(".slider__button")
+							.attr(
+								"style",
+								"font-size: " +
+									buttonSize +
+									"px; padding-left: " +
+									buttonPaddingLeft +
+									"px; padding-right: " +
+									buttonPaddingLeft +
+									"px; padding-top: " +
+									buttonPaddingTop +
+									"px; padding-bottom: " +
+									buttonPaddingTop +
+									"px; ",
+							);
+					}
+				});
+			});
+		</script> -->
+		<script type="module" src="/js/main.ts"></script>
+	</body>
+</html>

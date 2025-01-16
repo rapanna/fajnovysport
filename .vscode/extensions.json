@@ -1,0 +1,11 @@
+{
+	"recommendations": [
+		"dbaeumer.vscode-eslint",
+		"stylelint.vscode-stylelint",
+		"EditorConfig.EditorConfig",
+		"esbenp.prettier-vscode",
+		"mikestead.dotenv",
+		"sainoba.px-to-rem",
+		"redhat.vscode-yaml"
+	]
+}

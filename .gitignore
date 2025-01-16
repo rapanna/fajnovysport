@@ -1,0 +1,8 @@
+/node_modules/
+/.idea/
+/.task/
+/.env
+/app/coverage/
+/app/test-results/
+/app/.build/
+/app/.nx/cache

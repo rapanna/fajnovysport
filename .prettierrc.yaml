@@ -1,0 +1,30 @@
+# prettier v3.0
+plugins:
+    - "@trivago/prettier-plugin-sort-imports"
+
+# prettier-plugin-sort-imports v4.2
+importOrder:
+    - "polyfills$"
+    - "^node:"
+    - "<THIRD_PARTY_MODULES>"
+    - "[.][.]/core/"
+    - "^[.][.]/"
+    - "^[.]/"
+importOrderSortSpecifiers: true
+importOrderParserPlugins:
+    - typescript
+    - importAssertions
+    - decorators-legacy
+tabWidth: 4
+useTabs: true
+overrides:
+    - files: "_static/**/*.scss"
+      options:
+          tabWidth: 4
+          parser: "scss"
+          useTabs: true
+          singleQuote: true
+    - files: "_static/**/*.js"
+      options:
+          tabWidth: 4
+          useTabs: true

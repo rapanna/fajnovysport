@@ -1,0 +1,20 @@
+@use "../abstract/variables" as variables 
+@use "../abstract/mixin" as mixin
+
+.viewmap
+    @include mixin.displayflex(row, wrap, center, flex-start, center)
+    padding:
+        left: 1.1579em // 22px
+    color: var(--ov-bila)
+    text-transform: uppercase
+    text-decoration: none
+    font-size: 0.94737em // 18px
+    gap: 0.5em
+
+    &:hover
+        text-decoration: underline
+
+.viewmap__text
+    color: var(--ov-bila)
+    font-weight: 700
+    text-decoration: none

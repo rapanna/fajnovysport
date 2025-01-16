@@ -1,0 +1,119 @@
+@use "../abstract/variables" as variables 
+@use "../abstract/mixin" as mixin
+
+.news 
+    width: 100%
+
+.news__list
+    @include mixin.displayflex(row, no-wrap, center, flex-start, center)
+    list-style: none
+
+    gap: 4.5px  
+    margin: 
+        top: 0
+        bottom: 0   
+        left: 0
+        right: 0
+    padding:
+        top: 1em    
+
+.news__item
+    width: calc(100% / 4)
+    height: calc(((100% / 4) * 294px) / 476px ) 
+    border-top: 8px solid var(--ov-actual) 
+    position: relative
+
+    img
+        // position: absolute
+        width: 100%
+
+
+.item__time
+    background-color: var(--ov-actual)
+    color: var(--ov-bila)
+    display: inline-block
+    padding:
+        top: 0.421053em
+        bottom: 0.421053em
+        left:  0.526316em
+        right:  0.526316em
+    position: absolute
+    top: -1em
+    left: 0
+
+    
+
+.item__day
+    font-size: 0.894736em
+    display: block
+    line-height: 1.294118em
+    font-weight: 600
+    border-bottom: 1px solid var(--ov-bila)
+    padding:
+        bottom: 5px
+        left: 0.588235em
+        right: 0.588235em        
+
+.item__date
+    font-size: 0.842105em
+    display: block
+    line-height: 1.125em
+    font-weight: 600
+    padding:
+        top: 5px
+        left: 0.625em
+        right: 0.625em        
+
+.item__title    
+    width: 100%
+    position: absolute
+    bottom: 0
+    left: 0
+    color: var(--ov-bila)
+    background-color: var(--ov-actual)
+    font-size: 1em
+    line-height: 1.2em
+    padding: 
+        left: 1.52632em
+        right: 1.52632em
+        top: 0.526316em
+        bottom: 0.526316em
+    margin:
+        bottom: 0
+
+    a 
+        color: var(--ov-bila)
+        text-decoration: none
+        display: block
+        width: 100%
+        height: 100%
+
+    &:hover 
+         background-color: var(--ov-bila)
+         a
+            color: var(--ov-actual)
+
+.news__item--primary    
+    .item__title   
+        background-color: var(--ov-priority)
+
+        &:hover 
+            background-color: var(--ov-bila)
+            a
+                color: var(--ov-priority)
+
+a.news__link
+    margin:
+        left: auto
+        right: auto
+    padding: 
+        left: 2.588235em
+        right: 2.588235em
+        top: 1.117647em
+        bottom: 1.117647em 
+
+.news__more
+    @include mixin.displayflex(row, wrap, center, center, center)
+    padding:
+        top: 1.89474em
+        bottom: 1.89474em

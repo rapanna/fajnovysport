@@ -1,0 +1,39 @@
+version: "3"
+
+tasks:
+    install:
+        desc: Install node_modules
+        cmds:
+            - npm ci --no-audit
+
+    update:
+        desc: Update dependencies
+        cmds:
+            - npm update --save
+
+    configure:
+        desc: Create local configuration with default values
+        requires:
+            vars:
+                - AWS_REGION
+                - ENV
+        env:
+            LC_ALL: C.UTF-8
+
+    check:
+        desc: Check code
+        cmds:
+            - npx tsc --noEmit
+            - npm audit
+            # - npm run test-ci // TODO
+
+    run:
+        desc: Run the gulp (use "--" before arguments)
+        cmds:
+            - npx vite
+
+    build:
+        desc: Build cashdesk
+        cmds:
+            - git clean -Xf .build/ > /dev/null
+            - tsc && vite build

@@ -1,0 +1,74 @@
+.advertising {
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+
+	&__azure {
+		background-color: var(--ov-bgtext);
+		bottom: 0;
+		clip-path: polygon(0 66%, 100% 0, 100% 100%, 0 100%);
+		display: block;
+		height: 15.789rem;
+		position: absolute;
+		right: 0;
+		width: 100%;
+		z-index: 10;
+	}
+
+	&__red {
+		background-color: var(--ov-priority);
+		bottom: 0;
+		clip-path: polygon(0 0, 100% 100%, 0 100%);
+		display: block;
+		height: 15.789rem;
+		left: 0;
+		position: absolute;
+		width: 90%;
+		z-index: 9;
+	}
+
+	&__green {
+		background-color: var(--ov-actual);
+		border: 1px solid $red;
+		bottom: -12.237em;
+		clip-path: circle(50%);
+		height: 22.474rem;
+		left: 4.1053rem;
+		position: absolute;
+		width: 22.474rem;
+		z-index: 11;
+	}
+
+	&__info {
+		@include displayflex(row, wrap, center, center, center);
+
+		margin: 2.2106rem auto 5.8421rem;
+		max-width: 66.158rem;
+		position: relative;
+		width: 100%;
+		z-index: 100;
+	}
+
+	&__text {
+		color: var(--ov-link);
+		max-width: 42.4737rem;
+		width: 100%;
+	}
+
+	&__title {
+		color: var(--ov-link);
+		font-size: 3.6842rem;
+		line-height: 110.8%;
+		margin: 0;
+		padding: 0;
+		text-transform: uppercase;
+	}
+
+	&__athletic {
+		background-image: url('../img/sportovec.png');
+		background-repeat: no-repeat;
+		display: block;
+		height: 39.1875rem;
+		width: 28.125rem;
+	}
+}

@@ -1,0 +1,28 @@
+$prefix: 'ov';
+$bila: $white;
+$bila-dark: $white-dark;
+
+:root {
+	--#{$prefix}-bila: #{$bila};
+	--#{$prefix}-bila--dark: #{$bila-dark};
+	--#{$prefix}-zaklad: #{$blue};
+	--#{$prefix}-link: #{$blue};
+	--#{$prefix}-black: #{$black};
+	--#{$prefix}-thtable: #{$blue--light};
+	--#{$prefix}-priority: #{$red};
+	--#{$prefix}-orange: #{$orange};
+	--#{$prefix}-red: #{$red--dark};
+	--#{$prefix}-actual: #{$green};
+	--#{$prefix}-green: #{$green--dark};
+	--#{$prefix}-bgtext: #{$turquoise};
+	--#{$prefix}-bgtext--dark: #{$turquoise--dark};
+	--#{$prefix}-button: #{$turquoise--button};
+	--#{$prefix}-breadcrumbs: #{$grey--breadcrumb};
+	--#{$prefix}-breadcrumbstext: #{$grey--text};
+	--#{$prefix}-bgtable: #{$grey--bgtable};
+	--#{$prefix}-footer: #{$grey};
+	--#{$prefix}-footer--lighter: #{$grey--lighter};
+	--#{$prefix}-footer--light: #{$grey--light};
+	--#{$prefix}-footer--darker: #{$grey--darker};
+	--#{$prefix}-footer--dark: #{$grey--dark};
+}

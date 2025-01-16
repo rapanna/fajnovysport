@@ -1,0 +1,144 @@
+.block {
+	width: 100%;
+
+	&__container {
+		margin: 0 auto;
+		max-width: 66.158rem;
+		width: 100%;
+	}
+
+	&__item {
+		@include display-flex(column, wrap, center, space-between, center);
+
+		max-width: 25.2105rem;
+		width: 100%;
+
+		&--bubliny {
+			margin-bottom: -4rem;
+			position: relative;
+			top: -3rem;
+		}
+	}
+
+	&__grey {
+		background-color: var(--ov-bila-dark);
+		position: relative;
+		width: 100%;
+
+		.block__container {
+			max-width: 75.7895rem;
+			width: 100%;
+		}
+
+		h2 {
+			color: var(--ov-link);
+			font-size: 3.6842rem;
+			text-transform: uppercase;
+
+			strong {
+				background-color: var(--ov-bgtext);
+				color: var(--ov-bila);
+				font-size: 1.2143rem;
+
+				// prettier-ignore
+				padding-left: .1rem;
+
+				// prettier-ignore
+				padding-right: .1rem;
+			}
+		}
+
+		.block__item:has(h2) {
+			max-width: 42.4737rem;
+		}
+	}
+
+	&__number {
+		@include display-flex(row, wrap, center, space-between, center);
+
+		padding-bottom: 12.1053rem;
+	}
+
+	&__title {
+		border-bottom: 3px solid var(--ov-link);
+		margin-bottom: 0;
+		margin-top: 4.5789rem;
+
+		h2 {
+			color: var(--ov-link);
+			font-size: 2.5263rem;
+			font-weight: 700;
+			line-height: normal;
+			margin: 0;
+			padding: 0;
+			text-align: center;
+			text-transform: uppercase;
+
+			strong {
+				color: var(--ov-priority);
+				display: inline-block;
+				font-size: 1.5416rem;
+			}
+		}
+	}
+}
+
+.blocknumber {
+	@include display-flex(column, wrap, center, center, center);
+
+	font-size: 1.5789rem;
+	margin-bottom: 0;
+	margin-top: 2.0351rem;
+	padding: 0;
+	text-transform: uppercase;
+
+	&__number {
+		color: var(--ov-link);
+		font-size: 4rem;
+		line-height: normal;
+	}
+
+	&__title {
+		padding-bottom: 1rem;
+	}
+}
+
+.blocktext {
+	@include display-flex(row, wrap, center, center, center);
+
+	background-color: var(--ov-priority);
+	color: var(--ov-bila);
+	font-size: 1.3158rem;
+	font-weight: 700;
+	line-height: normal;
+	margin: 0 auto;
+	min-height: 3.6rem;
+
+	// prettier-ignore
+	padding: .6rem .32rem;
+	position: relative;
+	text-align: center;
+	width: 16.04rem;
+
+	&::after {
+		background-color: var(--ov-actual);
+		content: '';
+
+		// prettier-ignore
+		height: .96rem;
+		position: absolute;
+		right: -1.64rem;
+		width: 1.64rem;
+	}
+
+	&::before {
+		background-color: var(--ov-actual);
+		content: '';
+
+		// prettier-ignore
+		height: .96rem;
+		left: -1.64rem;
+		position: absolute;
+		width: 1.64rem;
+	}
+}

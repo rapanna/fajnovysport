@@ -1,0 +1,137 @@
+@use "../abstract/variables" as variables 
+@use "../abstract/mixin" as mixin
+
+.subpage
+    padding:
+        top: 0.3158em
+        bottom: 0
+        left: 0
+        right: 0 
+
+    &--akce
+        width: 100%
+        max-width: 43.6842em // 830px
+        margin: 
+            left: auto
+            right: auto 
+            top: 0
+            bottom: 0
+
+    .thumbnail
+        width: 100%
+        height: auto
+        border: 1px solid var(--ov-footer--dark)
+    
+    p 
+        line-height: 143.8%
+        text-align: left !important
+        font-weight: 400
+        margin:
+            top: 0
+            bottom: 1em
+    
+    p:has(+ h2), p:has(+ h3), p:has(+ h4), p:has(+ table)
+        margin: 
+            bottom: 2em
+
+    h1
+        text-align: center
+        font-size: 2.5263em
+        font-weight: 700
+        line-height: 110.8%
+        text-transform: uppercase
+        color: var(--ov-zaklad)
+        margin: 
+            top: 1.25em
+            bottom: 1.25em
+
+    h2 
+        text-transform: uppercase
+        font-weight: 600
+        color: var(--ov-bgtext)
+        font-size: 1.31579em //25em
+        line-height: 143.8%
+        margin: 
+            bottom: 1em
+
+    table 
+        width: 100%
+        border-collapse: collapse
+        border: 1px solid var(--ov-thtable)
+
+        th, td 
+            padding:
+                top: 0.6842em
+                bottom: 0.6842em
+                left: 0.8em
+                right: 0.8em
+
+        th
+            background-color: var(--ov-thtable)
+            color: var(--ov-bila)
+            font-weight: 700
+            line-height: 110.8%
+            border: 2px solid var(--ov-bila)
+
+            text-align: center
+
+        td
+            line-height: 110.8%
+            text-align: left
+            border: 2px solid var(--ov-bila)
+            background-color: var(--ov-bgtable)
+
+        th:has(+ td)
+            background-color: var(--ov-bgtext) 
+
+.subpage--kontakty
+    width: 100%
+    max-width: 70.95em
+    margin:
+        left: auto
+        right: auto
+        bottom: 6.21053em
+
+    h2
+        color: var(--ov-link)
+        font-size: 2.5263em
+        padding:
+            left: 0.8333em
+            right: 0.8333em
+        margin:
+            bottom: 0.8333em
+            top: 1.4375em
+        border-bottom: 3px solid var(--ov-link)
+        text-transform: uppercase
+        font-weight: 700
+
+
+    .kontakt__list
+        margin: 0
+        padding:
+            left: 2.1053em
+            right: 2.1053em
+        @include mixin.displayflex(row, wrap, center, flex-start, center)
+        list-style: none
+        gap: 3% 
+        row-gap: 3.1em
+
+    .kontakt__item
+        flex-basis: 30%
+
+    .kontakt__title
+        color: var(--ov-bgtext)
+        font-size: 1.3158em
+        display: block
+        font-weight: 700
+        min-height: 1.5em
+    
+    .kontakt__name
+        color: var(--ov-bgtext)
+        display: block
+        line-height: 143.8%
+
+    .kontakt__email, .kontakt__tel
+        display: block
+        line-height: 143.8%
+
