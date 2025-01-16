@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import { resolve } from "node:path";
 import path from "node:path";
+import twig from "@fulcrumsaas/vite-plugin-twig";
 import { defineConfig } from "vite";
 
 /**
@@ -22,12 +23,15 @@ function getHtmlInputs() {
 
 export default defineConfig({
 	root: path.resolve(__dirname, "src"),
+	plugins: [twig()],
+
 	publicDir: "../public",
 	build: {
 		outDir: "../.build/",
 		emptyOutDir: true,
 		rollupOptions: {
 			input: getHtmlInputs(),
+			// input: ["index2.twig.html"],
 		},
 	},
 	server: {
