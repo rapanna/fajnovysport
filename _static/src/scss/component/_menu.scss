@@ -1,48 +1,44 @@
 .topmenu__nav {
-    margin-right: 2em;
+	margin-right: 2em;
 }
 
-
-
-    
 .nav {
-    .&__list {
-        @include display-flex(row, wrap, center, flex-end, center);
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        gap: 1em;
-    }
+	&__list {
+		@include display-flex(row, wrap, center, flex-end, center);
 
-    &__link {
-        color: var(--ov-black);
-        text-decoration: none;
-        text-transform: uppercase;
-        display: inline-flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem 1.5rem;
+		gap: 1em;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
 
-        &:hover, 
-        &.active {
-            color: var(--ov-bgtext);
-        }
+	&__link {
+		align-items: center;
+		color: var(--ov-black);
+		display: inline-flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 1rem 1.5rem;
+		text-decoration: none;
+		text-transform: uppercase;
 
-        &::after { 
-            content: attr(data-text);
-            height: 0;
-            visibility: hidden;
-            overflow: hidden;
-            user-select: none;
-            pointer-events: none;
-            font-weight: 700;
+		&:hover,
+		&.active {
+			color: var(--ov-bgtext);
+		}
 
-            @media speech {
-                display: none;
-            }
-        }
+		&::after {
+			content: attr(data-text);
+			font-weight: 700;
+			height: 0;
+			overflow: hidden;
+			pointer-events: none;
+			user-select: none;
+			visibility: hidden;
 
-    }
-
+			@media speech {
+				display: none;
+			}
+		}
+	}
 }
