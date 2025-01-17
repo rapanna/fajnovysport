@@ -1,40 +1,48 @@
-@use "../abstract/variables" as variables 
-@use "../abstract/mixin" as mixin
-
-.topmenu__nav 
-    margin-right: 2em
+.topmenu__nav {
+    margin-right: 2em;
+}
 
 
-    ul 
-        @include mixin.displayflex(row, wrap, center, flex-end, center)
-        list-style: none
-        margin: 0
-        padding: 0
-        gap: 1em
 
-.nav
-    a 
-        color: var(--ov-black)
-        text-decoration: none
-        text-transform: uppercase
-        display: inline-flex
-        flex-direction: column
-        align-items: center
-        justify-content: space-between
-        padding: 1rem 1.5rem
+    
+.nav {
+    .&__list {
+        @include display-flex(row, wrap, center, flex-end, center);
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: 1em;
+    }
 
-        &:hover, &.active
-            color: var(--ov-bgtext)
-        
-        &::after 
-            content: attr(data-text)
-            content: attr(data-text) / ""
-            height: 0
-            visibility: hidden
-            overflow: hidden
-            user-select: none
-            pointer-events: none
-            font-weight: 700
+    &__link {
+        color: var(--ov-black);
+        text-decoration: none;
+        text-transform: uppercase;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.5rem;
 
-            @media speech
-                display: none            
+        &:hover, 
+        &.active {
+            color: var(--ov-bgtext);
+        }
+
+        &::after { 
+            content: attr(data-text);
+            height: 0;
+            visibility: hidden;
+            overflow: hidden;
+            user-select: none;
+            pointer-events: none;
+            font-weight: 700;
+
+            @media speech {
+                display: none;
+            }
+        }
+
+    }
+
+}
