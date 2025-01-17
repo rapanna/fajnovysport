@@ -33,7 +33,7 @@
 			}
 		],
 		"unit-allowed-list": [
-			["deg", "em", "rem", "%", "fr", "vh", "s"],
+			["deg", "em", "rem", "%", "fr", "vh", "s", "ms"],
 			{
 				"ignoreProperties": {
 					"px": [

@@ -1,52 +1,67 @@
-<div class="sliders js-sliders">
-	<div class="slider">
-		<div class="slider__block">
-			<img
-				class="slider__img"
-				src="/images/univerzal.png"
-			>
-			<div class="slider__red"></div>
-			<div class="slider__orange"></div>
-			<div class="slider__icona slider__icona--beh"></div>
+<div class="glide slider js-sliders">
+	<div class="glide__track" data-glide-el="track">
+		<div class="slider__item glide__slides">
+			<div class="slider glide__slides">
+				<div class="slider__block">
+					<img
+						class="slider__img"
+						src="/images/univerzal.png"
+					>
+					<div class="slider__red"></div>
+					<div class="slider__orange"></div>
+					<div class="slider__icona slider__icona--beh"></div>
+				</div>
+			</div>
+
+			<div class="slider__item glide__slides">
+				<div class="slider__block slider__block--bezkyne">
+					<img class="slider__img" src="/images/beh.jpg">
+					<div class="slider__top"></div>
+					<div class="slider__bottom"></div>
+					<div class="slider__icona"></div>
+				</div>
+				<div class="slider__text slider__block--bezkyne">
+					<h2>Ostrava pořádá první ročník mezinárodního maratonu Emila Zátopka!</h2>
+					<a href="" class="slider__button">Číst více</a>
+				</div>
+			</div>
+
+			<div class="slider__item glide__slides">
+				<div class="slider__block slider__block--bezec">
+					<img class="slider__img" src="/images/beh.jpg">
+					<div class="slider__top"></div>
+					<div class="slider__bottom"></div>
+					<div class="slider__icona"></div>
+				</div>
+				<div class="slider__text slider__block--bezec">
+					<h2>Ostrava pořádá první ročník mezinárodního maratonu Emila Zátopka!</h2>
+					<a href="" class="slider__button">Číst více</a>
+				</div>
+			</div>
+
+			<div class="slider__item glide__slides">
+				<div class="slider__block slider__block--deti">
+					<img class="slider__img" src="/images/beh.jpg">
+					<div class="slider__top"></div>
+					<div class="slider__bottom"></div>
+					<div class="slider__icona"></div>
+				</div>
+				<div class="slider__text slider__block--deti">
+					<h2>Ostrava pořádá první ročník mezinárodního maratonu Emila Zátopka!</h2>
+					<a href="" class="slider__button">Číst více</a>
+				</div>
+			</div>
 		</div>
 	</div>
 
-	<div class="slider">
-		<div class="slider__block slider__block--bezkyne">
-			<img class="slider__img" src="/images/beh.jpg">
-			<div class="slider__top"></div>
-			<div class="slider__bottom"></div>
-			<div class="slider__icona"></div>
-		</div>
-		<div class="slider__text slider__block--bezkyne">
-			<h2>Ostrava pořádá první ročník mezinárodního maratonu Emila Zátopka!</h2>
-			<a href="" class="slider__button">Číst více</a>
-		</div>
+	<div class="glide__arrows" data-glide-el="controls">
+		<button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+		<button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
 	</div>
 
-	<div class="slider">
-		<div class="slider__block slider__block--bezec">
-			<img class="slider__img" src="/images/beh.jpg">
-			<div class="slider__top"></div>
-			<div class="slider__bottom"></div>
-			<div class="slider__icona"></div>
-		</div>
-		<div class="slider__text slider__block--bezec">
-			<h2>Ostrava pořádá první ročník mezinárodního maratonu Emila Zátopka!</h2>
-			<a href="" class="slider__button">Číst více</a>
-		</div>
-	</div>
-
-	<div class="slider">
-		<div class="slider__block slider__block--deti">
-			<img class="slider__img" src="/images/beh.jpg">
-			<div class="slider__top"></div>
-			<div class="slider__bottom"></div>
-			<div class="slider__icona"></div>
-		</div>
-		<div class="slider__text slider__block--deti">
-			<h2>Ostrava pořádá první ročník mezinárodního maratonu Emila Zátopka!</h2>
-			<a href="" class="slider__button">Číst více</a>
-		</div>
+	<div class="glide__bullets" data-glide-el="controls[nav]">
+		<button class="glide__bullet" data-glide-dir="=0"></button>
+		<button class="glide__bullet" data-glide-dir="=1"></button>
+		<button class="glide__bullet" data-glide-dir="=2"></button>
 	</div>
 </div>
