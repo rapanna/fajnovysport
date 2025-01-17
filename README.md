@@ -31,3 +31,8 @@ task static:run
 Open http://localhost:5173/ in the browser.
 
 More info in separate README.md files. Run `task -l` to see what commands are available.
+
+## PHPStan analyze on local
+
+Build docker run: `docker build -t phpstan .`
+Run PHP test: `docker run --rm -v $(pwd)/wp:/app phpstan`
