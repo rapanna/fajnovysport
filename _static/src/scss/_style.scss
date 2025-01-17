@@ -1,6 +1,7 @@
 @use 'layout/layout';
 @use 'layout/footer';
 @use 'component/bar';
+@use 'component/slider';
 
 body {
 	background: $white;

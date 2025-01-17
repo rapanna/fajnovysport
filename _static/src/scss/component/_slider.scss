@@ -1,155 +1,163 @@
-.slider
-    width: 100%
-    //height: 23.6421em
-    position: relative
-    overflow: hidden
+@use '../colors';
 
-.slider__top
-    width: 100%
-    height: 100%
-    left: 0
-    top: 0
-    clip-path: polygon(50% 0, 20% 100%, 0 100%, 0 0)
-    position: absolute
-    z-index: 2
+$glide-class: 'glide' !default;
+$glide-element-separator: '__' !default;
+$glide-modifier-separator: '--' !default;
 
-.slider__bottom
-    width: 100%
-    height: 100%
-    left: 0
-    top: 0
-    clip-path: polygon(0 50%, 45% 100%, 0 100%)
-    z-index: 3
-    position: absolute
+.#{$glide-class} {
+	$this: &;
+	$se: $glide-element-separator;
+	$sm: $glide-modifier-separator;
 
-.slider__img
-    float: right
-    z-index: 1
-    width: 100%
-    height: auto
+	box-sizing: border-box;
+	position: relative;
+	width: 100%;
 
+	* {
+		box-sizing: inherit;
+	}
 
-.slider__icona
-    width: 20.74em   
-    height: 100% 
-    background-size: contain
+	&#{$se}track {
+		overflow: hidden;
+	}
 
+	&#{$se}slides {
+		backface-visibility: hidden;
+		display: flex;
+		flex-wrap: nowrap;
+		list-style: none;
+		margin: 0;
+		overflow: hidden;
+		padding: 0;
+		position: relative;
+		touch-action: pan-y;
+		transform-style: preserve-3d;
+		white-space: nowrap;
+		width: 100%;
+		will-change: transform;
 
+		&#{$glide-modifier-separator}dragging {
+			user-select: none;
+		}
+	}
 
+	&#{$se}slide {
+		flex-shrink: 0;
+		height: 100%;
+		user-select: none;
+		white-space: normal;
+		width: 100%;
 
-.slider__text
-    position: absolute
-    clip-path: polygon(0 0, 100% 0, 55% 100%, 0 100%)
-    overflow: hidden
-    clear: both
-    z-index: 100
-    left: 22.00em
-    top: 3.84em
-    width: 23.5em
-    color: var(--ov-bila)
-    padding: 0 5em 0 0
+		a {
+			user-select: none;
+		}
+	}
 
-    h2
-        margin: 0
-        padding: 0
-        font-size: 1.421em
-        font-weight: 500
-        line-height: 1.2
-        margin-bottom: 1.5em
+	&#{$se}arrows {
+		-webkit-touch-callout: none;
+		user-select: none;
+	}
 
-    .slider__button
-        display: inline-block
-        font-size: 0.8947em
-        padding: 
-            top: 0.5882em
-            right: 2em
-            bottom:  0.5882em
-            left: 2em
-        color: var(--ov-zaklad)
-        border: 1px solid var(--ov-zaklad)
-        background-color: var(--ov-bila)
-        border-bottom: 2px solid var(--ov-zaklad)
-        border-radius: 2px
-        font-weight: 600
-        text-decoration: none
+	&#{$se}bullets {
+		-webkit-touch-callout: none;
+		user-select: none;
+	}
 
-        &:hover, &:active
-            border-top: 2px solid var(--ov-red)
-            border-bottom: 1px solid var(--ov-red)
+	&#{$sm}rtl {
+		direction: rtl;
+	}
+}
 
+.#{$glide-class} {
+	$this: &;
+	$se: $glide-element-separator;
+	$sm: $glide-modifier-separator;
 
-.slider__block--bezec
+	&#{$se}arrow {
+		background-color: transparent;
+		border: 0.125rem solid rgba(colors.$white, 0.5);
+		border-radius: 0.25rem;
+		box-shadow: 0 0.25em 0.5em 0 rgba(colors.$black, 0.1);
+		color: colors.$white;
+		cursor: pointer;
+		display: block;
+		line-height: 1;
+		opacity: 1;
+		padding: 0.5625rem 0.75rem;
+		position: absolute;
+		text-shadow: 0 0.25em 0.5em rgba(colors.$black, 0.1);
+		text-transform: uppercase;
+		top: 50%;
+		transform: translateY(-50%);
+		transition:
+			opacity 150ms ease,
+			border 300ms ease-in-out;
+		z-index: 2;
 
-    .slider__top
-        background-color: var(--ov-bgtext)
+		&:focus {
+			outline: none;
+		}
 
-    .slider__bottom
-        background-color: var(--ov-actual)
+		&:hover {
+			border-color: colors.$white;
+		}
 
-    .slider__button
-        color: var(--ov-link)
-        border: 1px solid var(--ov-link)
-        border-bottom: 2px solid var(--ov-link)        
-        
-        &:hover, &:active
-            border-top: 2px solid var(--ov-link)
-            border-bottom: 1px solid var(--ov-link)
+		&#{$sm}left {
+			left: 2em;
+		}
 
-    .slider__icona
-        background-image: url(../img/bezec.png)
-        width: auto
-        position: relative
-        z-index: 5        
-        background-repeat: no-repeat
-        background-position: left center
+		&#{$sm}right {
+			right: 2em;
+		}
 
+		&#{$sm}disabled {
+			opacity: 0.33;
+		}
+	}
 
+	&#{$se}bullets {
+		bottom: 2em;
+		display: inline-flex;
+		left: 50%;
+		list-style: none;
+		position: absolute;
+		transform: translateX(-50%);
+		z-index: 2;
+	}
 
-.slider__block--bezkyne
+	&#{$se}bullet {
+		background-color: rgba(colors.$white, 0.5);
+		border: 0.125rem solid transparent;
+		border-radius: 50%;
+		box-shadow: 0 0.25em 0.5em 0 rgba(colors.$black, 0.1);
+		cursor: pointer;
+		height: 0.5625rem;
+		line-height: 0;
+		margin: 0 0.25em;
+		padding: 0;
+		transition: all 300ms ease-in-out;
+		width: 0.5625rem;
 
-    .slider__top
-        background-color: var(--ov-priority)
+		&:focus {
+			outline: none;
+		}
 
-    .slider__bottom
-        background-color: var(--ov-orange)
+		&:hover,
+		&:focus {
+			background-color: rgba(colors.$black, 0.5);
+			border: 2px solid colors.$white;
+		}
 
-    .slider__button
-        color: var(--ov-red)
-        border: 1px solid var(--ov-red)
-        border-bottom: 2px solid var(--ov-red)  
+		&#{$sm}active {
+			background-color: colors.$white;
+		}
+	}
 
-        &:hover, &:active
-            border-top: 2px solid var(--ov-red)
-            border-bottom: 1px solid var(--ov-red) 
+	&#{$sm}swipeable {
+		cursor: grab;
+	}
 
-    .slider__icona
-        background-image: url(../img/bezkyne.png)
-        width: auto        
-        position: relative
-        z-index: 5
-        background-repeat: no-repeat
-        background-position: left center
-
-
-
-.slider__block--deti
-    .slider__top
-        background-color: var(--ov-actual)
-    .slider__bottom
-        background-color: var(--ov-priority)
-    .slider__button
-        color: var(--ov-green)
-        border: 1px solid var(--ov-green)
-        border-bottom: 2px solid var(--ov-green)
-
-        &:hover, &:active
-            border-top: 2px solid var(--ov-green)
-            border-bottom: 1px solid var(--ov-green)
-    .slider__icona
-        background-image: url(../img/deti.png)
-        width: auto        
-        position: relative
-        z-index: 5         
-        background-repeat: no-repeat
-        background-position: -3% bottom    
-      
+	&#{$sm}dragging {
+		cursor: grabbing;
+	}
+}
