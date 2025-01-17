@@ -1,0 +1,10 @@
+/.idea/
+/.task/
+/*/.*/
+/*.env
+/**/tests.ts
+/**/log/*
+/**/*.spec.ts
+/app/src/assets/**/*
+eslint.config.mjs
+

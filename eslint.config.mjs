@@ -181,7 +181,7 @@ function createRepositoryConfig(rel) {
 	];
 }
 
-const folders = ["fajnovy-sport-template"];
+const folders = ["_static"];
 
 export default [
 	{ ignores: ["*/.*/**/*"] },

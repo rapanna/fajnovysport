@@ -37,14 +37,9 @@
 
 			strong {
 				background-color: var(--ov-bgtext);
-				color: var(--ov-bila);
 				font-size: 1.2143rem;
-
-				// prettier-ignore
-				padding-left: .1rem;
-
-				// prettier-ignore
-				padding-right: .1rem;
+				padding-left: 0.1rem;
+				padding-right: 0.1rem;
 			}
 		}
 
@@ -113,9 +108,7 @@
 	line-height: normal;
 	margin: 0 auto;
 	min-height: 3.6rem;
-
-	// prettier-ignore
-	padding: .6rem .32rem;
+	padding: 0.6rem 0.32rem;
 	position: relative;
 	text-align: center;
 	width: 16.04rem;
@@ -123,9 +116,7 @@
 	&::after {
 		background-color: var(--ov-actual);
 		content: '';
-
-		// prettier-ignore
-		height: .96rem;
+		height: 0.96rem;
 		position: absolute;
 		right: -1.64rem;
 		width: 1.64rem;
@@ -134,9 +125,7 @@
 	&::before {
 		background-color: var(--ov-actual);
 		content: '';
-
-		// prettier-ignore
-		height: .96rem;
+		height: 0.96rem;
 		left: -1.64rem;
 		position: absolute;
 		width: 1.64rem;

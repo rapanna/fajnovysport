@@ -1,14 +1,20 @@
 import "../scss/_style.scss";
+import { Router } from "./components/Router";
+// Controllers
+import { BaseController } from "./controllers/BaseController";
+import { PagesController } from "./controllers/PagesController";
 
-const appElement = document.querySelector<HTMLDivElement>("#app");
-if (appElement) {
-	appElement.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-    </a>
+const router = new Router();
 
-    <h1>Vite + TypeScript</h1>
+router.register({
+	Base: BaseController,
+	Pages: PagesController,
+});
 
-  </div>
-  `;
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", () => {
+		router.run();
+	});
+} else {
+	router.run();
 }

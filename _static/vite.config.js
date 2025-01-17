@@ -31,7 +31,6 @@ export default defineConfig({
 		emptyOutDir: true,
 		rollupOptions: {
 			input: getHtmlInputs(),
-			// input: ["index2.twig.html"],
 		},
 	},
 	server: {

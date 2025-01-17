@@ -3,6 +3,7 @@
 	"plugins": [
 		"stylelint-order",
 		"stylelint-selector-bem-pattern",
+		"@stylistic/stylelint-plugin",
 		"stylelint-prettier"
 	],
 	"rules": {
@@ -12,6 +13,7 @@
 		"font-family-name-quotes": null,
 		"declaration-no-important": true,
 		"color-named": "never",
+		"@stylistic/number-leading-zero": "always",
 		"color-no-invalid-hex": true,
 		"selector-class-pattern": null,
 		"scss/no-global-function-names": null,

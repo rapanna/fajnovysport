@@ -1,8 +1,6 @@
 .breadcrumbs {
 	background-color: var(--ov-breadcrumbs);
-
-	// prettier-ignore
-	padding: .684rem 0;
+	padding: 0.684rem 0;
 	width: 100%;
 
 	&__list {
@@ -20,8 +18,7 @@
 	&__item {
 		@include display-flex(row, wrap, center, flex-start, center);
 
-		// prettier-ignore
-		font-size: .8421rem; // 16px
+		font-size: 0.8421rem; // 16px
 
 		&--current {
 			.breadcrumbs__link {
@@ -31,12 +28,8 @@
 
 		span {
 			color: var(--ov-breadcrumbstext);
-
-			// prettier-ignore
-			padding-left: .5rem; // 8px
-
-			// prettier-ignore
-			padding-right: .5rem;
+			padding-left: 0.5rem; // 8px
+			padding-right: 0.5rem;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 # prettier v3.0
 plugins:
+    - "@destination/prettier-plugin-twig"
     - "@trivago/prettier-plugin-sort-imports"
 
 # prettier-plugin-sort-imports v4.2

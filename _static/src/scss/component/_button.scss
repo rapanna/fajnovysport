@@ -9,9 +9,7 @@
 	font-size: 1rem;
 	grid-gap: 1rem;
 	justify-content: space-between;
-
-	// prettier-ignore
-	padding: .64rem 1.65rem;
+	padding: 0.64rem 1.65rem;
 	text-align: center;
 	text-decoration: none;
 	transition:
@@ -71,23 +69,17 @@
 	}
 
 	&--sm {
-		// prettier-ignore
-		padding: .75rem 1.25rem;
+		padding: 0.75rem 1.25rem;
 
 		@include media-bp-down(lg) {
-			// prettier-ignore
-			font-size: .875rem;
-
-			// prettier-ignore
-			padding: .63rem 1rem;
+			font-size: 0.875rem;
+			padding: 0.63rem 1rem;
 		}
 
 		#{$this}__text {
 			display: flex;
 			flex-wrap: wrap;
-
-			// prettier-ignore
-			grid-gap: .5rem;
+			grid-gap: 0.5rem;
 		}
 	}
 }

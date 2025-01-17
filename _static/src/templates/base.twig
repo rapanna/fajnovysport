@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+	{% include './components/head.twig' %}
+
+	<body data-controller="{{ controller }}" data-action="{{ action }}">
+		{% include './components/header.twig' %}
+		<main class="content" role="main">
+			<section class="content__slider">
+				{% include './components/slider.twig' %}
+			</section>
+
+			<section class="news">
+				{% include './components/news.twig' %}
+			</section>
+
+			<section class="advertising">
+				{% include './components/advertising.twig' %}
+			</section>
+
+			<section class="map"></section>
+
+			<section class="block">
+				{% include './components/block.twig' %}
+			</section>
+
+			<section class="block block__grey">
+				{% include './components/block-grey.twig' %}
+			</section>
+		</main>
+
+		{% include './components/footer.twig' %}
+		<script type="module" src="/js/main.ts"></script>
+	</body>
+</html>

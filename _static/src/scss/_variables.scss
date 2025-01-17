@@ -29,9 +29,7 @@ $containers: (
 	xl: 1140px,
 	xxl: 1320px,
 );
-
-// prettier-ignore
-$container-padding: .9375rem;
+$container-padding: 0.9375rem;
 
 @mixin media-bp-up($bp) {
 	$width: map.get($breakpoints, $bp);
@@ -85,9 +83,7 @@ $font-family-sans-serif-italic:
 	sans-serif;
 $font-size-root: 1.2rem;
 $font-size-base: 1rem;
-
-// prettier-ignore
-$font-size-sm: $font-size-base * .75 !default; // 12px
+$font-size-sm: $font-size-base * 0.75 !default; // 12px
 $font-size-lg: $font-size-base * 1.1875 !default; // 19px
 $font-size-h1: $font-size-base * 2.3125 !default; // 37px
 $font-size-h2: $font-size-base * 1.875 !default; // 30px

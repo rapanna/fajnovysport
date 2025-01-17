@@ -6,6 +6,7 @@
 		"esbenp.prettier-vscode",
 		"mikestead.dotenv",
 		"sainoba.px-to-rem",
+		"whatwedo.twig",
 		"redhat.vscode-yaml"
 	]
 }
