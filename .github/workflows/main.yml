@@ -29,7 +29,9 @@ jobs:
                   echo "Contents of directory:"
                   ls -al
             - name: Install dependencies
-              run: task install
+              run: |
+                  npm install -g @go-task/cli
+                  task install
               working-directory: /__w/fajnovysport/fajnovysport
 
             - name: Run checks
