@@ -9,10 +9,10 @@ on:
 jobs:
     check_and_build:
         runs-on: ubuntu-latest
-        # container:
-        #     image: fastestsolution/node22
-        #     volumes:
-        #         - /www:${{ github.workspace }}
+        container:
+            image: fastestsolution/node22
+            # volumes:
+            #     - /www:${{ github.workspace }}
         steps:
             - uses: actions/checkout@v3
             - name: Use Node.js 22.x
@@ -30,7 +30,6 @@ jobs:
                   ls -al
             - name: Install dependencies
               run: |
-                  npm install -g @go-task/cli
                   task install
               env:
                   PATH: ${{ env.PATH }}:/usr/local/bin
