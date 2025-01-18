@@ -13,6 +13,8 @@ jobs:
             image: fastestsolution/node22
             options: --workdir=/__w/fajnovysport/fajnovysport
         steps:
+            - name: Check out repository code
+              uses: actions/checkout@v3
             # - name: Configure Git safe directory
             #   run: git config --global --add safe.directory /__w/fajnovysport/fajnovysport
 
