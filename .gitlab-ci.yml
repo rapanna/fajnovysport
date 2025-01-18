@@ -1,0 +1,44 @@
+stages:
+    - check_and_build
+    - deploy_staging
+    - deploy_production
+
+check_and_build:
+    stage: check_and_build
+    image: fastestsolution/node22
+    script:
+        - echo "Install dependencies"
+        - task install
+        - echo "Run checks"
+        - task check
+        - echo "Build project"
+        - task build
+    only:
+        - branches
+
+deploy_staging:
+    stage: deploy_staging
+    image: fastestsolution/node22
+    script:
+        - echo "Install dependencies"
+        - task install
+        - echo "Run checks"
+        - task check
+        - echo "Build project"
+        - task build
+    only:
+        - master
+
+deploy_production:
+    stage: deploy_production
+    image: fastestsolution/node22
+    script:
+        - echo "Install dependencies"
+        - task install
+        - echo "Run checks"
+        - task check
+        - echo "Build project"
+        - task build
+    only:
+        - triggers
+    when: manual

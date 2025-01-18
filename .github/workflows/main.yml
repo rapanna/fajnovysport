@@ -12,28 +12,11 @@ jobs:
         container:
             image: fastestsolution/node22
             options: --user root
-            # volumes:
-            #     - /www:${{ github.workspace }}
         steps:
             - uses: actions/checkout@v3
-            - name: Use Node.js 22.x
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 22.x
-            # - name: Configure Git safe directory
-            #   run: git config --global --add safe.directory ${{ github.workspace }}
-
-            - name: Debug current directory
-              run: |
-                  echo "Current directory:"
-                  pwd
-                  echo "Contents of directory:"
-                  ls -al
             - name: Install dependencies
               run: |
                   task install
-              env:
-                  PATH: ${{ env.PATH }}:/usr/local/bin
               working-directory: ${{ github.workspace }}
 
             - name: Run checks
@@ -46,7 +29,10 @@ jobs:
 
     deploy_staging:
         runs-on: ubuntu-latest
-        container: fastestsolution/node22
+        container:
+            image: fastestsolution/node22
+            options: --user root
+
         if: github.ref_name == 'master' && startsWith(github.event_name, 'push')
         steps:
             - name: Install dependencies
@@ -63,7 +49,10 @@ jobs:
 
     deploy_production:
         runs-on: ubuntu-latest
-        container: fastestsolution/node22
+        container:
+            image: fastestsolution/node22
+            options: --user root
+
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
         steps:
             - name: Install dependencies
