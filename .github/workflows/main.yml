@@ -3,7 +3,7 @@ name: CI Pipeline
 on:
     push:
         branches:
-            - master
+            - "**"
     workflow_dispatch:
 
 jobs:
@@ -29,7 +29,7 @@ jobs:
     deploy_staging:
         runs-on: ubuntu-latest
         container: fastestsolution/node22
-        if: github.ref_name == 'master'
+        if: github.ref_name == 'master' && startsWith(github.event_name, 'push')
         steps:
             - name: Checkout code
               uses: actions/checkout@v3
@@ -56,14 +56,3 @@ jobs:
 
             - name: Build project
               run: task build
-
-            - name: Deploy infrastructure
-              run: task infra:deploy
-
-            - name: Upload artifacts
-              uses: actions/upload-artifact@v3
-              with:
-                  name: deploy-production-artifacts
-                  path: |
-                      */*.zip
-                      */*.hash
