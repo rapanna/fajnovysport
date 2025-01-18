@@ -13,8 +13,8 @@ jobs:
             image: fastestsolution/node22
             options: --workdir=/__w/fajnovysport/fajnovysport
         steps:
-            - name: Configure Git safe directory
-              run: git config --global --add safe.directory /__w/fajnovysport/fajnovysport
+            # - name: Configure Git safe directory
+            #   run: git config --global --add safe.directory /__w/fajnovysport/fajnovysport
 
             - name: Debug current directory
               run: |
