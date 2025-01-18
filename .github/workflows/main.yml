@@ -9,28 +9,30 @@ on:
 jobs:
     check_and_build:
         runs-on: ubuntu-latest
-        container: fastestsolution/node22
+        container:
+            image: fastestsolution/node22
+            options: --workdir=/__w/fajnovysport/fajnovysport
         steps:
             - name: Configure Git safe directory
-              run: git config --local --add safe.directory $GITHUB_WORKSPACE
+              run: git config --global --add safe.directory /__w/fajnovysport/fajnovysport
 
             - name: Debug current directory
               run: |
                   echo "Current directory:"
                   pwd
                   echo "Contents of directory:"
-                  ls -al
+                  ls -al /__w/fajnovysport/fajnovysport
             - name: Install dependencies
               run: task install
-              working-directory: ${{ github.workspace }}
+              working-directory: /__w/fajnovysport/fajnovysport
 
             - name: Run checks
               run: task check
-              working-directory: ${{ github.workspace }}
+              working-directory: /__w/fajnovysport/fajnovysport
 
             - name: Build project
               run: task build
-              working-directory: ${{ github.workspace }}
+              working-directory: /__w/fajnovysport/fajnovysport
 
     deploy_staging:
         runs-on: ubuntu-latest
