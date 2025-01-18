@@ -11,9 +11,6 @@ jobs:
         runs-on: ubuntu-latest
         container: fastestsolution/node22
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
-
             - name: Configure Git safe directory
               run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
@@ -31,9 +28,6 @@ jobs:
         container: fastestsolution/node22
         if: github.ref_name == 'master' && startsWith(github.event_name, 'push')
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
-
             - name: Install dependencies
               run: task install
 
@@ -48,9 +42,6 @@ jobs:
         container: fastestsolution/node22
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
-
             - name: Install dependencies
               run: task install
 
