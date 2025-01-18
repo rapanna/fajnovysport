@@ -1,0 +1,68 @@
+name: CI Pipeline
+
+on:
+    push:
+        branches:
+            - "**"
+    workflow_dispatch:
+
+jobs:
+    check_and_build:
+        runs-on: ubuntu-latest
+        container:
+            image: fastestsolution/node22
+            options: --user root
+        steps:
+            - uses: actions/checkout@v3
+            - name: Install dependencies
+              run: |
+                  task install
+              working-directory: ${{ github.workspace }}
+
+            - name: Run checks
+              run: task check
+              working-directory: ${{ github.workspace }}
+
+            - name: Build project
+              run: task build
+              working-directory: ${{ github.workspace }}
+
+    deploy_staging:
+        runs-on: ubuntu-latest
+        container:
+            image: fastestsolution/node22
+            options: --user root
+
+        if: github.ref_name == 'master' && startsWith(github.event_name, 'push')
+        steps:
+            - name: Install dependencies
+              run: task install
+              working-directory: ${{ github.workspace }}
+
+            - name: Run checks
+              run: task check
+              working-directory: ${{ github.workspace }}
+
+            - name: Build project
+              run: task build
+              working-directory: ${{ github.workspace }}
+
+    deploy_production:
+        runs-on: ubuntu-latest
+        container:
+            image: fastestsolution/node22
+            options: --user root
+
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
+        steps:
+            - name: Install dependencies
+              run: task install
+              working-directory: ${{ github.workspace }}
+
+            - name: Run checks
+              run: task check
+              working-directory: ${{ github.workspace }}
+
+            - name: Build project
+              run: task build
+              working-directory: ${{ github.workspace }}
