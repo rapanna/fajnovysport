@@ -11,7 +11,8 @@ jobs:
         runs-on: ubuntu-latest
         container:
             image: fastestsolution/node22
-            options: --workdir=/__w/fajnovysport/fajnovysport
+            volumes:
+                - /www:/__w/fajnovysport/fajnovysport
         steps:
             - name: Check out repository code
               uses: actions/checkout@v3
@@ -23,7 +24,7 @@ jobs:
                   echo "Current directory:"
                   pwd
                   echo "Contents of directory:"
-                  ls -al /__w/fajnovysport/fajnovysport
+                  ls -al
             - name: Install dependencies
               run: task install
               working-directory: /__w/fajnovysport/fajnovysport
