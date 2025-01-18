@@ -11,6 +11,9 @@ jobs:
         runs-on: ubuntu-latest
         container: fastestsolution/node22
         steps:
+            - name: Configure Git safe directory
+              run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
             - name: Debug current directory
               run: |
                   echo "Current directory:"
