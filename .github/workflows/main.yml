@@ -11,9 +11,12 @@ jobs:
         runs-on: ubuntu-latest
         container:
             image: fastestsolution/node22
+            options: --user root
             # volumes:
             #     - /www:${{ github.workspace }}
         steps:
+            - name: Fix permissions for temp directory
+              run: sudo chmod -R 777 /__w/_temp/
             - uses: actions/checkout@v3
             - name: Use Node.js 22.x
               uses: actions/setup-node@v3
