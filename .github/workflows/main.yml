@@ -11,6 +11,12 @@ jobs:
         runs-on: ubuntu-latest
         container: fastestsolution/node22
         steps:
+            - name: Debug current directory
+              run: |
+                  echo "Current directory:"
+                  pwd
+                  echo "Contents of directory:"
+                  ls -al
             - name: Install dependencies
               run: task install
 
