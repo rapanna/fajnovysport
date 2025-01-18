@@ -1,33 +1,29 @@
-
 .navi {
-    width: 100%;
-    @include displayflex(row, wrap, center, space-between, center);
-    margin:
-        bottom: 8.95em;
+	@include display-flex(row, wrap, center, space-between, center);
 
-    .navi__link {
-        font-size: 1.1579rem;
-        color: var(--ov-bgtext);
-        font-weight: 700;
-        text-decoration: none;
+	margin-bottom: 8.95rem;
+	width: 100%;
 
-        &:hover {
-            text-decoration: underline;
-        }
-    }
+	.navi__link {
+		color: var(--ov-bgtext);
+		font-size: 1.1579rem;
+		font-weight: 700;
+		text-decoration: none;
 
+		&:hover {
+			text-decoration: underline;
+		}
+	}
 }
 
 .navi__left {
-    .navi__link {
-        padding:
-            left: 3rem;
-    }
+	&__link {
+		padding-left: 3rem;
+	}
 }
 
 .navi__right {
-    .navi__link {
-        padding:
-            right: 3em;
-    }
+	&__link {
+		padding-right: 3em;
+	}
 }
