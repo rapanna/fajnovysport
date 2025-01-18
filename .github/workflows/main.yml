@@ -19,12 +19,15 @@ jobs:
                   ls -al
             - name: Install dependencies
               run: task install
+              working-directory: ${{ github.workspace }}
 
             - name: Run checks
               run: task check
+              working-directory: ${{ github.workspace }}
 
             - name: Build project
               run: task build
+              working-directory: ${{ github.workspace }}
 
     deploy_staging:
         runs-on: ubuntu-latest
@@ -33,12 +36,15 @@ jobs:
         steps:
             - name: Install dependencies
               run: task install
+              working-directory: ${{ github.workspace }}
 
             - name: Run checks
               run: task check
+              working-directory: ${{ github.workspace }}
 
             - name: Build project
               run: task build
+              working-directory: ${{ github.workspace }}
 
     deploy_production:
         runs-on: ubuntu-latest
@@ -47,6 +53,12 @@ jobs:
         steps:
             - name: Install dependencies
               run: task install
+              working-directory: ${{ github.workspace }}
+
+            - name: Run checks
+              run: task check
+              working-directory: ${{ github.workspace }}
 
             - name: Build project
               run: task build
+              working-directory: ${{ github.workspace }}
