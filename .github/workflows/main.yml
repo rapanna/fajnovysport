@@ -11,6 +11,8 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
             - uses: php-actions/composer@v6
 
             - name: PHPStan Static Analysis
@@ -23,9 +25,10 @@ jobs:
         container:
             image: fastestsolution/node22
             options: --user root
-        needs: check_phpstan
         steps:
             - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
 
             - name: Add safe directory for git
               run: git config --global --add safe.directory /__w/fajnovysport/fajnovysport
@@ -47,10 +50,12 @@ jobs:
         container:
             image: fastestsolution/node22
             options: --user root
-        needs: check_and_build
+        needs: [check_phpstan, check_and_build]
         if: github.ref_name == 'master' && startsWith(github.event_name, 'push')
         steps:
             - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
 
             - name: Add safe directory for git
               run: git config --global --add safe.directory /__w/fajnovysport/fajnovysport
@@ -68,10 +73,12 @@ jobs:
         container:
             image: fastestsolution/node22
             options: --user root
-        needs: check_and_build
+        needs: [check_phpstan, check_and_build]
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
         steps:
             - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
 
             - name: Add safe directory for git
               run: git config --global --add safe.directory /__w/fajnovysport/fajnovysport
