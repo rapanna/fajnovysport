@@ -67,6 +67,7 @@ jobs:
             - name: Build project
               run: task build
               working-directory: ${{ github.workspace }}
+            # TODO add deploy to PHP source and add to zip and deploy to FTP
 
     deploy_production:
         runs-on: ubuntu-latest
@@ -90,3 +91,4 @@ jobs:
             - name: Build project
               run: task build
               working-directory: ${{ github.workspace }}
+              # TODO add deploy to PHP source and add to zip and deploy to FTP
