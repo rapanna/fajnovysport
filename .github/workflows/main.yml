@@ -11,7 +11,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
-            # - uses: php-actions/composer@v6 TODO if need composer
+            - uses: php-actions/composer@v6
 
             - name: PHPStan Static Analysis
               uses: php-actions/phpstan@v3
