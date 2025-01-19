@@ -1,40 +1,44 @@
-@use "../abstract/variables" as variables 
-@use "../abstract/mixin" as mixin
+.topmenu__nav {
+	margin-right: 2em;
+}
 
-.topmenu__nav 
-    margin-right: 2em
+.nav {
+	&__list {
+		@include display-flex(row, wrap, center, flex-end, center);
 
+		gap: 1em;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
 
-    ul 
-        @include mixin.displayflex(row, wrap, center, flex-end, center)
-        list-style: none
-        margin: 0
-        padding: 0
-        gap: 1em
+	&__link {
+		align-items: center;
+		color: var(--ov-black);
+		display: inline-flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 1rem 1.5rem;
+		text-decoration: none;
+		text-transform: uppercase;
 
-.nav
-    a 
-        color: var(--ov-black)
-        text-decoration: none
-        text-transform: uppercase
-        display: inline-flex
-        flex-direction: column
-        align-items: center
-        justify-content: space-between
-        padding: 1rem 1.5rem
+		&:hover,
+		&.active {
+			color: var(--ov-bgtext);
+		}
 
-        &:hover, &.active
-            color: var(--ov-bgtext)
-        
-        &::after 
-            content: attr(data-text)
-            content: attr(data-text) / ""
-            height: 0
-            visibility: hidden
-            overflow: hidden
-            user-select: none
-            pointer-events: none
-            font-weight: 700
+		&::after {
+			content: attr(data-text);
+			font-weight: 700;
+			height: 0;
+			overflow: hidden;
+			pointer-events: none;
+			user-select: none;
+			visibility: hidden;
 
-            @media speech
-                display: none            
+			@media speech {
+				display: none;
+			}
+		}
+	}
+}

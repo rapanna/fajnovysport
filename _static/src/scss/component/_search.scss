@@ -1,34 +1,34 @@
-@use "../abstract/variables" as variables 
-@use "../abstract/mixin" as mixin
-    
-.search
-    height: 2em
-    border: 1px solid var(--ov-bila)
-    background-color: var(--ov-bila)
-    margin:
-        top: 0.6316em // 12px
-        bottom: 0.6316em
-    @include mixin.displayflex(row, wrap, center, flex-start, center)
+.search {
+	@include mixin.displayflex(row, wrap, center, flex-start, center);
 
-.search__label
-    position: absolute
-    left: -999999px
+	background-color: var(--ov-bila);
+	border: 1px solid var(--ov-bila);
+	height: 2em;
+	margin-bottom: 0.6316em;
+	margin-top: 0.6316em;
 
-input.search__input
-    border: 0
-    outline: 0
-    border-radius: 0
-    line-height: calc(2em - 2px)
-    padding: 
-        top: 0
-        bottom: 0
+	&__label {
+		left: -62499.9375rem;
+		position: absolute;
+	}
+}
 
-button.search__btn
-    background-color: transparent
-    border: 0
-    cursor: pointer
+input.search__input {
+	border: 0;
+	border-radius: 0;
+	line-height: calc(2em - 0.125rem);
+	outline: 0;
+	padding-bottom: 0;
+	padding-top: 0;
+}
 
-.search:has(input.search__input:focus-visible)
-    border: 1px solid var(--ov-black)
-    outline: 2px solid var(--ov-bila)
-    
+button.search__btn {
+	background-color: transparent;
+	border: 0;
+	cursor: pointer;
+}
+
+.search:has(input.search__input:focus-visible) {
+	border: 0.0625rem solid var(--ov-black);
+	outline: 0.125rem solid var(--ov-bila);
+}

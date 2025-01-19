@@ -1,27 +1,29 @@
-@use "../abstract/variables" as variables 
-@use "../abstract/mixin" as mixin
+.navi {
+	@include display-flex(row, wrap, center, space-between, center);
 
-.navi
-    width: 100%
-    @include mixin.displayflex(row, wrap, center, space-between, center)
-    margin:
-        bottom: 8.95em
+	margin-bottom: 8.95rem;
+	width: 100%;
 
-    a 
-        font-size: 1.1579em //22px
-        color: var(--ov-bgtext)
-        font-weight: 700
-        text-decoration: none
+	.navi__link {
+		color: var(--ov-bgtext);
+		font-size: 1.1579rem;
+		font-weight: 700;
+		text-decoration: none;
 
-        &:hover 
-            text-decoration: underline
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
 
-.navi__left
-    a 
-        padding:
-            left: 3em //64em
+.navi__left {
+	&__link {
+		padding-left: 3rem;
+	}
+}
 
-.navi__right
-    a 
-        padding:
-            right: 3em //64em
+.navi__right {
+	&__link {
+		padding-right: 3em;
+	}
+}
