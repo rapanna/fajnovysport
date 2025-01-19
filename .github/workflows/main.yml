@@ -24,6 +24,10 @@ jobs:
               run: task check
               working-directory: ${{ github.workspace }}
 
+            - name: Run checks PHP
+              run: task check-php
+              working-directory: ${{ github.workspace }}
+
             - name: Build project
               run: task build
               working-directory: ${{ github.workspace }}
@@ -45,6 +49,10 @@ jobs:
               run: task check
               working-directory: ${{ github.workspace }}
 
+            - name: Run checks PHP
+              run: task check-php
+              working-directory: ${{ github.workspace }}
+
             - name: Build project
               run: task build
               working-directory: ${{ github.workspace }}
@@ -64,6 +72,10 @@ jobs:
 
             - name: Run checks
               run: task check
+              working-directory: ${{ github.workspace }}
+
+            - name: Run checks PHP
+              run: task check-php
               working-directory: ${{ github.workspace }}
 
             - name: Build project

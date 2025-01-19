@@ -1,137 +1,159 @@
-@use "../abstract/variables" as variables 
-@use "../abstract/mixin" as mixin
+.button {
+	$this: &;
 
-.subpage
-    padding:
-        top: 0.3158em
-        bottom: 0
-        left: 0
-        right: 0 
+	align-items: center;
+	border: 0;
+	border-radius: $border-radius;
+	display: flex;
+	font-family: $font-family;
+	font-size: 1rem;
+	grid-gap: 1rem;
+	justify-content: space-between;
+	padding: 0.64rem 1.65rem;
+	text-align: center;
+	text-decoration: none;
+	transition:
+		$transition-time background-color,
+		$transition-time border-color,
+		$transition-time color;
+	width: fit-content;
 
-    &--akce
-        width: 100%
-        max-width: 43.6842em // 830px
-        margin: 
-            left: auto
-            right: auto 
-            top: 0
-            bottom: 0
+	@include media-bp-down(md) {
+		margin: 0 auto;
+	}
 
-    .thumbnail
-        width: 100%
-        height: auto
-        border: 1px solid var(--ov-footer--dark)
-    
-    p 
-        line-height: 143.8%
-        text-align: left !important
-        font-weight: 400
-        margin:
-            top: 0
-            bottom: 1em
-    
-    p:has(+ h2), p:has(+ h3), p:has(+ h4), p:has(+ table)
-        margin: 
-            bottom: 2em
+	&:hover {
+		cursor: pointer;
+	}
+}
 
-    h1
-        text-align: center
-        font-size: 2.5263em
-        font-weight: 700
-        line-height: 110.8%
-        text-transform: uppercase
-        color: var(--ov-zaklad)
-        margin: 
-            top: 1.25em
-            bottom: 1.25em
+.subpage {
+	padding: 0.3158em 0 0;
 
-    h2 
-        text-transform: uppercase
-        font-weight: 600
-        color: var(--ov-bgtext)
-        font-size: 1.31579em //25em
-        line-height: 143.8%
-        margin: 
-            bottom: 1em
+	&--akce {
+		margin: 0 auto;
+		max-width: 43.6842rem; // 830px
+		width: 100%;
+	}
 
-    table 
-        width: 100%
-        border-collapse: collapse
-        border: 1px solid var(--ov-thtable)
+	.thumbnail {
+		border: 1px solid var(--ov-footer-dark);
+		height: auto;
+		width: 100%;
+	}
 
-        th, td 
-            padding:
-                top: 0.6842em
-                bottom: 0.6842em
-                left: 0.8em
-                right: 0.8em
+	p {
+		font-weight: 400;
+		line-height: 143.8%;
+		margin: 0 0 1rem;
+		/* stylelint-disable-next-line declaration-no-important */
+		text-align: left !important;
+	}
 
-        th
-            background-color: var(--ov-thtable)
-            color: var(--ov-bila)
-            font-weight: 700
-            line-height: 110.8%
-            border: 2px solid var(--ov-bila)
+	p:has(+ h2),
+	p:has(+ h3),
+	p:has(+ h4),
+	p:has(+ table) {
+		margin-bottom: 2rem;
+	}
 
-            text-align: center
+	h1 {
+		color: var(--ov-zaklad);
+		font-size: 2.5263rem;
+		font-weight: 700;
+		line-height: 110.8%;
+		margin: 1.25rem;
+		text-align: center;
+		text-transform: uppercase;
+	}
 
-        td
-            line-height: 110.8%
-            text-align: left
-            border: 2px solid var(--ov-bila)
-            background-color: var(--ov-bgtable)
+	h2 {
+		color: var(--ov-bgtext);
+		font-size: 1.31rem; // 25em
+		font-weight: 600;
+		line-height: 143.8%;
+		margin-bottom: 1rem;
+		text-transform: uppercase;
+	}
 
-        th:has(+ td)
-            background-color: var(--ov-bgtext) 
+	table {
+		border: 1px solid var(--ov-thtable);
+		border-collapse: collapse;
+		width: 100%;
 
-.subpage--kontakty
-    width: 100%
-    max-width: 70.95em
-    margin:
-        left: auto
-        right: auto
-        bottom: 6.21053em
+		th,
+		td {
+			padding: 0.6842rem 0.8rem;
+		}
 
-    h2
-        color: var(--ov-link)
-        font-size: 2.5263em
-        padding:
-            left: 0.8333em
-            right: 0.8333em
-        margin:
-            bottom: 0.8333em
-            top: 1.4375em
-        border-bottom: 3px solid var(--ov-link)
-        text-transform: uppercase
-        font-weight: 700
+		th {
+			background-color: var(--ov-thtable);
+			border: 2px solid var(--ov-bila);
+			color: var(--ov-bila);
+			font-weight: 700;
+			line-height: 110.8%;
+			text-align: center;
+		}
 
+		td {
+			background-color: var(--ov-bgtable);
+			border: 2px solid var(--ov-bila);
+			line-height: 110.8%;
+			text-align: left;
+		}
 
-    .kontakt__list
-        margin: 0
-        padding:
-            left: 2.1053em
-            right: 2.1053em
-        @include mixin.displayflex(row, wrap, center, flex-start, center)
-        list-style: none
-        gap: 3% 
-        row-gap: 3.1em
+		th:has(+ td) {
+			background-color: var(--ov-bgtext);
+		}
+	}
+}
 
-    .kontakt__item
-        flex-basis: 30%
+.subpage--kontakty {
+	margin: 0 auto 6.21rem;
+	max-width: 70.95rem;
+	width: 100%;
 
-    .kontakt__title
-        color: var(--ov-bgtext)
-        font-size: 1.3158em
-        display: block
-        font-weight: 700
-        min-height: 1.5em
-    
-    .kontakt__name
-        color: var(--ov-bgtext)
-        display: block
-        line-height: 143.8%
+	h2 {
+		border-bottom: 3px solid var(--ov-link);
+		color: var(--ov-link);
+		font-size: 2.5263rem;
+		font-weight: 700;
+		margin: 1.4375rem 0 0.8333rem;
+		padding: 0 0.8333rem;
+		text-transform: uppercase;
+	}
 
-    .kontakt__email, .kontakt__tel
-        display: block
-        line-height: 143.8%
+	.kontakt__list {
+		@include mixin.displayflex(row, wrap, center, flex-start, center);
 
+		gap: 3%;
+		list-style: none;
+		margin: 0;
+		padding: 0 2.1053rem;
+		row-gap: 3.1rem;
+	}
+
+	.kontakt__item {
+		flex-basis: 30%;
+	}
+
+	.kontakt__title {
+		color: var(--ov-bgtext);
+		display: block;
+		font-size: 1.3158rem;
+		font-weight: 700;
+		min-height: 1.5rem;
+	}
+
+	.kontakt__name {
+		color: var(--ov-bgtext);
+		display: block;
+		line-height: 143.8%;
+	}
+
+	.kontakt__email,
+	.kontakt__tel {
+		display: block;
+		line-height: 143.8%;
+	}
+}

@@ -44,8 +44,13 @@ tasks:
             - npx prettier . --check
             - npx stylelint "**/*.scss"
             - npx eslint .
-            - docker run --rm -v ./wp:/app phpstan
             - task: static:check
+
+    check-php:
+        desc: Check PHP quality
+        cmds:
+            - docker build -t phpstan .
+            - docker run --rm -it -v $(pwd)/wp:/app/wp phpstan
 
     build:
         desc: Build everything

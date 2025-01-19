@@ -4,7 +4,6 @@ class Swiper {
 			document.querySelectorAll<HTMLElement>(".js-sliders"),
 		);
 		if (glides.length > 0) {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const { default: Glide } = await import("@glidejs/glide");
 			for (const glide of glides) {
 				new Glide(glide, {

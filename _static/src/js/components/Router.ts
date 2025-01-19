@@ -5,7 +5,7 @@
  */
 
 export class Router {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
 	private controller: string | any;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private controllers: Record<string, any>;
@@ -31,8 +31,9 @@ export class Router {
 		}
 	}
 
-	public run(): void {
+	public run(): unknown {
 		this.discoverRoute();
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const controller = new this.controllers[
 			this.controller in this.controllers ? this.controller : "Base"
 		]();
@@ -42,14 +43,15 @@ export class Router {
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	private runController(controller: any): void {
+		// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
 		if (controller.startup) {
 			controller.startup();
 		}
 		if (this.action) {
 			const name =
 				this.action.charAt(0).toUpperCase() + this.action.slice(1);
-			const actionName = "action" + name;
-			const renderName = "render" + name;
+			const actionName = `action${name}`;
+			const renderName = `render${name}`;
 
 			if (actionName in controller) {
 				controller[actionName]();
