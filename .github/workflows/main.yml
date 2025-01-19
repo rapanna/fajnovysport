@@ -20,21 +20,18 @@ jobs:
                   task install
               working-directory: ${{ github.workspace }}
 
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v2
-
             - name: Run checks
               run: task check
-              working-directory: ${{ github.workspace }}
-
-            - name: Run checks PHP
-              run: task check-php
               working-directory: ${{ github.workspace }}
 
             - name: Build project
               run: task build
               working-directory: ${{ github.workspace }}
 
+            - name: PHPStan Static Analysis
+              uses: php-actions/phpstan@v3
+              with:
+                  path: wp/
     deploy_staging:
         runs-on: ubuntu-latest
         container:
