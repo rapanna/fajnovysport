@@ -4,7 +4,8 @@ web in a monorepo.
 
 ## Structure
 
-- \_static: static website template on Vite
+- `\_static`: static website template on Vite
+- `wp`: Wordpress template PHP folder
 
 ## Dependencies
 
@@ -32,7 +33,8 @@ Open http://localhost:5173/ in the browser.
 
 More info in separate README.md files. Run `task -l` to see what commands are available.
 
-## PHPStan analyze on local
+## PHPStan analyze on local without PHP
 
 Build docker run: `docker build -t phpstan .`
+
 Run PHP test: `docker run --rm -it -v c:/Projects/ovanet/vite/wp:/app/wp phpstan` # need change your path
