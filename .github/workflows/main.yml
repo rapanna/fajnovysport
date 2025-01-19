@@ -7,12 +7,8 @@ on:
     workflow_dispatch:
 
 jobs:
-    check_and_build:
+    check_phpstan:
         runs-on: ubuntu-latest
-        container:
-            image: fastestsolution/node22
-            options: --user root
-        if: github.ref_name != 'master' && startsWith(github.event_name, 'push')
         steps:
             - uses: actions/checkout@v3
             - uses: php-actions/composer@v6
@@ -21,6 +17,15 @@ jobs:
               uses: php-actions/phpstan@v3
               with:
                   path: wp/
+
+    check_and_build:
+        runs-on: ubuntu-latest
+        container:
+            image: fastestsolution/node22
+            options: --user root
+        if: github.ref_name != 'master' && startsWith(github.event_name, 'push')
+        steps:
+            - uses: actions/checkout@v3
 
             - name: Install dependencies
               run: |
