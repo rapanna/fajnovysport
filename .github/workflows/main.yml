@@ -23,7 +23,7 @@ jobs:
         container:
             image: fastestsolution/node22
             options: --user root
-        if: github.ref_name != 'master' && startsWith(github.event_name, 'push')
+        needs: check_phpstan
         steps:
             - uses: actions/checkout@v3
 
@@ -47,20 +47,16 @@ jobs:
         container:
             image: fastestsolution/node22
             options: --user root
-
+        needs: check_and_build
         if: github.ref_name == 'master' && startsWith(github.event_name, 'push')
         steps:
             - uses: actions/checkout@v3
+
+            - name: Add safe directory for git
+              run: git config --global --add safe.directory /__w/fajnovysport/fajnovysport
+
             - name: Install dependencies
               run: task install
-              working-directory: ${{ github.workspace }}
-
-            - name: Run checks
-              run: task check
-              working-directory: ${{ github.workspace }}
-
-            - name: Run checks PHP
-              run: task check-php
               working-directory: ${{ github.workspace }}
 
             - name: Build project
@@ -72,20 +68,16 @@ jobs:
         container:
             image: fastestsolution/node22
             options: --user root
-
+        needs: check_and_build
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
         steps:
             - uses: actions/checkout@v3
+
+            - name: Add safe directory for git
+              run: git config --global --add safe.directory /__w/fajnovysport/fajnovysport
+
             - name: Install dependencies
               run: task install
-              working-directory: ${{ github.workspace }}
-
-            - name: Run checks
-              run: task check
-              working-directory: ${{ github.workspace }}
-
-            - name: Run checks PHP
-              run: task check-php
               working-directory: ${{ github.workspace }}
 
             - name: Build project
