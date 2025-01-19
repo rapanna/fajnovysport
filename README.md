@@ -35,4 +35,4 @@ More info in separate README.md files. Run `task -l` to see what commands are av
 ## PHPStan analyze on local
 
 Build docker run: `docker build -t phpstan .`
-Run PHP test: `docker run --rm -v $(pwd)/wp:/app phpstan`
+Run PHP test: `docker run --rm -it -v c:/Projects/ovanet/vite/wp:/app/wp phpstan` # need change your path
