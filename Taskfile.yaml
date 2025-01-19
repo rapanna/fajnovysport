@@ -12,7 +12,7 @@ dotenv:
 
 env:
     VERSION:
-        # sh: git describe --dirty TODO
+        sh: git describe --dirty
 
 includes:
     static:

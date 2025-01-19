@@ -27,6 +27,9 @@ jobs:
         steps:
             - uses: actions/checkout@v3
 
+            - name: Add safe directory for git
+              run: git config --global --add safe.directory ${{ github.workspace }}
+
             - name: Install dependencies
               run: |
                   task install
