@@ -36,4 +36,4 @@ tasks:
         desc: Build cashdesk
         cmds:
             - git clean -Xf .build/ > /dev/null
-            - tsc && npx vite build
+            - npx tsc && npx vite build
