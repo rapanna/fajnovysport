@@ -30,3 +30,8 @@ add_action("template_redirect", function () {
 		}
 	}
 });
+
+add_filter("timber/locations", function ($paths) {
+	$paths[0][] = get_template_directory() . "/templates";
+	return $paths;
+});
