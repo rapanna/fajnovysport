@@ -14,6 +14,7 @@
 	"devDependencies": {
 		"@destination/prettier-plugin-twig": "^1.5.0",
 		"@eslint/js": "^9.18.0",
+		"@prettier/plugin-php": "^0.22.4",
 		"@stylistic/stylelint-plugin": "^3.1.1",
 		"@trivago/prettier-plugin-sort-imports": "^5.2.1",
 		"@types/eslint-config-prettier": "^6.11.3",

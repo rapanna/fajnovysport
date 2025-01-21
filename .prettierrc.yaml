@@ -2,6 +2,7 @@
 plugins:
     - "@destination/prettier-plugin-twig"
     - "@trivago/prettier-plugin-sort-imports"
+    - "@prettier/plugin-php"
 
 # prettier-plugin-sort-imports v4.2
 importOrder:
@@ -27,5 +28,10 @@ overrides:
           singleQuote: true
     - files: "_static/**/*.js"
       options:
+          tabWidth: 4
+          useTabs: true
+    - files: "wp-dev/**/*.php"
+      options:
+          parser: "php"
           tabWidth: 4
           useTabs: true
