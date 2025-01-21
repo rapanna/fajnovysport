@@ -8,6 +8,7 @@ services:
         container_name: wordpress
         volumes:
             - ./wp-content:/var/www/html/wp-content
+            - ../_static:/var/www/html/_static
         environment:
             - WORDPRESS_DB_NAME=wordpress
             - WORDPRESS_TABLE_PREFIX=wp_
