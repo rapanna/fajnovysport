@@ -30,7 +30,8 @@ tasks:
     run:
         desc: Run the gulp (use "--" before arguments)
         cmds:
-            - npx vite
+            # - npx vite
+            - npx vite build --watch
 
     build:
         desc: Build cashdesk

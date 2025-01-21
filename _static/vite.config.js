@@ -31,8 +31,14 @@ export default defineConfig({
 		emptyOutDir: true,
 		rollupOptions: {
 			input: getHtmlInputs(),
+			output: {
+				assetFileNames: "assets/[name].[ext]",
+				entryFileNames: "assets/[name].js",
+				chunkFileNames: "assets/[name].js",
+			},
 		},
 	},
+
 	server: {
 		open: "/html/index.html",
 	},

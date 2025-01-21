@@ -31,14 +31,10 @@ add_action("template_redirect", function () {
 	}
 });
 
-if (getenv("WORDPRESS_DB_USER") === "root") {
-	add_filter("timber/locations", function ($paths) {
-		$paths[0][] = __DIR__ . "/../../../_static/src/templates/components";
-		return $paths;
-	});
-} else {
-	add_filter("timber/locations", function ($paths) {
-		$paths[0][] = get_template_directory() . "/templates";
-		return $paths;
-	});
-}
+add_filter("timber/locations", function ($paths) {
+	$paths[0][] =
+		getenv("WORDPRESS_DB_USER") === "root"
+			? __DIR__ . "/../../../_static/src/templates/components"
+			: get_template_directory() . "/templates";
+	return $paths;
+});
