@@ -6,16 +6,16 @@
         <div class="slider__red"></div>
         <div class="slider__orange"></div>
         <div class="slider__icona slider__icona--beh"></div>
-      </div>                    
+      </div>
     </div>
 
     <div class="slider">
       <div class="slider__block slider__block--bezkyne">
         <img class="slider__img" src="<?php echo get_template_directory_uri(); ?>/_statika/img/beh.jpg">
         <div class="slider__top"></div>
-        <div class="slider__bottom"></div>          
+        <div class="slider__bottom"></div>
         <div class="slider__icona"></div>
-      </div>          
+      </div>
       <div class="slider__text  slider__block--bezkyne">
         <h2>Ostrava pořádá první ročník mezinárodního maratonu Emila Zátopka!</h2>
         <a href="" class="slider__button">Číst více</a>

@@ -1948,7 +1948,7 @@ button.slick-next.slick-arrow {
 
 </style>
   </head>
-<body class="mx-lg-4 <?php echo join(' ', get_body_class()); ?>" style="background-image: url('<?php echo esc_url(get_template_directory_uri() . '/_statika/img/background.jpg'); ?>');">
+<body class="mx-lg-4>
 
 <a href="" class="none">Skip to menu</a>
   <a href="" class="none">Skip to content</a>
@@ -1957,16 +1957,22 @@ button.slick-next.slick-arrow {
     <?php get_search_form(); ?>
 
     <?php
-$social_media = get_field('social_media', 'option'); 
+    $social_media = get_field("social_media", "option");
 
-if ($social_media) : ?>
+    if ($social_media): ?>
   <div class="bar__ico">
-    <?php 
-    $default_target = '_self';
+    <?php
+    $default_target = "_self";
 
-    if (!empty($social_media['instagram']['url'])) : 
-        $target = !empty($social_media['instagram']['target']) ? $social_media['instagram']['target'] : $default_target; ?>
-      <a href="<?php echo esc_url($social_media['instagram']['url']); ?>" class="bar__ico__img bar__ico__img--instagram" aria-label="Instagram" target="<?php echo esc_attr($target); ?>" rel="noopener noreferrer">
+    if (!empty($social_media["instagram"]["url"])):
+    	$target = !empty($social_media["instagram"]["target"])
+    		? $social_media["instagram"]["target"]
+    		: $default_target; ?>
+      <a href="<?php echo esc_url(
+      	$social_media["instagram"]["url"]
+      ); ?>" class="bar__ico__img bar__ico__img--instagram" aria-label="Instagram" target="<?php echo esc_attr(
+	$target
+); ?>" rel="noopener noreferrer">
       <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none"  aria-labelledby="instagram">
             <title id="instagram">Instagram</title>
             <g clip-path="url(#clip0_114_950)">
@@ -1980,13 +1986,21 @@ if ($social_media) : ?>
             <rect width="40" height="40" fill="white"/>
             </clipPath>
             </defs>
-          </svg>  
+          </svg>
       </a>
-    <?php endif; ?>
+    <?php
+    endif;
+    ?>
 
-    <?php if (!empty($social_media['facebook']['url'])) : 
-        $target = !empty($social_media['facebook']['target']) ? $social_media['facebook']['target'] : $default_target; ?>
-      <a href="<?php echo esc_url($social_media['facebook']['url']); ?>" class="bar__ico__img bar__ico__img--facebook" aria-label="Facebook" target="<?php echo esc_attr($target); ?>" rel="noopener noreferrer">
+    <?php if (!empty($social_media["facebook"]["url"])):
+    	$target = !empty($social_media["facebook"]["target"])
+    		? $social_media["facebook"]["target"]
+    		: $default_target; ?>
+      <a href="<?php echo esc_url(
+      	$social_media["facebook"]["url"]
+      ); ?>" class="bar__ico__img bar__ico__img--facebook" aria-label="Facebook" target="<?php echo esc_attr(
+	$target
+); ?>" rel="noopener noreferrer">
       <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-labelledby="facebook">
             <title id="facebook">Facebook</title>
             <g clip-path="url(#clip0_114_959)">
@@ -1998,21 +2012,27 @@ if ($social_media) : ?>
             <rect width="40" height="40" fill="white"/>
             </clipPath>
             </defs>
-          </svg>   
+          </svg>
       </a>
-    <?php endif; ?>
+    <?php
+    endif; ?>
 
-    <?php if (!empty($social_media['mail'])) : ?>
-      <a href="mailto:<?php echo esc_attr($social_media['mail']); ?>" class="bar__ico__img bar__ico__img--email" aria-label="Email" target="<?php echo esc_attr($default_target); ?>">
+    <?php if (!empty($social_media["mail"])): ?>
+      <a href="mailto:<?php echo esc_attr(
+      	$social_media["mail"]
+      ); ?>" class="bar__ico__img bar__ico__img--email" aria-label="Email" target="<?php echo esc_attr(
+	$default_target
+); ?>">
       <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-labelledby="email">
             <title id="email">E-mail</title>
             <path d="M20 40C8.95978 40 0 31.0464 0 20.0139C0 8.95357 8.95978 0 20 0C31.0402 0 40 8.95357 40 19.9861C40 31.0187 31.0402 39.9723 20 39.9723V40Z" fill="white"/>
             <path d="M30.3189 11.282H9.90286C8.71007 11.282 7.7392 12.2522 7.7392 13.4442V26.5003C7.7392 27.6923 8.71007 28.6625 9.90286 28.6625H30.3189C31.5117 28.6625 32.4826 27.6923 32.4826 26.5003V13.4442C32.4826 12.2522 31.5117 11.282 30.3189 11.282ZM29.9861 12.7512C29.2926 13.4442 21.0263 21.7602 20.6657 22.0929C20.3883 22.3701 19.8335 22.3701 19.5284 22.0929L10.208 12.7512H29.9583H29.9861ZM9.1539 26.2509V13.7214L15.3952 19.9861L9.1539 26.2509ZM10.2357 27.2488L16.4493 21.0118L18.5298 23.0908C19.3897 23.9501 20.8599 23.9501 21.7198 23.0908L23.8002 21.0118L30.0138 27.2488H10.2357ZM31.0402 26.2509L24.7988 19.9861L31.0402 13.7214V26.2509Z" fill="#00345F"/>
-          </svg> 
+          </svg>
       </a>
     <?php endif; ?>
   </div>
-<?php endif; ?>
+<?php endif;
+    ?>
 
 
     </div>
@@ -2035,19 +2055,18 @@ if ($social_media) : ?>
       <div class="topmenu__left">
         <div class="topmenu__logo">
           <a href="<?php echo home_url(); ?>" class="topmenu__logo__link" aria-label="Návrat na úvodní stránku">
-            <img src="<?php echo get_template_directory_uri() . '/_statika/img/logo-fajnovysport.png'; ?>" alt="logo fajnový sport - oficiální stránky města Ostravy v oblasti sportu" />
-          </a>          
+            <img src="<?php echo get_template_directory_uri() .
+            	"/images/logo-fajnovysport.png"; ?>" alt="logo fajnový sport - oficiální stránky města Ostravy v oblasti sportu" />
+          </a>
         </div>
         <div class="topmenu__nav">
-        <?php
-        wp_nav_menu([
-            'theme_location' => 'menu-1',
-            'menu_class' => 'nav', 
-            'container' => 'nav',  
-            'container_class' => 'nav-container', 
-        ]);
-        ?>
-        </div>          
+        <?php wp_nav_menu([
+        	"theme_location" => "menu-1",
+        	"menu_class" => "nav",
+        	"container" => "nav",
+        	"container_class" => "nav-container",
+        ]); ?>
+        </div>
       </div>
       <div class="topmenu__right">
         <a href="" class="viewmap">
@@ -2055,14 +2074,14 @@ if ($social_media) : ?>
             <title id="viewmapIco">Pin</title>
             <path d="M22.0248 0.678955C13.796 0.678955 7.14246 7.3597 7.14246 15.5884C7.14246 21.8075 15.6428 34.4357 19.7979 40.2203C20.8842 41.7411 23.1654 41.7411 24.2517 40.2203C28.4068 34.4357 36.9071 21.8075 36.9071 15.5884C36.9342 7.3597 30.2535 0.678955 22.0248 0.678955ZM22.0248 21.5631C18.277 21.5631 15.2626 18.5214 15.2626 14.8009C15.2626 11.0803 18.3042 8.03864 22.0248 8.03864C25.7454 8.03864 28.787 11.0803 28.787 14.8009C28.787 18.5214 25.7454 21.5631 22.0248 21.5631Z" fill="white"/>
             <path opacity="0.5" d="M22.3235 47.933C28.248 47.933 33.0508 47.0211 33.0508 45.8962C33.0508 44.7713 28.248 43.8594 22.3235 43.8594C16.3991 43.8594 11.5963 44.7713 11.5963 45.8962C11.5963 47.0211 16.3991 47.933 22.3235 47.933Z" fill="white"/>
-          </svg>          
+          </svg>
           <span class="viewmap__text">Zobrazit mapu sportovišť</span>
         </a>
       </div>
     </div>
   </header>
 
-<?php get_template_part( 'template-parts/content', 'breadcrumbs' ); ?>
+<?php get_template_part("template-parts/content", "breadcrumbs"); ?>
 
   <main class="content" role="main">
 

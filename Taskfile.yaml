@@ -18,6 +18,9 @@ includes:
     static:
         taskfile: ./_static/
         dir: ./_static/
+    wp:
+        taskfile: ./wp-dev/
+        dir: ./wp-dev/
 
 tasks:
     install:

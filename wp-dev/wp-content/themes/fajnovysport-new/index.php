@@ -1,7 +1,8 @@
-<?php get_header(); ?>
+<?php
+echo "aa";
+// Získání základního kontextu Timber
+$context = Timber::context();
 
+$context["templateDirectory"] = get_template_directory_uri();
 
-<?php the_content(); ?>		
-       
-
-<?php get_footer();
+Timber::render("base.twig", $context);

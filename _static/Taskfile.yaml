@@ -29,12 +29,22 @@ tasks:
 
     run:
         desc: Run the gulp (use "--" before arguments)
+        deps:
+            - run-dev
+            - run-wp
+
+    run-dev:
+        desc: Run Vite dev server
         cmds:
-            # - npx vite
+            - npx vite
+    run-wp:
+        desc: Run Vite dev server
+        cmds:
+            - echo $VERSION > version.txt
             - npx vite build --watch
 
     build:
-        desc: Build cashdesk
+        desc: Build static
         cmds:
             - git clean -Xf .build/ > /dev/null
             - npx tsc && npx vite build

@@ -12,7 +12,7 @@ web in a monorepo.
 ### Development
 
 - Node.js v22
-- NPM v10
+- NPM v11
 - Task (taskfile.dev)
 - Git
 
@@ -41,21 +41,28 @@ Run PHP test: `docker run --rm -it -v c:/Projects/ovanet/vite/wp:/app/wp phpstan
 
 ## WP for dev
 
-Change folder `wp-dev`
+Run `task wp:start`
 
-Run `docker-compose up -d`
+Open in browser: `http://localhost:8080/`
 
-Open folder in container: `docker exec -it wordpress bash`
+Stop `task wp:stop`
+
+Open container for debug: `task wp:exec`
 
 ## Install composer plugins
 
 Open container: `docker exec -it wordpress bash`
+
 In folder `/var/www/html/wp-content/themes/fajnovysport-new/` run: `composer install`
 
-## Export DB
+## Export / import DB
 
-docker exec -i db mariadb-dump -u root -ppassword wordpress > c:/Projects/ovanet/vite/wp-dev/dumpDefault.sql
+Export: `docker exec -i db mariadb-dump -u root -ppassword wordpress > c:/Projects/ovanet/vite/wp-dev/dump/dumpDefault.sql`
 
-docker exec -i db mariadb -u root -ppassword wordpress < c:/Projects/ovanet/vite/wp-dev/sport.sql
+Import: `docker exec -i db mariadb -u root -ppassword wordpress < c:/Projects/ovanet/vite/wp-dev/dump/sport.sql`
 
-docker cp db:/tmp/dump.sql $(pwd)/dump2.sql
+`docker cp db:/tmp/dump.sql $(pwd)/dump2.sql`
+
+## Tip for local developing
+
+Update npm version: `npx npm install -g npm`

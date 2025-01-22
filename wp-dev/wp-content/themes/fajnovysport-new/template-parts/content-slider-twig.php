@@ -2,12 +2,14 @@
 // Získání základního kontextu Timber
 $context = Timber::context();
 
+$context["templateDirectory"] = get_template_directory_uri();
+
 // Přidejte data pro slider (například z ACF nebo staticky)
 $context["sliders"] = [
 	[
 		"block_class" => "slider__block",
 		"image_url" =>
-			get_template_directory_uri() . "/_statika/img/univerzal.png",
+			get_template_directory_uri() . "/_statika/img/univerzala.png",
 		"red_class" => "slider__red",
 		"orange_class" => "slider__orange",
 		"icon_class" => "slider__icona slider__icona--beh",

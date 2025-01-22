@@ -1,26 +1,8 @@
 <?php  /* Template Name: Mapa */ ?>
 <?php get_header('mapa'); ?>
-<style>
-.marker--sportoviste {
-    background-image: url(<?php echo get_template_directory_uri(  ); ?>/_statika/img/marker-sportoviste.png);
-    background-size: cover;
-    width: 27px;
-    height: 45px;
-    margin-top: -22px;
-    cursor: pointer;
-}
-.marker--kluby {
-    background-image: url(<?php echo get_template_directory_uri(  ); ?>/_statika/img/marker-kluby.png);
-    background-size: cover;
-    width: 27px;
-    height: 45px;
-    margin-top: -22px;
-    cursor: pointer;
-}
-</style>
-<?php 
-if ( have_posts() ) {  
-    while ( have_posts() ) {  
+<?php
+if ( have_posts() ) {
+    while ( have_posts() ) {
         the_post();
         the_content();
     ?>
@@ -30,8 +12,8 @@ if ( have_posts() ) {
                     <div class="col-md-10 col-sm-9">
 
                         <div class="select">
-                            <?php 
-                            
+                            <?php
+
                             $categories = get_terms(
                                 array(
                                 'taxonomy' => 'typsportu',
@@ -42,27 +24,27 @@ if ( have_posts() ) {
                             $current_priority_sports = 1;
                             if ( ! empty( $categories ) && is_array( $categories ) ) {
                                 foreach ( $categories as $category ) { ?>
-                                
+
                                     <?php /* Primární sporty */ ?>
-                                    <?php                                   
+                                    <?php
                                     if ($current_priority_sports <= $max_priority_sports){
                                         $categoryID = 'category_'.$category->term_id;
                                         $display = get_field('zobrazit_na_webu', $categoryID);
                                         if($display){
-                                            $sport_image_name  = get_field('obrazek_sportu', $categoryID);  
+                                            $sport_image_name  = get_field('obrazek_sportu', $categoryID);
                                             if (empty($sport_image_name)){
                                                 $url= get_template_directory_uri()."/img/svg/ostatni.svg";
-                                            }else{                                        
+                                            }else{
                                                 $url = get_template_directory_uri()."/img/ikony-sportu/".$sport_image_name.".svg";
                                             }
 
-                                            $priority = get_field('prioritni_sport', $categoryID);                                
+                                            $priority = get_field('prioritni_sport', $categoryID);
                                             $sport_title = $category->name;
                                             if($priority){
                                                 $current_priority_sports++;
                                                 ?>
-                                                <img src="<?php echo $url;?>" class="sport_icon"  width="69" 
-                                                    height="70" alt="<?php echo $sport_title; ?>" 
+                                                <img src="<?php echo $url;?>" class="sport_icon"  width="69"
+                                                    height="70" alt="<?php echo $sport_title; ?>"
                                                     onclick="addSport(this)"
                                                     data-sport-title="<?php echo $sport_title; ?>" title="<?php echo $sport_title; ?>">
                                                 <?php
@@ -74,24 +56,24 @@ if ( have_posts() ) {
                                     <?php /* Další sporty */ ?>
                                     <?php
                                     foreach ( $categories as $category ) { ?>
-                                        <?php 
+                                        <?php
                                         $categoryID = 'category_'.$category->term_id;
                                         $display = get_field('zobrazit_na_webu', $categoryID);
                                         if($display){
-                                            $sport_image = get_field('obrazek_sportu', $categoryID);     
-                                            $priority = get_field('prioritni_sport', $categoryID);                                
+                                            $sport_image = get_field('obrazek_sportu', $categoryID);
+                                            $priority = get_field('prioritni_sport', $categoryID);
                                             $sport_title = $category->name;
 
-                                            $sport_image_name  = get_field('obrazek_sportu', $categoryID);  
+                                            $sport_image_name  = get_field('obrazek_sportu', $categoryID);
                                             if (empty($sport_image_name)){
                                                 $url= get_template_directory_uri()."/img/svg/ostatni.svg";
-                                            }else{                                        
+                                            }else{
                                                 $url = get_template_directory_uri()."/img/ikony-sportu/".$sport_image_name.".svg";
                                             }
                                             if(!$priority){
                                                 ?>
                                                 <img src="<?php echo $url;?>" class="sport_icon" width="69"
-                                                    height="70" alt="<?php echo $sport_title; ?>" 
+                                                    height="70" alt="<?php echo $sport_title; ?>"
                                                     onclick="addSport(this)"
                                                     data-sport-title="<?php echo $sport_title;  ?>" title="<?php echo $sport_title; ?>">
                                                 <?php
@@ -101,41 +83,41 @@ if ( have_posts() ) {
                                     <?php /* Skryté sporty */ ?>
                                     <?php
                                     foreach ( $categories as $category ) { ?>
-                                        <?php 
+                                        <?php
                                         $categoryID = 'category_'.$category->term_id;
                                         $display = get_field('zobrazit_na_webu', $categoryID);
                                         if(!$display){
-                                            $sport_image = get_field('obrazek_sportu', $categoryID);     
-                                            $priority = get_field('prioritni_sport', $categoryID);                                
+                                            $sport_image = get_field('obrazek_sportu', $categoryID);
+                                            $priority = get_field('prioritni_sport', $categoryID);
                                             $sport_title = $category->name;
 
-                                            $sport_image_name  = get_field('obrazek_sportu', $categoryID);  
-                                        
+                                            $sport_image_name  = get_field('obrazek_sportu', $categoryID);
+
                                             $url = get_template_directory_uri()."/img/ikony-sportu/".$sport_image_name.".svg";
                                                 ?>
                                                 <img src="<?php echo $url;?>" class="sport_icon" width="69"
-                                                    height="70" alt="<?php echo $sport_title; ?>" 
+                                                    height="70" alt="<?php echo $sport_title; ?>"
                                                     onclick="addSport(this)"
                                                     data-sport-title="<?php echo $sport_title;  ?>" title="<?php echo $sport_title; ?>" style="display:none">
-                                                <?php 
+                                                <?php
                                         }
                                     }?>
                                 </div><?php
 
-                            } 
+                            }
                             ?>
                         </div>
 
                         <div class="mapa-select" id="selected-sports">
-                            <?php 
+                            <?php
                                   foreach ( $categories as $category ) { ?>
-                                    <?php 
-                                    $categoryID = 'category_'.$category->term_id;  
-                                    $sport_image_name  = get_field('obrazek_sportu', $categoryID);  
+                                    <?php
+                                    $categoryID = 'category_'.$category->term_id;
+                                    $sport_image_name  = get_field('obrazek_sportu', $categoryID);
 
                                     $url = get_template_directory_uri()."/img/ikony-sportu/".$sport_image_name.".svg";
                                     $display = get_field('zobrazit_na_webu', $categoryID);
-                                }?>                 
+                                }?>
                         </div>
 
 
@@ -166,7 +148,7 @@ if ( have_posts() ) {
                         <?php /* <div class="mapa-tip" id="mapa-tip">
                              Nacházíte se v sekci Kluby. Pro vyhledávání jiného typu například sportoviště, musíte použít záložku níže
                         </div> */ ?>
-  
+
                         <div class="mapa-sport">
                             <nav class="mapa-sport-list">
                             <?php $id = $_GET["id"];?>
@@ -182,10 +164,10 @@ if ( have_posts() ) {
                                  <?php } ?>
                                 <?php /*<li><a href="#" id="sport_events"><?php _e('Sportovní akce', 'fajnovysport'); ?></a></li>*/ ?>
                             </nav>
-                        </div>     
-                        <div id="loader-left" class="loader loader-left"></div>          
+                        </div>
+                        <div id="loader-left" class="loader loader-left"></div>
                         <div class="mapa-show" id="mapa-show">
-                        
+
                         </div>
                         <div class="mapa-back" id="js-mapa-back">
                             <div class="mapa-back__link js-mapa-back__link" id="js-mapa-back__link" onclick="clearData();updateData();scrollBackToDefault();">Zpět «</div>
@@ -194,7 +176,7 @@ if ( have_posts() ) {
                     <div class="col-md-7 col-lg-8" id="js-mapa_detail">
                         <div id="loader-right" class="loader loader-right"></div>
                         <div class="js-maps maps" id="map" style="width:1200px; height:600px;"></div>
-                        <div id="js-menu-map" class="menu-map" style="background: white; z-index: 998; position: absolute; padding: 1rem; border-radius: 4px; margin: 10px 0px 0px 10px;">                           
+                        <div id="js-menu-map" class="menu-map" style="background: white; z-index: 998; position: absolute; padding: 1rem; border-radius: 4px; margin: 10px 0px 0px 10px;">
                             <label for="streets-v11">Základní</label>
                             <input id="streets-v11" type="radio" name="rtoggle" value="streets"  checked="checked">
                             <label for="satellite-v9">Letecká</label>
@@ -206,28 +188,5 @@ if ( have_posts() ) {
                 </div>
             </div>
         </section>
-     <?php 
-    //odkaz z jine stranky
-    $id = $_GET["id"];
-    if (!empty($id)){
-        ?><script>
-            $(window).load(function(){
-                clearData();
-                updateData(true, false);
-                displaySingleItem(<?php echo $id; ?>);
-            });
-        </script><?php
-    } else {
-    ?>
-        <script>
-        $ = jQuery;
-        $(function() {
-            updateData();
-        });
-        </script>
-    <?php
-    }
-     
- }
-}  ?>
-<?php get_footer('mapka'); ?> 
+
+<?php get_footer('mapka'); ?>

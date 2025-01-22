@@ -1,20 +1,32 @@
 <?php
-function checkLocal()
-{
-	return getenv("WORDPRESS_DB_USER") === "root";
-}
-
 function theme_enqueue_scripts()
 {
+	if (isLocal()) {
+		$VERSION = file_get_contents(
+			get_template_directory() . "/../../../_static/version.txt"
+		);
+	}
+
 	wp_enqueue_style(
 		"theme-main-style",
 		get_template_directory_uri() .
-			(checkLocal()
+			(isLocal()
 				? "/../../../_static/.build/assets/main.css"
 				: "/css/index.sass.min.css"),
 		[],
-		"1.0",
+		$VERSION,
 		"all"
+	);
+
+	wp_enqueue_script(
+		"theme-main-script",
+		get_template_directory_uri() .
+			(isLocal()
+				? "/../../../_static/.build/assets/main.js"
+				: "/js/index.js"),
+		[],
+		$VERSION,
+		true
 	);
 	// TODO
 	// wp_enqueue_style("theme-style", get_stylesheet_uri());

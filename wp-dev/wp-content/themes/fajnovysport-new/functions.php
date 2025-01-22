@@ -8,6 +8,14 @@ require_once __DIR__ . "/vendor/autoload.php";
 // Initialize Timber.
 Timber\Timber::init();
 
+function isLocal()
+{
+	return getenv("WORDPRESS_DB_USER") === "root";
+}
+
+/**
+ * Adding replacement of images from upload to noImage.jpg if they do not exist
+ */
 add_action("template_redirect", function () {
 	$request_uri = $_SERVER["REQUEST_URI"];
 
@@ -31,10 +39,40 @@ add_action("template_redirect", function () {
 	}
 });
 
+/**
+ * Change template directory uri for local development
+ */
+add_filter(
+	"template_directory_uri",
+	function ($uri, $template) {
+		if (isLocal()) {
+			return $uri . "/../../../_static/public";
+		}
+		return $uri;
+	},
+	10,
+	2
+);
+
+/**
+ * Adding redirection twig template for local development
+ */
 add_filter("timber/locations", function ($paths) {
-	$paths[0][] =
-		getenv("WORDPRESS_DB_USER") === "root"
-			? __DIR__ . "/../../../_static/src/templates/components"
-			: get_template_directory() . "/templates";
+	$paths[0][] = isLocal()
+		? __DIR__ . "/../../../_static/src/templates"
+		: get_template_directory() . "/templates";
+	$paths[0][] = isLocal()
+		? __DIR__ . "/../../../_static/src/templates/components"
+		: get_template_directory() . "/components";
 	return $paths;
 });
+
+/**
+ * Removing default WP styles
+ */
+function dequeue_wp_block_library_css()
+{
+	wp_dequeue_style("wp-block-library"); // Odstraní hlavní blokový styl
+	wp_dequeue_style("wp-block-library-theme"); // Odstraní blokový styl pro téma
+}
+add_action("wp_enqueue_scripts", "dequeue_wp_block_library_css", 100);

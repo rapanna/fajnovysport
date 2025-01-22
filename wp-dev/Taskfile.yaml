@@ -1,0 +1,22 @@
+version: "3"
+
+tasks:
+    check:
+        desc: Check code
+        cmds:
+            # -  // TODO
+
+    start:
+        desc: Run docker up
+        cmds:
+            - docker-compose up -d
+
+    stop:
+        desc: Run docker down
+        cmds:
+            - docker-compose down
+
+    exec:
+        desc: Run docker exec
+        cmds:
+            - docker exec -it wordpress bash

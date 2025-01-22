@@ -29,6 +29,10 @@
 		</main>
 
 		{% include './components/footer.twig' %}
-		<script type="module" src="/js/main.ts"></script>
+		{% if templateDirectory == '' %}
+			<script type="module" src="/js/main.ts"></script>
+		{% else %}
+			<script type="module" src="{{scriptDirectory}}/main.js"></script>
+		{% endif %}
 	</body>
 </html>
