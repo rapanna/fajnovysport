@@ -1,51 +1,32 @@
-<section class="content__slider">
-  <div class="sliders js-sliders">
-    <div class="slider">
-      <div class="slider__block">
-        <img class="slider__img" src="<?php echo get_template_directory_uri(); ?>/_statika/img/univerzal.png">
-        <div class="slider__red"></div>
-        <div class="slider__orange"></div>
-        <div class="slider__icona slider__icona--beh"></div>
-      </div>
-    </div>
+<?php
+$context = Timber::context();
 
-    <div class="slider">
-      <div class="slider__block slider__block--bezkyne">
-        <img class="slider__img" src="<?php echo get_template_directory_uri(); ?>/_statika/img/beh.jpg">
-        <div class="slider__top"></div>
-        <div class="slider__bottom"></div>
-        <div class="slider__icona"></div>
-      </div>
-      <div class="slider__text  slider__block--bezkyne">
-        <h2>Ostrava pořádá první ročník mezinárodního maratonu Emila Zátopka!</h2>
-        <a href="" class="slider__button">Číst více</a>
-      </div>
-    </div>
+$context["templateDirectory"] = get_template_directory_uri();
 
-    <div class="slider">
-      <div class="slider__block slider__block--bezec">
-        <img class="slider__img" src="<?php echo get_template_directory_uri(); ?>/_statika/img/beh.jpg">
-        <div class="slider__top"></div>
-        <div class="slider__bottom"></div>
-        <div class="slider__icona"></div>
-      </div>
-      <div class="slider__text slider__block--bezec">
-        <h2>Ostrava pořádá první ročník mezinárodního maratonu Emila Zátopka!</h2>
-        <a href="" class="slider__button">Číst více</a>
-      </div>
-    </div>
+$context["sliders"] = [
+	[
+		"block_class" => "slider__block",
+		"image_url" =>
+			get_template_directory_uri() . "/_statika/img/univerzala.png",
+		"red_class" => "slider__red",
+		"orange_class" => "slider__orange",
+		"icon_class" => "slider__icona slider__icona--beh",
+		"text" => null,
+	],
+	[
+		"block_class" => "slider__block slider__block--bezkyne",
+		"image_url" => get_template_directory_uri() . "/_statika/img/beh.jpg",
+		"red_class" => "slider__top",
+		"orange_class" => "slider__bottom",
+		"icon_class" => "slider__icona",
+		"text" => [
+			"title" =>
+				"Ostrava pořádá první ročník mezinárodního maratonu Emila Zátopka!",
+			"link" => "",
+			"button" => "Číst více",
+		],
+	],
+	// Přidejte další slider...
+];
 
-    <div class="slider">
-      <div class="slider__block slider__block--deti">
-        <img class="slider__img" src="<?php echo get_template_directory_uri(); ?>/_statika/img/beh.jpg">
-        <div class="slider__top"></div>
-        <div class="slider__bottom"></div>
-        <div class="slider__icona"></div>
-      </div>
-      <div class="slider__text slider__block--deti">
-        <h2>Ostrava pořádá první ročník mezinárodního maratonu Emila Zátopka!</h2>
-        <a href="" class="slider__button">Číst více</a>
-      </div>
-    </div>
-  </div>
-</section>
+Timber::render("slider.twig", $context);

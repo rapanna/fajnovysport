@@ -29,7 +29,7 @@ services:
         volumes:
             - db_data:/var/lib/mysql
             # This is optional!!!
-            - ./dumpDefault.sql:/docker-entrypoint-initdb.d/dump.sql
+            - ./dump/dumpDefault.sql:/docker-entrypoint-initdb.d/dump.sql
             # # #
         environment:
             - MYSQL_ROOT_PASSWORD=password

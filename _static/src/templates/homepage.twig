@@ -1,0 +1,25 @@
+{% extends './layout.twig' %}
+
+{% block content %}
+	<section class="content__slider">
+		{% include './components/slider.twig' %}
+	</section>
+
+	<section class="news">
+		{% include './components/news.twig' %}
+	</section>
+
+	<section class="advertising">
+		{% include './components/advertising.twig' %}
+	</section>
+
+	<section class="map"></section>
+
+	<section class="block">
+		{% include './components/block.twig' %}
+	</section>
+
+	<section class="block block__grey">
+		{% include './components/block-grey.twig' %}
+	</section>
+{% endblock %}

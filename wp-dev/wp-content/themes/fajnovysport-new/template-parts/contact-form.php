@@ -24,9 +24,9 @@
      <label class="form__label form__label--souhlas" for="souhlas">Souhlas se zpracováním osobních údajů (povinné pole)
      </label>
 
-   </div>        
+   </div>
    <div class="form__div form__div--submit">
-     <button class="form__submit" type="submit">Odeslat svou zprávu</button> 
+     <button class="form__submit" type="submit">Odeslat svou zprávu</button>
    </div>
  </form>
 </section>

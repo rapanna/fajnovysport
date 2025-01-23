@@ -1,8 +1,5 @@
 <?php get_header(); ?>
 
-<?php
-//get_template_part("template-parts/content", "slider");
-?>
 <?php get_template_part("template-parts/content", "slider-twig"); ?>
 
 <?php get_template_part("template-parts/content", "events"); ?>

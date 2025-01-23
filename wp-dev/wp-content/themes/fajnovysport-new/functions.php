@@ -76,3 +76,27 @@ function dequeue_wp_block_library_css()
 	wp_dequeue_style("wp-block-library-theme"); // Odstraní blokový styl pro téma
 }
 add_action("wp_enqueue_scripts", "dequeue_wp_block_library_css", 100);
+
+function getVersion()
+{
+	$path = isLocal()
+		? get_template_directory() . "/../../../_static/public/version.txt"
+		: get_template_directory() . "/version.txt";
+	$version = file_get_contents($path);
+	return $version;
+}
+
+function defaultTwigConfig()
+{
+	return [
+		"VERSION" => getVersion(),
+		"templateDirectory" => get_template_directory_uri(),
+		"scriptDirectory" => isLocal()
+			? str_replace(
+				"_static/public",
+				"_static/.build/assets",
+				get_template_directory_uri()
+			)
+			: get_template_directory_uri(),
+	];
+}

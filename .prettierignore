@@ -7,4 +7,7 @@
 /**/*.spec.ts
 /app/src/assets/**/*
 eslint.config.mjs
-
+wp-dev/dump/*
+wp-dev/wp-content/plugins/*
+wp-dev/wp-content/plugins/*
+wp-dev/wp-content/themes/vendor/*

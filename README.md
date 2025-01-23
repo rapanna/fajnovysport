@@ -49,7 +49,25 @@ Stop `task wp:stop`
 
 Open container for debug: `task wp:exec`
 
-## Install composer plugins
+## Install Composer Plugins if Needed
+
+To install Composer plugins, open the container:
+
+```sh
+docker exec -it wordpress bash
+```
+
+Navigate to the theme directory:
+
+```sh
+cd /var/www/html/wp-content/themes/fajnovysport-new/
+```
+
+Run the following command to install the plugins:
+
+```sh
+composer install
+```
 
 Open container: `docker exec -it wordpress bash`
 

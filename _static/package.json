@@ -9,7 +9,7 @@
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@fulcrumsaas/vite-plugin-twig": "^2.2.1",
+		"vite-plugin-twig": "git+https://github.com/Tajsn/vite-plugin-twig.git",
 		"@types/glidejs__glide": "^3.6.5",
 		"typescript": "~5.6.2",
 		"vite": "^5.4.11",
