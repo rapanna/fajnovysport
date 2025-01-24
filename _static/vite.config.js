@@ -34,24 +34,6 @@ export default defineConfig({
 				filters: twigExtensions,
 			},
 		}),
-
-		// Registrace filtru `trans`
-		// Twig.filter.extend("trans", (value, args) => {
-		// 	let translation = translations[value] || value;
-
-		// 	// Náhrada parametrů
-		// 	if (args && typeof args === "object") {
-		// 		Object.keys(args).forEach((key) => {
-		// 			translation = translation.replace(
-		// 				`{{ ${key} }}`,
-		// 				args[key],
-		// 			);
-		// 		});
-		// 	}
-
-		// 	return translation;
-		// });
-		// 	},
 	],
 
 	publicDir: "../public",
@@ -69,7 +51,7 @@ export default defineConfig({
 	},
 
 	server: {
-		open: "/html/index.html",
+		open: "/index.html",
 	},
 	css: {
 		preprocessorOptions: {

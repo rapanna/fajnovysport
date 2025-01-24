@@ -1,12 +1,29 @@
-import { translations } from "./src/templates/translations.js";
+import fs from "fs";
+import gettextParser from "gettext-parser";
+
+const translateData = gettextParser.po.parse(
+	fs.readFileSync("./src/languages/my-theme-cs_CZ.po", {
+		encoding: "utf-8",
+	}),
+	"utf-8",
+);
 
 const twigExtensions = {
 	trans: (value, args) => {
-		let translation = translations[value] || `LANG_${value}`;
+		const translations = translateData.translations[""];
+		let translation = translations[value]?.msgstr[0] || `${value}`;
 
-		if (args && typeof args === "object") {
-			Object.keys(args).forEach((key) => {
-				translation = translation.replace(`{{ ${key} }}`, args[key]);
+		if (
+			args &&
+			Array.isArray(args) &&
+			args.length > 0 &&
+			typeof args[0] === "object"
+		) {
+			const [argObj] = args;
+			Object.keys(argObj).forEach((key) => {
+				if (key !== "_keys") {
+					translation = translation.replace(`${key}`, argObj[key]);
+				}
 			});
 		}
 

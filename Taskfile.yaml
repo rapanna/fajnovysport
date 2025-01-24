@@ -53,7 +53,7 @@ tasks:
         desc: Check PHP quality
         cmds:
             - docker build -t phpstan .
-            - docker run --rm -it -v $(pwd)/wp:/app/wp phpstan
+            - docker run --rm -it -v $(pwd)/wp-dev:/app/wp-dev phpstan
 
     build:
         desc: Build everything

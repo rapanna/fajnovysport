@@ -1,4 +1,4 @@
-<form class="search" role="search" action="<?php echo home_url('/'); ?>">
+<form class="search" role="search" action="<?php echo home_url("/"); ?>">
         <label class="search__label" for="search">Web search
           <p id="error" class="" role="alert"></p>
         </label>

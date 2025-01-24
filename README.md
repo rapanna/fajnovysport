@@ -37,7 +37,7 @@ More info in separate README.md files. Run `task -l` to see what commands are av
 
 Build docker run: `docker build -t phpstan .`
 
-Run PHP test: `docker run --rm -it -v c:/Projects/ovanet/vite/wp:/app/wp phpstan` # need change your path
+Run PHP test: `docker run --rm -it -v c:/Projects/ovanet/vite/wp-dev/wp-content/themes/fajnovysport-new:/app/wp phpstan` # need change your path
 
 ## WP for dev
 
@@ -84,3 +84,13 @@ Import: `docker exec -i db mariadb -u root -ppassword wordpress < c:/Projects/ov
 ## Tip for local developing
 
 Update npm version: `npx npm install -g npm`
+
+## TODO List for Refactoring WP PHP Files to Twig
+
+- page-mapa.php
+- page.php
+- category.php
+- search.php
+- searchform.php
+- single.php
+- folder: template-parts

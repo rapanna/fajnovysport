@@ -1,0 +1,8 @@
+msgid "Stránka nenalezena"
+msgstr "Ahoj, světe!"
+
+msgid "Omlouváme se, ale nemohli jsme najít stránku, kterou hledáte., %name%"
+msgstr "Omlouváme se, ale nemohli jsme najít stránku, kterou hledáte., %name%"
+
+msgid "Vraťte se zpět domů"
+msgstr "Go home"

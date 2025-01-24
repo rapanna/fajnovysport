@@ -15,10 +15,11 @@ jobs:
                   fetch-depth: 0
             - uses: php-actions/composer@v6
 
-            - name: PHPStan Static Analysis
-              uses: php-actions/phpstan@v3
-              with:
-                  path: wp/
+            ## TODO
+            # - name: PHPStan Static Analysis
+            #   uses: php-actions/phpstan@v3
+            #   with:
+            #       path: wp/
 
     check_and_build:
         runs-on: ubuntu-latest

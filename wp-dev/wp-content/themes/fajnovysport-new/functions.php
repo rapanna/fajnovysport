@@ -67,6 +67,20 @@ add_filter("timber/locations", function ($paths) {
 	return $paths;
 });
 
+// Adding translation support for Twig
+add_filter("timber/twig", function ($twig) {
+	$twig->addFilter(
+		new \Twig\TwigFilter("trans", function ($string, $variables = []) {
+			$translated = __($string, "wpde");
+			foreach ($variables as $key => $value) {
+				$translated = str_replace($key, $value, $translated);
+			}
+			return $translated;
+		})
+	);
+	return $twig;
+});
+
 /**
  * Removing default WP styles
  */

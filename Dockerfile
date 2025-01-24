@@ -20,4 +20,4 @@ WORKDIR /app
 COPY . .
 
 # Spuštění PHPStan
-CMD ["phpstan", "analyse", "wp"]
+CMD ["phpstan", "analyse", "--memory-limit=1024M", "wp"]
