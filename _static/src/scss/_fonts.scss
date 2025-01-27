@@ -6,8 +6,8 @@
 	src:
 		local('Barlow'),
 		local('barlow-medium-webfont'),
-		url('../fonts/barlow-medium-webfont.woff2') format('woff2'),
-		url('../fonts/barlow-medium-webfont.woff') format('woff');
+		url('/fonts/barlow-medium-webfont.woff2') format('woff2'),
+		url('/fonts/barlow-medium-webfont.woff') format('woff');
 }
 
 @font-face {
@@ -18,8 +18,8 @@
 	src:
 		local('Barlow Italic'),
 		local('barlow-mediumitalic-webfont'),
-		url('../fonts/barlow-mediumitalic-webfont.woff2') format('woff2'),
-		url('../fonts/barlow-mediumitalic-webfont.woff') format('woff');
+		url('/fonts/barlow-mediumitalic-webfont.woff2') format('woff2'),
+		url('/fonts/barlow-mediumitalic-webfont.woff') format('woff');
 }
 
 @font-face {
@@ -30,6 +30,6 @@
 	src:
 		local('Barlow Bold'),
 		local('barlow-bold-webfont'),
-		url('../fonts/barlow-bold-webfont.woff2') format('woff2'),
-		url('../fonts/barlow-bold-webfont.woff') format('woff');
+		url('/fonts/barlow-bold-webfont.woff2') format('woff2'),
+		url('/fonts/barlow-bold-webfont.woff') format('woff');
 }
