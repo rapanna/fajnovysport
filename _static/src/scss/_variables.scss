@@ -3,16 +3,16 @@
 @use 'sass:map';
 
 @mixin display-flex(
-	$align-content: normal,
-	$align-items: normal,
-	$flex-direction: row,
-	$flex-wrap: wrap,
-	$justify-content: normal
+	$flexwrap: wrap,
+	$aligncontent: normal,
+	$alignitems: normal,
+	$flexdirection: row,
+	$justifycontent: normal
 ) {
-	align-items: $align-items;
+	align-items: $alignitems;
 	display: flex;
-	flex-flow: $flex-direction $flex-wrap;
-	place-content: $align-content $justify-content;
+	flex-flow: $flexdirection $flexwrap;
+	place-content: $aligncontent $justifycontent;
 }
 
 $breakpoints: (

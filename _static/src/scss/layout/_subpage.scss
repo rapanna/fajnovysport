@@ -1,31 +1,4 @@
-.button {
-	$this: &;
-
-	align-items: center;
-	border: 0;
-	border-radius: $border-radius;
-	display: flex;
-	font-family: $font-family;
-	font-size: 1rem;
-	grid-gap: 1rem;
-	justify-content: space-between;
-	padding: 0.64rem 1.65rem;
-	text-align: center;
-	text-decoration: none;
-	transition:
-		$transition-time background-color,
-		$transition-time border-color,
-		$transition-time color;
-	width: fit-content;
-
-	@include media-bp-down(md) {
-		margin: 0 auto;
-	}
-
-	&:hover {
-		cursor: pointer;
-	}
-}
+@use '../global' as *;
 
 .subpage {
 	padding: 0.3158em 0 0;
@@ -124,7 +97,7 @@
 	}
 
 	.kontakt__list {
-		@include mixin.displayflex(row, wrap, center, flex-start, center);
+		@include display-flex(row, wrap, center, flex-start, center);
 
 		gap: 3%;
 		list-style: none;
