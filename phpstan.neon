@@ -1,0 +1,4 @@
+# phpstan.neon
+parameters:
+    excludePaths:
+        - 'wp-dev/wp-content/themes/fajnovysport-new/vendor/*'

@@ -2,9 +2,14 @@
 import fs from "node:fs";
 import { resolve } from "node:path";
 import path from "node:path";
-import twig from "@fulcrumsaas/vite-plugin-twig";
 import { defineConfig } from "vite";
+import twig from "vite-plugin-twig";
 
+const twigExtensions = {
+	trans: (value) => {
+		return value;
+	},
+};
 /**
  * Dynamically generates a list of HTML inputs from the `html` folder.
  * @returns {Record<string, string>}
@@ -23,7 +28,13 @@ function getHtmlInputs() {
 
 export default defineConfig({
 	root: path.resolve(__dirname, "src"),
-	plugins: [twig()],
+	plugins: [
+		twig({
+			extensions: {
+				filters: twigExtensions,
+			},
+		}),
+	],
 
 	publicDir: "../public",
 	build: {
@@ -31,10 +42,16 @@ export default defineConfig({
 		emptyOutDir: true,
 		rollupOptions: {
 			input: getHtmlInputs(),
+			output: {
+				assetFileNames: "assets/[name].[ext]",
+				entryFileNames: "assets/[name].js",
+				chunkFileNames: "assets/[name].js",
+			},
 		},
 	},
+
 	server: {
-		open: "/html/index.html",
+		open: "/index.html",
 	},
 	css: {
 		preprocessorOptions: {

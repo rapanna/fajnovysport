@@ -1,0 +1,15 @@
+{% extends './layout.twig' %}
+
+{% block content %}
+	<section class="block">
+		<div class="block__container d-block my-404 text-center">
+			<h1>{{ 'Stránka nenalezena' | trans }}</h1>
+			<p class="mb-4">
+				{{ 'Omlouváme se, ale nemohli jsme najít stránku, kterou hledáte., %name%' | trans({'%name%': "test"}) }}
+			</p>
+			<a href="{{ home_url }}" class="news__link button">
+				{{ 'Vraťte se zpět domů' | trans }}
+			</a>
+		</div>
+	</section>
+{% endblock %}

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+	{% include './components/head.twig' %}
+
+	<body data-controller="{{ controller }}" data-action="{{ action }}">
+		{% include './components/header.twig' %}
+		<main class="content" role="main">
+			{% block content %}{% endblock %}
+		</main>
+
+		{% include './components/footer.twig' %}
+		{% if templateDirectory == '' %}
+			<script type="module" src="/js/main.ts"></script>
+		{% else %}
+			<script type="module" src="{{scriptDirectory}}/main.js"></script>
+		{% endif %}
+	</body>
+</html>

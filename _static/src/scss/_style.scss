@@ -3,6 +3,7 @@
 @use 'layout/footer';
 @use 'component/bar';
 @use 'component/slider';
+@use 'fonts';
 
 body {
 	background: $white;

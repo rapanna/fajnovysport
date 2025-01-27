@@ -8,3 +8,14 @@
 /app/src/assets/**/*
 eslint.config.mjs
 
+composer.lock
+
+wp-dev/dump/*
+wp-dev/wp-content/vendor/*
+wp-dev/wp-content/plugins/*
+wp-dev/wp-content/plugins/*
+wp-dev/wp-content/themes/**/vendor/*
+
+wp-dev/wp-content/themes/twentytwentyfive/*
+wp-dev/wp-content/themes/twentytwentyfour/*
+wp-dev/wp-content/themes/twentytwentythree/*

@@ -12,7 +12,7 @@ web in a monorepo.
 ### Development
 
 - Node.js v22
-- NPM v10
+- NPM v11
 - Task (taskfile.dev)
 - Git
 
@@ -37,7 +37,64 @@ More info in separate README.md files. Run `task -l` to see what commands are av
 
 Build docker run: `docker build -t phpstan .`
 
-Run PHP test: `docker run --rm -it -v c:/Projects/ovanet/vite/wp:/app/wp phpstan` # need change your path
+Run PHP test: `docker run --rm -it -v c:/Projects/ovanet/vite/wp-dev/wp-content/themes/fajnovysport-new:/app/wp phpstan` # need change your path
+
+## WP for dev
+
+Run `task wp:start`
+
+Open in browser: `http://localhost:8080/`
+
+Stop `task wp:stop`
+
+Open container for debug: `task wp:exec`
+
+## Install Composer Plugins if Needed
+
+To install Composer plugins, open the container:
+
+```sh
+docker exec -it wordpress bash
+```
+
+Navigate to the theme directory:
+
+```sh
+cd /var/www/html/wp-content/themes/fajnovysport-new/
+```
+
+Run the following command to install the plugins:
+
+```sh
+composer install
+```
+
+Open container: `docker exec -it wordpress bash`
+
+In folder `/var/www/html/wp-content/themes/fajnovysport-new/` run: `composer install`
+
+## Export / import DB
+
+Export: `docker exec -i db mariadb-dump -u root -ppassword wordpress > c:/Projects/ovanet/vite/wp-dev/dump/dumpDefault.sql`
+
+Import: `docker exec -i db mariadb -u root -ppassword wordpress < c:/Projects/ovanet/vite/wp-dev/dump/sport.sql`
+
+`docker cp db:/tmp/dump.sql $(pwd)/dump2.sql`
+
+## Tip for local developing
+
+Update npm version: `npx npm install -g npm`
+
+## TODO List for Refactoring WP PHP Files to Twig
+
+- page-mapa.php
+- page.php
+- category.php
+- search.php
+- searchform.php
+- single.php
+- folder: template-parts
+
 
 ## First install new comp
 

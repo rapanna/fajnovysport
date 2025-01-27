@@ -1,0 +1,26 @@
+{
+	"name": "moje/wordpress-plugins",
+	"require": {
+		"timber/timber": "^2.3.1"
+	},
+	"extra": {
+		"installer-paths": {
+			"../wp-content/plugins/{$name}/": [
+				"type:wordpress-plugin"
+			],
+			"../wp-content/themes/{$name}/": [
+				"type:wordpress-theme"
+			]
+		}
+	},
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://wpackagist.org"
+		},
+		{
+			"type": "composer",
+			"url": "https://packagist.org"
+		}
+	]
+}
