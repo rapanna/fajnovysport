@@ -194,6 +194,7 @@ export default [
 		ignores: [
 			"fajnovy-sport-template/src/assets/js/*",
 			"fajnovy-sport-template/jest.config.js",
+			"wp-dev/*",
 		],
 	},
 ];
