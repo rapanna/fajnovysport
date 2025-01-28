@@ -1,0 +1,45 @@
+@use '../global' as *;
+
+.icon {
+	display: block;
+	height: 2.5rem;
+	line-height: 1;
+	margin: 0;
+	padding: 0;
+	width: 2.5rem;
+
+	span {
+		display: block;
+		height: 2.5rem;
+		width: 2.5rem;
+	}
+
+	&:focus-visible {
+		outline: 0.125rem solid $white;
+		padding: 0;
+	}
+
+	&__facebook {
+		background-image: url('../images/svg/facebook.svg');
+
+		&:hover {
+			background-image: url('../images/svg/facebook--hover.svg');
+		}
+	}
+
+	&__instagram {
+		background-image: url('../images/svg/instagram.svg');
+
+		&:hover {
+			background-image: url('../images/svg/instagram--hover.svg');
+		}
+	}
+
+	&__email {
+		background-image: url('../images/svg/email.svg');
+
+		&:hover {
+			background-image: url('../images/svg/email--hover.svg');
+		}
+	}
+}
