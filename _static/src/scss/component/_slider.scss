@@ -58,6 +58,11 @@ $glide-modifier-separator: '--' !default;
 		user-select: none;
 	}
 
+	&#{$se}controls {
+		-webkit-touch-callout: none;
+		user-select: none;
+	}
+
 	&#{$se}bullets {
 		-webkit-touch-callout: none;
 		user-select: none;
@@ -75,9 +80,7 @@ $glide-modifier-separator: '--' !default;
 
 	&#{$se}arrow {
 		background-color: transparent;
-		border: 0.125rem solid rgba($white, 0.5);
-		border-radius: 0.25rem;
-		box-shadow: 0 0.25em 0.5em 0 rgba($black, 0.1);
+		border: none;
 		color: $white;
 		cursor: pointer;
 		display: block;
@@ -85,8 +88,6 @@ $glide-modifier-separator: '--' !default;
 		opacity: 1;
 		padding: 0.5625rem 0.75rem;
 		position: absolute;
-		text-shadow: 0 0.25em 0.5em rgba($black, 0.1);
-		text-transform: uppercase;
 		top: 50%;
 		transform: translateY(-50%);
 		transition:
@@ -115,8 +116,22 @@ $glide-modifier-separator: '--' !default;
 		}
 	}
 
+	&#{$se}control {
+		background-color: transparent;
+		border: 0;
+		bottom: 1rem;
+		cursor: pointer;
+		display: none;
+		left: 2rem;
+		position: absolute;
+
+		&.visible {
+			display: block;
+		}
+	}
+
 	&#{$se}bullets {
-		bottom: 2em;
+		bottom: 2rem;
 		display: inline-flex;
 		left: 50%;
 		list-style: none;
@@ -129,11 +144,11 @@ $glide-modifier-separator: '--' !default;
 		background-color: rgba($white, 0.5);
 		border: 0.125rem solid transparent;
 		border-radius: 50%;
-		box-shadow: 0 0.25em 0.5em 0 rgba($black, 0.1);
+		box-shadow: 0 0.25rem 0.5rem 0 rgba($black, 0.1);
 		cursor: pointer;
 		height: 0.5625rem;
 		line-height: 0;
-		margin: 0 0.25em;
+		margin: 0 0.25rem;
 		padding: 0;
 		transition: all 300ms ease-in-out;
 		width: 0.5625rem;
