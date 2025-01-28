@@ -1,6 +1,7 @@
 @use '../global' as *;
 
 .icon {
+	background-size: cover;
 	display: block;
 	height: 2.5rem;
 	line-height: 1;
@@ -43,7 +44,7 @@
 		}
 	}
 
-	&__pin {
+	&--pin {
 		background-image: url('../images/svg/map.svg');
 		height: 3.125rem;
 		width: 2.8125rem;
@@ -51,5 +52,29 @@
 		&:hover {
 			background-image: url('../images/svg/map--hover.svg');
 		}
+	}
+
+	&__prev {
+		background-image: url('../images/svg/arrow_left.svg');
+		height: 3rem;
+		width: 3rem;
+	}
+
+	&__next {
+		background-image: url('../images/svg/arrow_right.svg');
+		height: 3rem;
+		width: 3rem;
+	}
+
+	&__play {
+		background-image: url('../images/svg/play-circle.svg');
+		height: 1.875rem;
+		width: 1.875rem;
+	}
+
+	&__stop {
+		background-image: url('../images/svg/pause-circle.svg');
+		height: 1.875rem;
+		width: 1.875rem;
 	}
 }
