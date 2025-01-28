@@ -1,39 +1,44 @@
-.topmenu {
-	@include mixin.displayflex(row, wrap, center, space-between, center);
+@use '../global' as *;
 
-	align-items: stretch;
+.topmenu {
+	@include display-flex(row, nowrap, center, center, space-between);
+
 	grid-gap: 0;
 	width: 100%;
 }
 
 .topmenu__left {
-	@include mixin.displayflex(row, wrap, center, space-between, center);
+	@include display-flex(row, wrap, center, space-between, center);
 
 	width: calc(100% - 16.8421rem - 1.2632rem);
 }
 
 .topmenu__logo {
-	padding-left: 3.2105rem;
+	padding-left: 3.8125rem;
 
 	@include media-bp-up(md) {
 		padding-left: 1em;
 	}
 
-	a.topmenu__logo__link {
+	&__link {
 		display: block;
+	}
 
-		img {
-			display: block;
-			padding-bottom: 0.4737rem;
-			padding-top: 0.4737rem;
-		}
+	&__img {
+		display: block;
+		padding-bottom: 0.4737rem;
+		padding-top: 0.4737rem;
 	}
 }
 
+.topmenu__nav {
+	margin-right: 1.3125rem;
+}
+
 .topmenu__right {
-	@include mixin.displayflex(row, wrap, center, flex-start, center);
+	@include display-flex(row, wrap, center, flex-start, center);
 
 	background-color: var(--ov-bgtext);
 	color: var(--ov-bila);
-	width: calc(16.8421em + 1.2632em);
+	width: 22.7rem;
 }
