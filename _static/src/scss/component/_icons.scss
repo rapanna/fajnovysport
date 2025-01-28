@@ -42,4 +42,14 @@
 			background-image: url('../images/svg/email--hover.svg');
 		}
 	}
+
+	&__pin {
+		background-image: url('../images/svg/map.svg');
+		height: 3.125rem;
+		width: 2.8125rem;
+
+		&:hover {
+			background-image: url('../images/svg/map--hover.svg');
+		}
+	}
 }
