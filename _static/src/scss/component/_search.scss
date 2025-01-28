@@ -1,11 +1,12 @@
+@use '../global' as *;
+
 .search {
-	@include mixin.displayflex(row, wrap, center, flex-start, center);
+	@include display-flex(row, wrap, center, flex-start, center);
 
 	background-color: var(--ov-bila);
 	border: 1px solid var(--ov-bila);
-	height: 2em;
-	margin-bottom: 0.6316em;
-	margin-top: 0.6316em;
+	height: 2.625rem;
+	margin: 0.6875rem 0;
 
 	&__label {
 		left: -62499.9375rem;
@@ -16,7 +17,8 @@
 input.search__input {
 	border: 0;
 	border-radius: 0;
-	line-height: calc(2em - 0.125rem);
+	font-size: $font-size-root;
+	line-height: 2rem;
 	outline: 0;
 	padding-bottom: 0;
 	padding-top: 0;
@@ -26,6 +28,7 @@ button.search__btn {
 	background-color: transparent;
 	border: 0;
 	cursor: pointer;
+	margin-top: 0.125rem;
 }
 
 .search:has(input.search__input:focus-visible) {
