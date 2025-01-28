@@ -1,7 +1,7 @@
 @use '../global' as *;
 
 .bar {
-	@include display-flex(row, wrap, center, center, flex-end);
+	@include display-flex(row, wrap, center, flex-end, center);
 
 	background-color: var(--ov-zaklad);
 	grid-gap: 1.2632rem; // 24px
