@@ -6,8 +6,8 @@
 	$flexdirection: row,
 	$flexwrap: wrap,
 	$aligncontent: normal,
-	$alignitems: normal,
-	$justifycontent: normal
+	$justifycontent: normal,
+	$alignitems: normal
 ) {
 	align-items: $alignitems;
 	display: flex;
