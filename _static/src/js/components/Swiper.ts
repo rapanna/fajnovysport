@@ -11,6 +11,7 @@ class Swiper {
 					bound: true,
 					type: "carousel",
 					keyboard: true,
+					autoplay: 4000,
 					animationDuration: 300,
 					animationTimingFunc: "ease-in-out",
 					gap: 20,
