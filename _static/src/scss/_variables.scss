@@ -3,10 +3,10 @@
 @use 'sass:map';
 
 @mixin display-flex(
+	$flexdirection: row,
 	$flexwrap: wrap,
 	$aligncontent: normal,
 	$alignitems: normal,
-	$flexdirection: row,
 	$justifycontent: normal
 ) {
 	align-items: $alignitems;
@@ -81,8 +81,8 @@ $font-family-sans-serif-italic:
 	-apple-system,
 	'Segoe UI',
 	sans-serif;
-$font-size-root: 1.2rem;
-$font-size-base: 1rem;
+$font-size-root: 1.1875rem;
+$font-size-base: 1.1875rem;
 $font-size-sm: $font-size-base * 0.75 !default; // 12px
 $font-size-lg: $font-size-base * 1.1875 !default; // 19px
 $font-size-h1: $font-size-base * 2.3125 !default; // 37px
