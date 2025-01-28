@@ -1,14 +1,19 @@
+@use '../global' as *;
+
 .viewmap {
-	@include mixin.display-flex(row, wrap, center, flex-start, center);
+	@include display-flex(row, wrap, center, flex-start, center);
 
 	color: var(--ov-bila);
 	font-size: 0.9473rem;
 	grid-gap: 0.5em;
+	height: 100%;
 	padding-left: 1.1579rem;
 	text-decoration: none;
 	text-transform: uppercase;
+	width: 100%;
 
 	&:hover {
+		background-color: #ff0e49;
 		text-decoration: underline;
 	}
 
