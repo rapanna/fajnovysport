@@ -1,9 +1,17 @@
+@use 'root';
+@use 'fonts';
 @use 'layout/layout';
+@use 'layout/subpage';
 @use 'layout/footer';
 @use 'component/bar';
 @use 'component/slider';
-@use 'fonts';
+@use 'component/search';
+@use 'component/icons';
+@use 'component/topmenu';
+@use 'component/nav';
+@use 'component/viewmap';
 
 body {
 	background: $white;
+	font-size: $font-size-root;
 }

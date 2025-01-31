@@ -3,16 +3,16 @@
 @use 'sass:map';
 
 @mixin display-flex(
-	$align-content: normal,
-	$align-items: normal,
-	$flex-direction: row,
-	$flex-wrap: wrap,
-	$justify-content: normal
+	$flexdirection: row,
+	$flexwrap: wrap,
+	$aligncontent: normal,
+	$justifycontent: normal,
+	$alignitems: normal
 ) {
-	align-items: $align-items;
+	align-items: $alignitems;
 	display: flex;
-	flex-flow: $flex-direction $flex-wrap;
-	place-content: $align-content $justify-content;
+	flex-flow: $flexdirection $flexwrap;
+	place-content: $aligncontent $justifycontent;
 }
 
 $breakpoints: (
@@ -81,8 +81,8 @@ $font-family-sans-serif-italic:
 	-apple-system,
 	'Segoe UI',
 	sans-serif;
-$font-size-root: 1.2rem;
-$font-size-base: 1rem;
+$font-size-root: 1.1875rem;
+$font-size-base: 1.1875rem;
 $font-size-sm: $font-size-base * 0.75 !default; // 12px
 $font-size-lg: $font-size-base * 1.1875 !default; // 19px
 $font-size-h1: $font-size-base * 2.3125 !default; // 37px

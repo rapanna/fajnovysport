@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-labelledby="facebook">
+	<title id="facebook">
+		Facebook
+	</title>
+	<g clip-path="url(#clip0_114_959)">
+		<path d="M19.9861 40C8.95357 40 0 31.0464 0 20.0139C0 8.95357 8.95357 0 19.9861 0C31.0187 0 39.9723 8.95357 39.9723 19.9861C39.9723 31.0187 31.0187 39.9723 19.9861 39.9723V40Z" fill="#FF0E49" />
+		<path d="M17.0478 31.6285H21.9265V19.4317H25.3084L25.6687 15.3569H21.8988V13.0284C21.8988 12.0582 22.0928 11.6978 23.0353 11.6978H25.6687V7.45667H22.2869C18.6556 7.45667 17.0201 9.06443 17.0201 12.1136V15.3569H14.4976V19.4872H17.0201V31.6285H17.0478Z" fill="white" />
+	</g>
+	<defs>
+		<clipPath id="clip0_114_959">
+			<rect width="40" height="40" fill="white" />
+		</clipPath>
+	</defs>
+</svg>
