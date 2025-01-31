@@ -176,3 +176,14 @@ $glide-modifier-separator: '--' !default;
 		cursor: grabbing;
 	}
 }
+
+.slider-buttons {
+	&__pause,
+	&__play {
+		border: 1px solid red;
+
+		&--hide {
+			display: none;
+		}
+	}
+}
