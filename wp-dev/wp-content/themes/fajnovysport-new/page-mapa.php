@@ -1,7 +1,24 @@
 <?php
 /* Template Name: Mapa */
 ?>
-<?php get_header("mapa"); ?>
+<script
+	type="application/json"
+	data-template="src/templates/404.twig"
+>
+	{
+		"VERSION": "@dev",
+		"controller": "Pages",
+		"action": "homepage",
+		"title": "Map Page",
+		"templateDirectory": "",
+		"home_url": "/"
+	}
+</script>
+<div id="mapContainer" style="width: 100%; height: 500px;"></div>
+<?php
+/*
+?>
+___PSEUDO_INLINE_PLACEHOLDER___<?php get_header("mapa"); ?>
 <style>
 .marker--sportoviste {
     background-image: url(<?php echo get_template_directory_uri(); ?>/_statika/img/marker-sportoviste.png);
@@ -43,7 +60,7 @@
                             	foreach ($categories as $category) { ?>
 
                                     <?php
-                            		/* Primární sporty */
+                            		// Primární sporty 
                             		?>
                                     <?php if (
                                     	$current_priority_sports <=
@@ -88,7 +105,7 @@
                                     }} ?><br>
                                 <div id="more_sports--div">
                                     <?php
-                            	/* Další sporty */
+                            	// Další sporty 
                             	?>
                                     <?php foreach (
                                     	$categories
@@ -135,7 +152,7 @@
                                         }
                                         } ?>
                                     <?php
-                            	/* Skryté sporty */
+                            	// Skryté sporty 
                             	?>
                                     <?php foreach (
                                     	$categories
@@ -245,7 +262,7 @@
                         <?php
 		/* <div class="mapa-tip" id="mapa-tip">
                              Nacházíte se v sekci Kluby. Pro vyhledávání jiného typu například sportoviště, musíte použít záložku níže
-                        </div> */
+                        </div> 
 		?>
 
                         <div class="mapa-sport">
@@ -282,7 +299,7 @@
                                     ); ?></a></li>
                                  <?php } ?>
                                 <?php
-		/*<li><a href="#" id="sport_events"><?php _e('Sportovní akce', 'fajnovysport'); ?></a></li>*/
+		/*<li><a href="#" id="sport_events"><?php _e('Sportovní akce', 'fajnovysport'); ?></a></li>
 		?>
                             </nav>
                         </div>
@@ -312,4 +329,5 @@
     <?php
 	}
 } ?>
-<?php get_footer("mapka"); ?>
+___PSEUDO_INLINE_PLACEHOLDER___<?php get_footer("mapka"); */
+?>
