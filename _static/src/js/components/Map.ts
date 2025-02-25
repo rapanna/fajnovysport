@@ -63,19 +63,26 @@ class Mapbox {
 	}
 
 	private loadTemplateData(): void {
-		const script = document.querySelector(
-			'script[type="application/json"][data-template="src/templates/404.twig"]',
+		const script = document.querySelector<HTMLScriptElement>(
+			'script[type="application/json"][data-template]',
 		);
-		if (script) {
-			try {
-				// todo better type
-				this.templateData = JSON.parse(script.textContent || "{}");
-			} catch (error) {
-				Logger.error(
-					"Failed to parse template data:",
-					error instanceof Error ? error : (error as Error),
-				);
+
+		if (!script) {
+			Logger.error("No template data script found.");
+			return;
+		}
+
+		try {
+			const content = script.textContent?.trim();
+			if (!content) {
+				Logger.error("Template data script is empty.");
+				return;
 			}
+
+			this.templateData = JSON.parse(content) as Record<string, unknown>;
+			Logger.log("Template data loaded successfully.", this.templateData);
+		} catch (error) {
+			Logger.error("Failed to parse template data:", error as Error);
 		}
 	}
 

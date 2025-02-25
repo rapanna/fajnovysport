@@ -1,4 +1,5 @@
 import "../scss/_style.scss";
+import Mapbox from "./components/Map";
 import { Router } from "./components/Router";
 // Controllers
 import { BaseController } from "./controllers/BaseController";
@@ -18,3 +19,10 @@ if (document.readyState === "loading") {
 } else {
 	router.run();
 }
+document.addEventListener("DOMContentLoaded", () => {
+	Mapbox.loadMap("mapContainer", {
+		center: [12.4964, 41.9028], // Example: Rome, Italy
+		zoom: 10,
+		style: "mapbox://styles/mapbox/streets-v11",
+	});
+});
