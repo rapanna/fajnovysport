@@ -1,0 +1,115 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [18.2924, 49.8345]
+			},
+			"properties": {
+				"name": "Marker 1",
+				"popupText": "This is Marker 1 in Ostrava !!"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [18.2907, 49.8331]
+			},
+			"properties": {
+				"name": "Marker 2",
+				"popupText": "This is Marker 2 in Ostrava"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [18.2932, 49.83]
+			},
+			"properties": {
+				"name": "Marker 3",
+				"popupText": "This is Marker 3 in Ostrava ggg"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [18.2894, 49.8315]
+			},
+			"properties": {
+				"name": "Marker 4",
+				"popupText": "This is Marker 4 in Ostrava"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [18.2918, 49.832]
+			},
+			"properties": {
+				"name": "Marker 5",
+				"popupText": "This is Marker 5 in Ostrava"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [18.2951, 49.835]
+			},
+			"properties": {
+				"name": "Marker 6",
+				"popupText": "This is Marker 6 in Ostrava"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [18.2965, 49.8362]
+			},
+			"properties": {
+				"name": "Marker 7",
+				"popupText": "This is Marker 7 in Ostrava"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [18.2872, 49.8369]
+			},
+			"properties": {
+				"name": "Marker 8",
+				"popupText": "This is Marker 8 in Ostrava"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [18.2881, 49.8376]
+			},
+			"properties": {
+				"name": "Marker 9",
+				"popupText": "This is Marker 9 in Ostrava"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [18.2895, 49.8381]
+			},
+			"properties": {
+				"name": "Marker 10",
+				"popupText": "This is Marker 10 in Ostrava dd"
+			}
+		}
+	]
+}

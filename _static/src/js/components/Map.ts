@@ -1,38 +1,36 @@
 import mapboxgl, { Map as MapboxMap } from "mapbox-gl";
 import Logger from "./Logger";
 
+// Define types for GeoJSON structure
+interface GeoJSONFeature {
+	type: "Feature";
+	geometry: {
+		type: "Point";
+		coordinates: [number, number]; // Longitude, Latitude
+	};
+	properties: {
+		popupText?: string; // Optional popup text
+	};
+}
+
+interface GeoJSON {
+	type: "FeatureCollection";
+	features: GeoJSONFeature[];
+}
+
 class Mapbox {
 	private mapInstance: MapboxMap | null = null;
-	private mapboxKey =
+	private readonly mapboxKey =
 		"pk.eyJ1Ijoib3ZhbmV0LW1hcCIsImEiOiJjbDVtYjB4ZHkwczBwM2RvNGZ4Nmh1MDhtIn0.ixRzP7HDbiFv0kgxQVPzgg";
-	private templateData: Record<string, unknown> | null = null;
 
 	constructor() {
-		this.loadTemplateData();
-		if (this.mapboxKey) {
-			mapboxgl.accessToken = this.mapboxKey;
-		} else {
-			Logger.error("Mapbox key is not set.");
-		}
+		mapboxgl.accessToken = this.mapboxKey;
 	}
 
-	public setKey(key: string): void {
-		if (!key) {
-			Logger.error("Invalid Mapbox API key.");
-			return;
-		}
-		this.mapboxKey = key;
-		mapboxgl.accessToken = key;
-	}
-
-	public loadMap(
+	public async loadMap(
 		containerId: string,
 		options: Partial<mapboxgl.MapOptions> = {},
-	): void {
-		if (!this.mapboxKey) {
-			Logger.error("Cannot load map: Mapbox key is missing.");
-			return;
-		}
+	): Promise<void> {
 		if (this.mapInstance) {
 			Logger.log(
 				"Map instance already exists. Destroying previous instance...",
@@ -43,70 +41,95 @@ class Mapbox {
 		const defaultOptions: mapboxgl.MapOptions = {
 			container: containerId,
 			style: "mapbox://styles/mapbox/streets-v11",
-			center: [0, 0],
-			zoom: 2,
+			center: [18.2924, 49.8345],
+			zoom: 12,
 		};
 
 		try {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			this.mapInstance = new mapboxgl.Map({
 				...defaultOptions,
 				...options,
 			});
-		} catch (error) {
-			if (error instanceof Error) {
-				Logger.error("Error loading the map", error);
-			} else {
-				Logger.error("Unknown error map:", error as Error);
-			}
+
+			await new Promise<void>((resolve) => {
+				if (this.mapInstance) {
+					this.mapInstance.on("load", () => {
+						resolve();
+					});
+				} else {
+					Logger.error(
+						"Map instance is null when attempting to load.",
+					);
+					{
+						resolve();
+					}
+				}
+			});
+
+			await this.loadGeoJSONData();
+		} catch (error: unknown) {
+			Logger.error(
+				"Error loading the map:",
+				error instanceof Error ? error : new Error("Unknown error"),
+			);
 		}
 	}
 
-	private loadTemplateData(): void {
-		const script = document.querySelector<HTMLScriptElement>(
-			'script[type="application/json"][data-template]',
-		);
-
-		if (!script) {
-			Logger.error("No template data script found.");
+	public async loadGeoJSONData(): Promise<void> {
+		if (!this.mapInstance) {
+			Logger.error(
+				"Cannot load GeoJSON: Map instance is not initialized.",
+			);
 			return;
 		}
 
 		try {
-			const content = script.textContent?.trim();
-			if (!content) {
-				Logger.error("Template data script is empty.");
-				return;
+			const response = await fetch("/map.geojson"); // Ensure this is correct!
+
+			if (!response.ok) {
+				throw new Error(
+					`Failed to fetch GeoJSON file: ${response.statusText}`,
+				);
 			}
 
-			this.templateData = JSON.parse(content) as Record<string, unknown>;
-			Logger.log("Template data loaded successfully.", this.templateData);
-		} catch (error) {
-			Logger.error("Failed to parse template data:", error as Error);
+			const geojsonData: GeoJSON = (await response.json()) as GeoJSON;
+			this.addMarkersFromGeoJSON(geojsonData);
+		} catch (error: unknown) {
+			Logger.error(
+				"Error loading GeoJSON data:",
+				error instanceof Error ? error : new Error(String(error)),
+			);
 		}
 	}
 
-	public getMapInstance(): MapboxMap | null {
-		return this.mapInstance;
-	}
-
-	public addMarker(lng: number, lat: number, popupText?: string): void {
+	public addMarkersFromGeoJSON(geojson: GeoJSON): void {
 		if (!this.mapInstance) {
-			Logger.error("Cannot add marker: Map instance is not initialized.");
+			Logger.error(
+				"Cannot add markers: Map instance is not initialized.",
+			);
 			return;
 		}
 
-		// Create a new marker and add it to the map at the specified coordinates
-		const marker = new mapboxgl.Marker().setLngLat([lng, lat]);
+		geojson.features.forEach((feature) => {
+			const { coordinates } = feature.geometry;
+			const { popupText } = feature.properties;
 
-		// If there's a popup text, add it
-		if (popupText) {
-			const popup = new mapboxgl.Popup({ offset: 25 }).setText(popupText);
-			marker.setPopup(popup);
-		}
+			let marker; // Declare 'marker' here
 
-		// Add the marker to the map
-		marker.addTo(this.mapInstance);
+			if (this.mapInstance && this.mapInstance instanceof MapboxMap) {
+				marker = new mapboxgl.Marker()
+					.setLngLat(coordinates)
+					.addTo(this.mapInstance);
+			}
+
+			if (popupText && marker) {
+				// Check if 'marker' is defined
+				const popup = new mapboxgl.Popup({ offset: 25 }).setText(
+					popupText,
+				);
+				marker.setPopup(popup);
+			}
+		});
 	}
 }
 
