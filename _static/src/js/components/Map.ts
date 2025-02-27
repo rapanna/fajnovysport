@@ -89,6 +89,25 @@ class Mapbox {
 	public getMapInstance(): MapboxMap | null {
 		return this.mapInstance;
 	}
+
+	public addMarker(lng: number, lat: number, popupText?: string): void {
+		if (!this.mapInstance) {
+			Logger.error("Cannot add marker: Map instance is not initialized.");
+			return;
+		}
+
+		// Create a new marker and add it to the map at the specified coordinates
+		const marker = new mapboxgl.Marker().setLngLat([lng, lat]);
+
+		// If there's a popup text, add it
+		if (popupText) {
+			const popup = new mapboxgl.Popup({ offset: 25 }).setText(popupText);
+			marker.setPopup(popup);
+		}
+
+		// Add the marker to the map
+		marker.addTo(this.mapInstance);
+	}
 }
 
 export default new Mapbox();

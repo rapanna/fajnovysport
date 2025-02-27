@@ -12,17 +12,27 @@ router.register({
 	Pages: PagesController,
 });
 
-if (document.readyState === "loading") {
-	document.addEventListener("DOMContentLoaded", () => {
-		router.run();
-	});
-} else {
+function initApp() {
 	router.run();
-}
-document.addEventListener("DOMContentLoaded", () => {
+
 	Mapbox.loadMap("mapContainer", {
-		center: [12.4964, 41.9028], // Example: Rome, Italy
-		zoom: 10,
-		style: "mapbox://styles/mapbox/streets-v11",
+		center: [18.2820444, 49.84006444], // Ostrava coordinates
+		zoom: 10, // Zoom level
 	});
-});
+
+	// Add markers at specified coordinates
+	Mapbox.addMarker(18.2920444, 49.84006444, "City Center");
+	Mapbox.addMarker(18.292884, 49.833855, "Silesian Ostrava");
+	Mapbox.addMarker(18.292489, 49.806401, "Poruba");
+	Mapbox.addMarker(18.291004, 49.77905, "Vítkovice");
+	Mapbox.addMarker(18.289343, 49.834928, "Karolina");
+	Mapbox.addMarker(18.318753, 49.839224, "Hranice");
+	Mapbox.addMarker(18.354577, 49.798871, "Klimkovice");
+	Mapbox.addMarker(18.292509, 49.832877, "Zábřeh");
+}
+
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", initApp);
+} else {
+	initApp();
+}
