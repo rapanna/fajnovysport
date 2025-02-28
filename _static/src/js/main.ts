@@ -1,4 +1,5 @@
 import "../scss/_style.scss";
+import Logger from "./components/Logger";
 import Mapbox from "./components/Map";
 import { Router } from "./components/Router";
 // Controllers
@@ -15,12 +16,21 @@ router.register({
 function initApp() {
 	router.run();
 
-	Mapbox.loadMap("mapContainer", {})
+	Mapbox.loadMap("mapContainer", {
+		style: "mapbox://styles/mapbox/light-v11", // Custom light mode style
+		center: [18.2951, 49.835], // Custom center
+		zoom: 14, // Custom zoom level
+		pitch: 45, // Tilted view
+		bearing: 30, // Rotated view
+	})
 		.then(() => {
-			// You can put code here that should run after the map is loaded
+			Logger.error("Map loaded with custom settings!");
 		})
 		.catch((error: unknown) => {
-			// Handle the error here
+			Logger.error(
+				"Error loading map:",
+				error instanceof Error ? error : new Error(String(error)),
+			);
 		});
 }
 if (document.readyState === "loading") {
