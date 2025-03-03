@@ -30,6 +30,7 @@ class Mapbox {
 	public async loadMap(
 		containerId: string,
 		options: Partial<mapboxgl.MapOptions> = {},
+		geoJsonUrl: string,
 	): Promise<void> {
 		if (this.mapInstance) {
 			Logger.log(
@@ -60,13 +61,11 @@ class Mapbox {
 					Logger.error(
 						"Map instance is null when attempting to load.",
 					);
-					{
-						resolve();
-					}
+					resolve();
 				}
 			});
 
-			await this.loadGeoJSONData();
+			await this.loadGeoJSONData(geoJsonUrl);
 		} catch (error: unknown) {
 			Logger.error(
 				"Error loading the map:",
@@ -75,7 +74,7 @@ class Mapbox {
 		}
 	}
 
-	public async loadGeoJSONData(): Promise<void> {
+	public async loadGeoJSONData(geoJsonUrl: string): Promise<void> {
 		if (!this.mapInstance) {
 			Logger.error(
 				"Cannot load GeoJSON: Map instance is not initialized.",
@@ -84,7 +83,7 @@ class Mapbox {
 		}
 
 		try {
-			const response = await fetch("/map.geojson"); // Ensure this is correct!
+			const response = await fetch(geoJsonUrl);
 
 			if (!response.ok) {
 				throw new Error(
@@ -114,7 +113,7 @@ class Mapbox {
 			const { coordinates } = feature.geometry;
 			const { popupText } = feature.properties;
 
-			let marker; // Declare 'marker' here
+			let marker;
 
 			if (this.mapInstance && this.mapInstance instanceof MapboxMap) {
 				marker = new mapboxgl.Marker()
@@ -123,7 +122,6 @@ class Mapbox {
 			}
 
 			if (popupText && marker) {
-				// Check if 'marker' is defined
 				const popup = new mapboxgl.Popup({ offset: 25 }).setText(
 					popupText,
 				);

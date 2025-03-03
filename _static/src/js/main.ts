@@ -13,18 +13,22 @@ router.register({
 	Pages: PagesController,
 });
 
-function initApp() {
+function initApp(mapGeoJsonUrl: string) {
 	router.run();
 
-	Mapbox.loadMap("mapContainer", {
-		style: "mapbox://styles/mapbox/light-v11", // Custom light mode style
-		center: [18.2951, 49.835], // Custom center
-		zoom: 14, // Custom zoom level
-		pitch: 45, // Tilted view
-		bearing: 30, // Rotated view
-	})
+	Mapbox.loadMap(
+		"mapContainer",
+		{
+			style: "mapbox://styles/mapbox/light-v11", // Custom light mode style
+			center: [18.2951, 49.835], // Custom center
+			zoom: 14, // Custom zoom level
+			pitch: 45, // Tilted view
+			bearing: 0, // Rotated view
+		},
+		mapGeoJsonUrl,
+	)
 		.then(() => {
-			Logger.error("Map loaded with custom settings!");
+			Logger.log("Map loaded with custom settings!");
 		})
 		.catch((error: unknown) => {
 			Logger.error(
@@ -33,10 +37,11 @@ function initApp() {
 			);
 		});
 }
+
 if (document.readyState === "loading") {
 	document.addEventListener("DOMContentLoaded", () => {
-		initApp();
+		initApp("/map.geojson"); // Pass map.geojson URL as a parameter
 	});
 } else {
-	initApp();
+	initApp("/map.geojson"); // Pass map.geojson URL as a parameter
 }
