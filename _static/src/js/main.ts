@@ -13,21 +13,21 @@ router.register({
 	Pages: PagesController,
 });
 
-function initApp(
-	containerId: string,
-	mapboxKey: string,
-	mapOptions: Partial<mapboxgl.MapOptions>,
-	geoJsonUrl: string,
-	enableClustering: boolean, // New parameter
-) {
+function initApp(options: {
+	containerId: string;
+	mapboxKey: string;
+	mapOptions: Partial<mapboxgl.MapOptions>;
+	geoJsonUrl: string;
+	enableClustering: boolean;
+}) {
 	router.run();
 
 	Mapbox.loadMap(
-		containerId,
-		mapboxKey,
-		mapOptions,
-		geoJsonUrl,
-		enableClustering,
+		options.containerId,
+		options.mapboxKey,
+		options.mapOptions,
+		options.geoJsonUrl,
+		options.enableClustering,
 	).catch((error: unknown) => {
 		Logger.error(
 			"Error loading map:",
@@ -37,17 +37,18 @@ function initApp(
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	initApp(
-		"mapContainer",
-		"pk.eyJ1Ijoib3ZhbmV0LW1hcCIsImEiOiJjbDVtYjB4ZHkwczBwM2RvNGZ4Nmh1MDhtIn0.ixRzP7HDbiFv0kgxQVPzgg",
-		{
+	initApp({
+		containerId: "mapContainer",
+		mapboxKey:
+			"pk.eyJ1Ijoib3ZhbmV0LW1hcCIsImEiOiJjbDVtYjB4ZHkwczBwM2RvNGZ4Nmh1MDhtIn0.ixRzP7HDbiFv0kgxQVPzgg",
+		mapOptions: {
 			style: "mapbox://styles/mapbox/dark-v11",
 			center: [18.2951, 49.835],
 			zoom: 14,
-			pitch: 45,
+			pitch: 0,
 			bearing: 0,
 		},
-		"/map.geojson",
-		true, // Enable clustering
-	);
+		geoJsonUrl: "/map.geojson",
+		enableClustering: true,
+	});
 });

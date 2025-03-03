@@ -112,11 +112,11 @@ class Mapbox {
 						"circle-color": [
 							"step",
 							["get", "point_count"],
-							"#51bbd6",
-							100,
-							"#f1f075",
-							500,
-							"#f28cb1",
+							"#3f83cc",
+							3,
+							"#d1c51f",
+							5,
+							"#1f993f",
 						],
 						"circle-radius": [
 							"step",
@@ -171,9 +171,12 @@ class Mapbox {
 						const clusterId = features[0].properties?.cluster_id as
 							| number
 							| string;
-						const source = this.mapInstance!.getSource!(
+
+						// eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
+						const source = this.mapInstance?.getSource(
 							"places",
 						) as mapboxgl.GeoJSONSource;
+
 						if (typeof clusterId === "number") {
 							source.getClusterExpansionZoom(
 								clusterId,
