@@ -1,5 +1,10 @@
 {
 	"type": "FeatureCollection",
+	"custom_markers": {
+		"red": "http://localhost/nove_projekty/fajnovysport/_static/src/img/custom_marker_red.png",
+		"blue": "http://localhost/nove_projekty/fajnovysport/_static/src/img/custom_marker_blue.png",
+		"pink": "http://localhost/nove_projekty/fajnovysport/_static/src/img/custom_marker_pink.png"
+	},
 	"features": [
 		{
 			"type": "Feature",
@@ -34,7 +39,7 @@
 			"properties": {
 				"name": "Marker 3",
 				"popupText": "This is Marker 3 in Ostrava!",
-				"markerStyle": "green"
+				"markerStyle": "pink"
 			}
 		},
 		{
@@ -70,7 +75,7 @@
 			"properties": {
 				"name": "Marker 6",
 				"popupText": "This is Marker 6 in Ostrava!",
-				"markerStyle": "green"
+				"markerStyle": "pink"
 			}
 		},
 		{
@@ -106,7 +111,7 @@
 			"properties": {
 				"name": "Marker 9",
 				"popupText": "This is Marker 9 in Ostrava!",
-				"markerStyle": "green"
+				"markerStyle": "pink"
 			}
 		},
 		{
@@ -142,7 +147,7 @@
 			"properties": {
 				"name": "Marker 12",
 				"popupText": "This is Marker 12 in Ostrava!",
-				"markerStyle": "green"
+				"markerStyle": "pink"
 			}
 		}
 	]

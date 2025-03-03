@@ -108,12 +108,26 @@ class Mapbox {
 			return;
 		}
 
-		geojson.features.forEach((feature) => {
-			const { coordinates } = feature.geometry;
-			const { popupText } = feature.properties;
+		interface GeoJSONWithCustomMarkers {
+			custom_markers: Record<string, string>;
+			features: GeoJSONFeature[];
+		}
 
+		const { custom_markers, features } =
+			geojson as unknown as GeoJSONWithCustomMarkers;
+
+		features.forEach((feature: GeoJSONFeature) => {
+			const { coordinates } = feature.geometry;
+			const { popupText, markerStyle } = feature.properties as {
+				popupText?: string;
+				markerStyle: string;
+			};
+
+			// Get the correct marker icon from the custom_markers object
 			const markerIcon =
-				"http://localhost/nove_projekty/fajnovysport/_static/src/img/custom_marker.png";
+				custom_markers[markerStyle] || custom_markers.red;
+
+			// Create a custom marker element
 			const markerElement = document.createElement("div");
 			markerElement.className = "custom-marker";
 			markerElement.style.backgroundImage = `url(${markerIcon})`;
