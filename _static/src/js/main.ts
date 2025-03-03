@@ -18,17 +18,22 @@ function initApp(
 	mapboxKey: string,
 	mapOptions: Partial<mapboxgl.MapOptions>,
 	geoJsonUrl: string,
+	enableClustering: boolean, // New parameter
 ) {
 	router.run();
 
-	Mapbox.loadMap(containerId, mapboxKey, mapOptions, geoJsonUrl).catch(
-		(error: unknown) => {
-			Logger.error(
-				"Error loading map:",
-				error instanceof Error ? error : new Error(String(error)),
-			);
-		},
-	);
+	Mapbox.loadMap(
+		containerId,
+		mapboxKey,
+		mapOptions,
+		geoJsonUrl,
+		enableClustering,
+	).catch((error: unknown) => {
+		Logger.error(
+			"Error loading map:",
+			error instanceof Error ? error : new Error(String(error)),
+		);
+	});
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -43,5 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			bearing: 0,
 		},
 		"/map.geojson",
+		true, // Enable clustering
 	);
 });
