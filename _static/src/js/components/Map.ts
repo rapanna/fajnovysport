@@ -100,7 +100,6 @@ class Mapbox {
 			);
 		}
 	}
-
 	public addMarkersFromGeoJSON(geojson: GeoJSON): void {
 		if (!this.mapInstance) {
 			Logger.error(
@@ -113,19 +112,26 @@ class Mapbox {
 			const { coordinates } = feature.geometry;
 			const { popupText } = feature.properties;
 
-			let marker;
+			const markerIcon =
+				"http://localhost/nove_projekty/fajnovysport/_static/src/img/custom_marker.png";
+			const markerElement = document.createElement("div");
+			markerElement.className = "custom-marker";
+			markerElement.style.backgroundImage = `url(${markerIcon})`;
+			markerElement.style.width = "30px";
+			markerElement.style.height = "50px";
+			markerElement.style.backgroundSize = "cover";
 
-			if (this.mapInstance && this.mapInstance instanceof MapboxMap) {
-				marker = new mapboxgl.Marker()
+			if (this.mapInstance) {
+				const marker = new mapboxgl.Marker(markerElement)
 					.setLngLat(coordinates)
 					.addTo(this.mapInstance);
-			}
 
-			if (popupText && marker) {
-				const popup = new mapboxgl.Popup({ offset: 25 }).setText(
-					popupText,
-				);
-				marker.setPopup(popup);
+				if (popupText) {
+					const popup = new mapboxgl.Popup({ offset: 25 }).setText(
+						popupText,
+					);
+					marker.setPopup(popup);
+				}
 			}
 		});
 	}
