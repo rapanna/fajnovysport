@@ -20,18 +20,14 @@ interface GeoJSON {
 
 class Mapbox {
 	private mapInstance: MapboxMap | null = null;
-	private readonly mapboxKey =
-		"pk.eyJ1Ijoib3ZhbmV0LW1hcCIsImEiOiJjbDVtYjB4ZHkwczBwM2RvNGZ4Nmh1MDhtIn0.ixRzP7HDbiFv0kgxQVPzgg";
-
-	constructor() {
-		mapboxgl.accessToken = this.mapboxKey;
-	}
 
 	public async loadMap(
 		containerId: string,
+		mapboxKey: string,
 		options: Partial<mapboxgl.MapOptions> = {},
 		geoJsonUrl: string,
 	): Promise<void> {
+		mapboxgl.accessToken = mapboxKey;
 		if (this.mapInstance) {
 			Logger.log(
 				"Map instance already exists. Destroying previous instance...",

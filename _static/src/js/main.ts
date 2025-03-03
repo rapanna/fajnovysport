@@ -13,35 +13,35 @@ router.register({
 	Pages: PagesController,
 });
 
-function initApp(mapGeoJsonUrl: string) {
+function initApp(
+	containerId: string,
+	mapboxKey: string,
+	mapOptions: Partial<mapboxgl.MapOptions>,
+	geoJsonUrl: string,
+) {
 	router.run();
 
-	Mapbox.loadMap(
-		"mapContainer",
-		{
-			style: "mapbox://styles/mapbox/light-v11", // Custom light mode style
-			center: [18.2951, 49.835], // Custom center
-			zoom: 14, // Custom zoom level
-			pitch: 45, // Tilted view
-			bearing: 0, // Rotated view
-		},
-		mapGeoJsonUrl,
-	)
-		.then(() => {
-			Logger.log("Map loaded with custom settings!");
-		})
-		.catch((error: unknown) => {
+	Mapbox.loadMap(containerId, mapboxKey, mapOptions, geoJsonUrl).catch(
+		(error: unknown) => {
 			Logger.error(
 				"Error loading map:",
 				error instanceof Error ? error : new Error(String(error)),
 			);
-		});
+		},
+	);
 }
 
-if (document.readyState === "loading") {
-	document.addEventListener("DOMContentLoaded", () => {
-		initApp("/map.geojson"); // Pass map.geojson URL as a parameter
-	});
-} else {
-	initApp("/map.geojson"); // Pass map.geojson URL as a parameter
-}
+document.addEventListener("DOMContentLoaded", () => {
+	initApp(
+		"mapContainer",
+		"pk.eyJ1Ijoib3ZhbmV0LW1hcCIsImEiOiJjbDVtYjB4ZHkwczBwM2RvNGZ4Nmh1MDhtIn0.ixRzP7HDbiFv0kgxQVPzgg",
+		{
+			style: "mapbox://styles/mapbox/dark-v11",
+			center: [18.2951, 49.835],
+			zoom: 14,
+			pitch: 45,
+			bearing: 0,
+		},
+		"/map.geojson",
+	);
+});
