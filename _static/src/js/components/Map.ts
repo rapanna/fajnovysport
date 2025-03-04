@@ -95,28 +95,31 @@ class Mapbox {
 			const geojsonData = (await response.json()) as GeoJSON;
 			const sourceId = "places";
 
+			// ✅ Remove previous source if it exists
 			if (this.mapInstance.getSource(sourceId)) {
 				this.mapInstance.removeSource(sourceId);
 			}
 
+			// ✅ Add GeoJSON source with clustering support
 			this.mapInstance.addSource(sourceId, {
 				type: "geojson",
 				data: geojsonData,
 				cluster: enableClustering,
-				clusterMaxZoom: 14,
-				clusterRadius: 50,
+				clusterMaxZoom: 14, // Stop clustering at zoom level 14
+				clusterRadius: 50, // Cluster points within this radius (in pixels)
 			});
 
+			// ✅ Remove old layers if they exist
 			["clusters", "cluster-count", "unclustered-point"].forEach(
 				(layer) => {
-					if (this.mapInstance?.getLayer(layer)) {
+					if (this.mapInstance.getLayer(layer)) {
 						this.mapInstance.removeLayer(layer);
 					}
 				},
 			);
 
-			// ✅ Ensure cluster layers are added first
 			if (enableClustering) {
+				// ✅ Add Cluster Layer
 				this.mapInstance.addLayer({
 					id: "clusters",
 					type: "circle",
@@ -144,6 +147,7 @@ class Mapbox {
 					},
 				});
 
+				// ✅ Add Cluster Count Labels
 				this.mapInstance.addLayer({
 					id: "cluster-count",
 					type: "symbol",
@@ -158,56 +162,8 @@ class Mapbox {
 						"text-size": 12,
 					},
 				});
-			}
 
-			// ✅ Unclustered points should be added *only* if clustering is enabled
-			this.mapInstance.addLayer({
-				id: "unclustered-point",
-				type: "circle",
-				source: sourceId,
-				filter: ["!", ["has", "point_count"]], // Show markers only when not in cluster
-				layout: {
-					"icon-image": ["get", "markerStyle"],
-					"icon-size": 5,
-				},
-			});
-
-			// ✅ Hide or show clusters based on zoom
-			this.mapInstance.on("zoomend", () => {
-				const zoom = this.mapInstance?.getZoom();
-				if (zoom !== undefined) {
-					const showMarkers = zoom >= 14;
-
-					if (this.mapInstance?.getLayer("clusters")) {
-						this.mapInstance.setLayoutProperty(
-							"clusters",
-							"visibility",
-							showMarkers ? "none" : "visible",
-						);
-					}
-
-					if (this.mapInstance?.getLayer("cluster-count")) {
-						this.mapInstance.setLayoutProperty(
-							"cluster-count",
-							"visibility",
-							showMarkers ? "none" : "visible",
-						);
-					}
-
-					if (this.mapInstance?.getLayer("unclustered-point")) {
-						this.mapInstance.setLayoutProperty(
-							"unclustered-point",
-							"visibility",
-							showMarkers ? "visible" : "none",
-						);
-					} else {
-						Logger.error("unclustered-point layer is missing!");
-					}
-				}
-			});
-
-			// ✅ Expand cluster on click
-			if (enableClustering) {
+				// ✅ Add Cluster Expansion on Click
 				this.mapInstance.on("click", "clusters", (event) => {
 					const features = this.mapInstance?.queryRenderedFeatures(
 						event.point,
@@ -215,9 +171,8 @@ class Mapbox {
 							layers: ["clusters"],
 						},
 					);
-					if (!features || features.length === 0) {
-						return;
-					}
+
+					if (!features || features.length === 0) return;
 
 					const clusterId = features[0].properties
 						?.cluster_id as number;
@@ -226,9 +181,8 @@ class Mapbox {
 					) as mapboxgl.GeoJSONSource | null;
 
 					source?.getClusterExpansionZoom(clusterId, (err, zoom) => {
-						if (err) {
-							return;
-						}
+						if (err) return;
+
 						if (
 							features[0].geometry.type === "Point" &&
 							zoom !== null
@@ -245,30 +199,21 @@ class Mapbox {
 				});
 			}
 
-			// 🔄 Ensure the correct initial visibility state
-			const initialZoom = this.mapInstance.getZoom();
-			const showMarkers = initialZoom >= 14;
+			// ✅ Add Unclustered Points Layer (Markers)
+			this.mapInstance.addLayer({
+				id: "unclustered-point",
+				type: "circle", // Keep as circle for consistency
+				source: sourceId,
+				filter: ["!", ["has", "point_count"]], // Only show when NOT clustered
+				paint: {
+					"circle-color": "#ff0000", // Example color (adjust if needed)
+					"circle-radius": 6,
+					"circle-stroke-width": 2,
+					"circle-stroke-color": "#ffffff",
+				},
+			});
 
-			if (enableClustering) {
-				this.mapInstance.setLayoutProperty(
-					"clusters",
-					"visibility",
-					showMarkers ? "none" : "visible",
-				);
-				this.mapInstance.setLayoutProperty(
-					"cluster-count",
-					"visibility",
-					showMarkers ? "none" : "visible",
-				);
-			}
-
-			this.mapInstance.setLayoutProperty(
-				"unclustered-point",
-				"visibility",
-				showMarkers ? "visible" : "none",
-			);
-
-			// ✅ Ensure markers are added only when clustering is disabled
+			// ✅ If clustering is disabled, add individual markers instead
 			if (!enableClustering) {
 				this.addMarkersFromGeoJSON(geojsonData);
 			}
