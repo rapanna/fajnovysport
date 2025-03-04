@@ -42,13 +42,26 @@ function generateMap(options: {
  * 1] Add clustering options:
  *
  * clusteringOptions: {
- *		colors: {
- *			10 : #3f83cc
- *			25 : #d1c51f
- *			100 : #1f993f
+ *		clusters: {
+ *			{
+ *            maxCount: 10,
+ *            color: #3f83cc,
+ * 			  size: 25
+ *			},
+ *			{
+ *            maxCount: 25,
+ *            color: #d1c51f,
+ * 			  size: 25
+ *			},
+ *			{
+ *            maxCount: 50,
+ *            color: #1f993f,
+ * 			  size: 25
+ *			}
  * }
  *
  * 2] Fix while clustering it will show markes not only dots
+ * 3] Add options to function generate map to have there +-
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -62,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			zoom: 14,
 			pitch: 0,
 			bearing: 0,
+			interactive: true /* enabled dragging */,
 		},
 		geoJsonUrl: "/map.geojson",
 		enableClustering: true,

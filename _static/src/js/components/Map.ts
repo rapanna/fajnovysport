@@ -140,9 +140,9 @@ class Mapbox {
 							"circle-radius": [
 								"step",
 								["get", "point_count"],
-								15,
+								25,
 								10,
-								20,
+								25,
 								50,
 								30,
 							],
