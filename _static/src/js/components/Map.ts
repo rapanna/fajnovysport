@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import mapboxgl, { Map as MapboxMap } from "mapbox-gl";
 import Logger from "./Logger";
 
@@ -108,111 +109,118 @@ class Mapbox {
 				clusterMaxZoom: 14, // Stop clustering at zoom level 14
 				clusterRadius: 50, // Cluster points within this radius (in pixels)
 			});
-
-			// ✅ Remove old layers if they exist
-			["clusters", "cluster-count", "unclustered-point"].forEach(
-				(layer) => {
-					if (this.mapInstance.getLayer(layer)) {
-						this.mapInstance.removeLayer(layer);
-					}
-				},
-			);
-
-			if (enableClustering) {
-				// ✅ Add Cluster Layer
-				this.mapInstance.addLayer({
-					id: "clusters",
-					type: "circle",
-					source: sourceId,
-					filter: ["has", "point_count"],
-					paint: {
-						"circle-color": [
-							"step",
-							["get", "point_count"],
-							"#3f83cc",
-							3,
-							"#d1c51f",
-							5,
-							"#1f993f",
-						],
-						"circle-radius": [
-							"step",
-							["get", "point_count"],
-							15,
-							10,
-							20,
-							50,
-							30,
-						],
-					},
-				});
-
-				// ✅ Add Cluster Count Labels
-				this.mapInstance.addLayer({
-					id: "cluster-count",
-					type: "symbol",
-					source: sourceId,
-					filter: ["has", "point_count"],
-					layout: {
-						"text-field": "{point_count_abbreviated}",
-						"text-font": [
-							"DIN Offc Pro Medium",
-							"Arial Unicode MS Bold",
-						],
-						"text-size": 12,
-					},
-				});
-
-				// ✅ Add Cluster Expansion on Click
-				this.mapInstance.on("click", "clusters", (event) => {
-					const features = this.mapInstance?.queryRenderedFeatures(
-						event.point,
-						{
-							layers: ["clusters"],
-						},
-					);
-
-					if (!features || features.length === 0) return;
-
-					const clusterId = features[0].properties
-						?.cluster_id as number;
-					const source = this.mapInstance?.getSource(
-						sourceId,
-					) as mapboxgl.GeoJSONSource | null;
-
-					source?.getClusterExpansionZoom(clusterId, (err, zoom) => {
-						if (err) return;
-
-						if (
-							features[0].geometry.type === "Point" &&
-							zoom !== null
-						) {
-							this.mapInstance?.easeTo({
-								center: features[0].geometry.coordinates as [
-									number,
-									number,
-								],
-								zoom,
-							});
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+			if (this.mapInstance) {
+				// ✅ Remove old layers if they exist
+				["clusters", "cluster-count", "unclustered-point"].forEach(
+					(layer) => {
+						if (this.mapInstance?.getLayer(layer)) {
+							this.mapInstance.removeLayer(layer);
 						}
+					},
+				);
+
+				if (enableClustering) {
+					// ✅ Add Cluster Layer
+					this.mapInstance.addLayer({
+						id: "clusters",
+						type: "circle",
+						source: sourceId,
+						filter: ["has", "point_count"],
+						paint: {
+							"circle-color": [
+								"step",
+								["get", "point_count"],
+								"#3f83cc",
+								3,
+								"#d1c51f",
+								5,
+								"#1f993f",
+							],
+							"circle-radius": [
+								"step",
+								["get", "point_count"],
+								15,
+								10,
+								20,
+								50,
+								30,
+							],
+						},
 					});
+
+					// ✅ Add Cluster Count Labels
+					this.mapInstance.addLayer({
+						id: "cluster-count",
+						type: "symbol",
+						source: sourceId,
+						filter: ["has", "point_count"],
+						layout: {
+							"text-field": "{point_count_abbreviated}",
+							"text-font": [
+								"DIN Offc Pro Medium",
+								"Arial Unicode MS Bold",
+							],
+							"text-size": 12,
+						},
+					});
+
+					// ✅ Add Cluster Expansion on Click
+					this.mapInstance.on("click", "clusters", (event) => {
+						const features =
+							this.mapInstance?.queryRenderedFeatures(
+								event.point,
+								{
+									layers: ["clusters"],
+								},
+							);
+
+						if (!features || features.length === 0) {
+							return;
+						}
+
+						const clusterId = features[0].properties
+							?.cluster_id as number;
+						const source = this.mapInstance?.getSource(
+							sourceId,
+						) as mapboxgl.GeoJSONSource | null;
+
+						source?.getClusterExpansionZoom(
+							clusterId,
+							(err, zoom) => {
+								if (err) {
+									return;
+								}
+
+								if (
+									features[0].geometry.type === "Point" &&
+									zoom !== null
+								) {
+									this.mapInstance?.easeTo({
+										center: features[0].geometry
+											.coordinates as [number, number],
+										zoom,
+									});
+								}
+							},
+						);
+					});
+				}
+
+				// ✅ Add Unclustered Points Layer (Markers)
+				this.mapInstance.addLayer({
+					id: "unclustered-point",
+					type: "circle", // Keep as circle for consistency
+					source: sourceId,
+					filter: ["!", ["has", "point_count"]], // Only show when NOT clustered
+					paint: {
+						"circle-color": "#ff0000", // Example color (adjust if needed)
+						"circle-radius": 6,
+						"circle-stroke-width": 2,
+						"circle-stroke-color": "#ffffff",
+					},
 				});
 			}
-
-			// ✅ Add Unclustered Points Layer (Markers)
-			this.mapInstance.addLayer({
-				id: "unclustered-point",
-				type: "circle", // Keep as circle for consistency
-				source: sourceId,
-				filter: ["!", ["has", "point_count"]], // Only show when NOT clustered
-				paint: {
-					"circle-color": "#ff0000", // Example color (adjust if needed)
-					"circle-radius": 6,
-					"circle-stroke-width": 2,
-					"circle-stroke-color": "#ffffff",
-				},
-			});
-
 			// ✅ If clustering is disabled, add individual markers instead
 			if (!enableClustering) {
 				this.addMarkersFromGeoJSON(geojsonData);
