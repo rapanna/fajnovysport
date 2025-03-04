@@ -13,7 +13,7 @@ router.register({
 	Pages: PagesController,
 });
 
-function initApp(options: {
+function generateMap(options: {
 	containerId: string;
 	mapboxKey: string;
 	mapOptions: Partial<mapboxgl.MapOptions>;
@@ -37,12 +37,12 @@ function initApp(options: {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	initApp({
+	generateMap({
 		containerId: "mapContainer",
 		mapboxKey:
 			"pk.eyJ1Ijoib3ZhbmV0LW1hcCIsImEiOiJjbDVtYjB4ZHkwczBwM2RvNGZ4Nmh1MDhtIn0.ixRzP7HDbiFv0kgxQVPzgg",
 		mapOptions: {
-			style: "mapbox://styles/mapbox/dark-v11",
+			style: "mapbox://styles/mapbox/light-v11",
 			center: [18.2951, 49.835],
 			zoom: 14,
 			pitch: 0,

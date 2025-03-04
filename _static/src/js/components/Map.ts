@@ -16,6 +16,7 @@ interface GeoJSONFeature {
 interface GeoJSON {
 	type: "FeatureCollection";
 	features: GeoJSONFeature[];
+	custom_markers?: Record<string, string>; // Add this line
 }
 
 class Mapbox {
@@ -92,21 +93,34 @@ class Mapbox {
 			}
 
 			const geojsonData = (await response.json()) as GeoJSON;
+			const sourceId = "places";
 
-			// Clustering enabled
+			if (this.mapInstance.getSource(sourceId)) {
+				this.mapInstance.removeSource(sourceId);
+			}
+
+			this.mapInstance.addSource(sourceId, {
+				type: "geojson",
+				data: geojsonData,
+				cluster: enableClustering,
+				clusterMaxZoom: 14,
+				clusterRadius: 50,
+			});
+
+			["clusters", "cluster-count", "unclustered-point"].forEach(
+				(layer) => {
+					if (this.mapInstance?.getLayer(layer)) {
+						this.mapInstance.removeLayer(layer);
+					}
+				},
+			);
+
+			// ✅ Ensure cluster layers are added first
 			if (enableClustering) {
-				this.mapInstance.addSource("places", {
-					type: "geojson",
-					data: geojsonData,
-					cluster: true,
-					clusterMaxZoom: 14,
-					clusterRadius: 50,
-				});
-
 				this.mapInstance.addLayer({
 					id: "clusters",
 					type: "circle",
-					source: "places",
+					source: sourceId,
 					filter: ["has", "point_count"],
 					paint: {
 						"circle-color": [
@@ -133,7 +147,7 @@ class Mapbox {
 				this.mapInstance.addLayer({
 					id: "cluster-count",
 					type: "symbol",
-					source: "places",
+					source: sourceId,
 					filter: ["has", "point_count"],
 					layout: {
 						"text-field": "{point_count_abbreviated}",
@@ -144,21 +158,56 @@ class Mapbox {
 						"text-size": 12,
 					},
 				});
+			}
 
-				this.mapInstance.addLayer({
-					id: "unclustered-point",
-					type: "circle",
-					source: "places",
-					filter: ["!", ["has", "point_count"]],
-					paint: {
-						"circle-color": "#11b4da",
-						"circle-radius": 8,
-						"circle-stroke-width": 2,
-						"circle-stroke-color": "#fff",
-					},
-				});
+			// ✅ Unclustered points should be added *only* if clustering is enabled
+			this.mapInstance.addLayer({
+				id: "unclustered-point",
+				type: "circle",
+				source: sourceId,
+				filter: ["!", ["has", "point_count"]], // Show markers only when not in cluster
+				layout: {
+					"icon-image": ["get", "markerStyle"],
+					"icon-size": 5,
+				},
+			});
 
-				// Expand cluster on click
+			// ✅ Hide or show clusters based on zoom
+			this.mapInstance.on("zoomend", () => {
+				const zoom = this.mapInstance?.getZoom();
+				if (zoom !== undefined) {
+					const showMarkers = zoom >= 14;
+
+					if (this.mapInstance?.getLayer("clusters")) {
+						this.mapInstance.setLayoutProperty(
+							"clusters",
+							"visibility",
+							showMarkers ? "none" : "visible",
+						);
+					}
+
+					if (this.mapInstance?.getLayer("cluster-count")) {
+						this.mapInstance.setLayoutProperty(
+							"cluster-count",
+							"visibility",
+							showMarkers ? "none" : "visible",
+						);
+					}
+
+					if (this.mapInstance?.getLayer("unclustered-point")) {
+						this.mapInstance.setLayoutProperty(
+							"unclustered-point",
+							"visibility",
+							showMarkers ? "visible" : "none",
+						);
+					} else {
+						Logger.error("unclustered-point layer is missing!");
+					}
+				}
+			});
+
+			// ✅ Expand cluster on click
+			if (enableClustering) {
 				this.mapInstance.on("click", "clusters", (event) => {
 					const features = this.mapInstance?.queryRenderedFeatures(
 						event.point,
@@ -166,58 +215,61 @@ class Mapbox {
 							layers: ["clusters"],
 						},
 					);
+					if (!features || features.length === 0) {
+						return;
+					}
 
-					if (features && features.length > 0) {
-						const clusterId = features[0].properties?.cluster_id as
-							| number
-							| string;
+					const clusterId = features[0].properties
+						?.cluster_id as number;
+					const source = this.mapInstance?.getSource(
+						sourceId,
+					) as mapboxgl.GeoJSONSource | null;
 
-						// eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
-						const source = this.mapInstance?.getSource(
-							"places",
-						) as mapboxgl.GeoJSONSource;
-
-						if (typeof clusterId === "number") {
-							source.getClusterExpansionZoom(
-								clusterId,
-								(err, zoom) => {
-									// ...
-								},
-							);
+					source?.getClusterExpansionZoom(clusterId, (err, zoom) => {
+						if (err) {
+							return;
 						}
-
-						source.getClusterExpansionZoom(
-							clusterId as number,
-							(err, zoom) => {
-								if (err) {
-									return;
-								}
-								if (features[0].geometry.type === "Point") {
-									this.mapInstance?.easeTo({
-										center: features[0].geometry
-											.coordinates as [number, number],
-									});
-								}
-							},
-						);
-					}
+						if (
+							features[0].geometry.type === "Point" &&
+							zoom !== null
+						) {
+							this.mapInstance?.easeTo({
+								center: features[0].geometry.coordinates as [
+									number,
+									number,
+								],
+								zoom,
+							});
+						}
+					});
 				});
+			}
 
-				this.mapInstance.on("mouseenter", "clusters", () => {
-					const canvas = this.mapInstance?.getCanvas();
-					if (canvas) {
-						canvas.style.cursor = "pointer";
-					}
-				});
+			// 🔄 Ensure the correct initial visibility state
+			const initialZoom = this.mapInstance.getZoom();
+			const showMarkers = initialZoom >= 14;
 
-				this.mapInstance.on("mouseleave", "clusters", () => {
-					const canvas = this.mapInstance?.getCanvas();
-					if (canvas) {
-						canvas.style.cursor = "";
-					}
-				});
-			} else {
-				// Load markers normally without clustering
+			if (enableClustering) {
+				this.mapInstance.setLayoutProperty(
+					"clusters",
+					"visibility",
+					showMarkers ? "none" : "visible",
+				);
+				this.mapInstance.setLayoutProperty(
+					"cluster-count",
+					"visibility",
+					showMarkers ? "none" : "visible",
+				);
+			}
+
+			this.mapInstance.setLayoutProperty(
+				"unclustered-point",
+				"visibility",
+				showMarkers ? "visible" : "none",
+			);
+
+			// ✅ Ensure markers are added only when clustering is disabled
+			if (!enableClustering) {
 				this.addMarkersFromGeoJSON(geojsonData);
 			}
 		} catch (error) {
@@ -268,6 +320,7 @@ class Mapbox {
 					.setLngLat(coordinates)
 					.addTo(this.mapInstance);
 
+				// Set popup with text when clicked
 				if (popupText) {
 					const popup = new mapboxgl.Popup({ offset: 25 }).setText(
 						popupText,
