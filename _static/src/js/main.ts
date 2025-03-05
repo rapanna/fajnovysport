@@ -19,14 +19,18 @@ interface ClusteringOption {
 	size: number;
 }
 interface Options {
-	// ...
 	containerId: string;
 	mapboxKey: string;
 	mapOptions: Partial<mapboxgl.MapOptions>;
 	geoJsonUrl: string;
 	enableClustering: boolean;
 	clusteringOptions?: ClusteringOption[];
+	customMapOptions?: {
+		zoom: boolean;
+		fullscreen: boolean;
+	};
 }
+
 function generateMap(options: Options) {
 	router.run();
 
@@ -41,6 +45,7 @@ function generateMap(options: Options) {
 			color: cluster.color,
 			size: cluster.size,
 		})),
+		options.customMapOptions, // Pass customMapOptions here
 	).catch((error: unknown) => {
 		Logger.error(
 			"Error loading map:",
@@ -48,13 +53,13 @@ function generateMap(options: Options) {
 		);
 	});
 }
+
 /**
  *
  * TODO:
  *
+ * 1] Connect it to wordpressData
  * 2] Fix while clustering it will show markes not only dots
- * 3] Add options to function generate map to have there +-
- * 4] Connect it to wordpressData
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -68,14 +73,18 @@ document.addEventListener("DOMContentLoaded", () => {
 			zoom: 14,
 			pitch: 0,
 			bearing: 0,
-			interactive: true /* enabled dragging */,
+			interactive: true, // Enabled dragging
 		},
 		geoJsonUrl: "/map.geojson",
-		enableClustering: false,
+		enableClustering: true,
 		clusteringOptions: [
 			{ maxCount: 2, color: "#4287f5", size: 25 },
 			{ maxCount: 5, color: "#44a637", size: 25 },
 			{ maxCount: 12, color: "#4f328c", size: 25 },
 		],
+		customMapOptions: {
+			zoom: false, // Show +/- icons for zoom and compass
+			fullscreen: false, // Show fullscreen options
+		},
 	});
 });

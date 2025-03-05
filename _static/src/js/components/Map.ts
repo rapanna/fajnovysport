@@ -25,6 +25,7 @@ interface ClusteringOption {
 	color: string;
 	size: number;
 }
+
 class Mapbox {
 	private mapInstance: MapboxMap | null = null;
 
@@ -35,6 +36,10 @@ class Mapbox {
 		geoJsonUrl: string,
 		enableClustering: boolean,
 		clusteringOptions?: ClusteringOption[],
+		customMapOptions?: {
+			zoom: boolean;
+			fullscreen: boolean;
+		},
 	): Promise<void> {
 		if (this.mapInstance) {
 			Logger.log(
@@ -71,6 +76,8 @@ class Mapbox {
 				}
 			});
 
+			this.addMapControls(customMapOptions);
+
 			await this.loadGeoJSONData(
 				geoJsonUrl,
 				enableClustering,
@@ -81,6 +88,30 @@ class Mapbox {
 				"Error loading the map:",
 				error instanceof Error ? error : new Error("Unknown error"),
 			);
+		}
+	}
+
+	// Function to add custom controls
+	private addMapControls(customMapOptions?: {
+		zoom: boolean;
+		fullscreen: boolean;
+	}) {
+		if (this.mapInstance) {
+			// Zoom Control (including +/- icons)
+			if (customMapOptions?.zoom) {
+				this.mapInstance.addControl(
+					new mapboxgl.NavigationControl(),
+					"top-right",
+				);
+			}
+
+			// Fullscreen Control
+			if (customMapOptions?.fullscreen) {
+				this.mapInstance.addControl(
+					new mapboxgl.FullscreenControl(),
+					"top-right",
+				);
+			}
 		}
 	}
 
