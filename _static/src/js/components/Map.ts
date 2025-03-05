@@ -17,9 +17,14 @@ interface GeoJSONFeature {
 interface GeoJSON {
 	type: "FeatureCollection";
 	features: GeoJSONFeature[];
-	custom_markers?: Record<string, string>; // Add this line
+	custom_markers?: Record<string, string>;
 }
 
+interface ClusteringOption {
+	maxCount: number;
+	color: string;
+	size: number;
+}
 class Mapbox {
 	private mapInstance: MapboxMap | null = null;
 
@@ -29,6 +34,7 @@ class Mapbox {
 		options: Partial<mapboxgl.MapOptions> = {},
 		geoJsonUrl: string,
 		enableClustering: boolean,
+		clusteringOptions?: ClusteringOption[],
 	): Promise<void> {
 		if (this.mapInstance) {
 			Logger.log(
@@ -65,7 +71,11 @@ class Mapbox {
 				}
 			});
 
-			await this.loadGeoJSONData(geoJsonUrl, enableClustering);
+			await this.loadGeoJSONData(
+				geoJsonUrl,
+				enableClustering,
+				clusteringOptions,
+			);
 		} catch (error: unknown) {
 			Logger.error(
 				"Error loading the map:",
@@ -77,6 +87,7 @@ class Mapbox {
 	public async loadGeoJSONData(
 		geoJsonUrl: string,
 		enableClustering: boolean,
+		clusteringOptions?: ClusteringOption[],
 	): Promise<void> {
 		if (!this.mapInstance) {
 			Logger.error(
@@ -94,6 +105,8 @@ class Mapbox {
 			}
 
 			const geojsonData = (await response.json()) as GeoJSON;
+			Logger.log("Fetched GeoJSON:", geojsonData); // ✅ Debugging: Log fetched data
+
 			const sourceId = "places";
 
 			// ✅ Remove previous source if it exists
@@ -109,20 +122,37 @@ class Mapbox {
 				clusterMaxZoom: 14, // Stop clustering at zoom level 14
 				clusterRadius: 50, // Cluster points within this radius (in pixels)
 			});
-			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-			if (this.mapInstance) {
-				// ✅ Remove old layers if they exist
-				["clusters", "cluster-count", "unclustered-point"].forEach(
-					(layer) => {
-						if (this.mapInstance?.getLayer(layer)) {
-							this.mapInstance.removeLayer(layer);
-						}
-					},
-				);
 
-				if (enableClustering) {
+			// ✅ Ensure clusteringOptions has default values
+			if (!clusteringOptions || clusteringOptions.length === 0) {
+				clusteringOptions = [
+					{ maxCount: 3, color: "#3f83cc", size: 25 },
+				];
+			}
+
+			// ✅ Remove old layers if they exist
+			["clusters", "cluster-count", "unclustered-point"].forEach(
+				(layer) => {
+					if (this.mapInstance?.getLayer(layer)) {
+						this.mapInstance.removeLayer(layer);
+					}
+				},
+			);
+
+			if (enableClustering) {
+				// ✅ Create dynamic cluster styling
+				const clusterColors: (string | number)[] = ["#3f83cc"]; // Default
+				const clusterSizes: (string | number)[] = [20]; // Default
+
+				clusteringOptions.forEach(({ maxCount, color, size }) => {
+					clusterColors.push(maxCount, color);
+					clusterSizes.push(maxCount, size);
+				});
+
+				// ✅ Delay layer addition to ensure the source is loaded
+				setTimeout(() => {
 					// ✅ Add Cluster Layer
-					this.mapInstance.addLayer({
+					this.mapInstance?.addLayer({
 						id: "clusters",
 						type: "circle",
 						source: sourceId,
@@ -131,26 +161,18 @@ class Mapbox {
 							"circle-color": [
 								"step",
 								["get", "point_count"],
-								"#3f83cc",
-								3,
-								"#d1c51f",
-								5,
-								"#1f993f",
+								...clusterColors,
 							],
 							"circle-radius": [
 								"step",
 								["get", "point_count"],
-								25,
-								10,
-								25,
-								50,
-								30,
+								...clusterSizes,
 							],
 						},
 					});
 
 					// ✅ Add Cluster Count Labels
-					this.mapInstance.addLayer({
+					this.mapInstance?.addLayer({
 						id: "cluster-count",
 						type: "symbol",
 						source: sourceId,
@@ -166,7 +188,7 @@ class Mapbox {
 					});
 
 					// ✅ Add Cluster Expansion on Click
-					this.mapInstance.on("click", "clusters", (event) => {
+					this.mapInstance?.on("click", "clusters", (event) => {
 						const features =
 							this.mapInstance?.queryRenderedFeatures(
 								event.point,
@@ -205,22 +227,23 @@ class Mapbox {
 							},
 						);
 					});
-				}
-
-				// ✅ Add Unclustered Points Layer (Markers)
-				this.mapInstance.addLayer({
-					id: "unclustered-point",
-					type: "circle", // Keep as circle for consistency
-					source: sourceId,
-					filter: ["!", ["has", "point_count"]], // Only show when NOT clustered
-					paint: {
-						"circle-color": "#ff0000", // Example color (adjust if needed)
-						"circle-radius": 6,
-						"circle-stroke-width": 2,
-						"circle-stroke-color": "#ffffff",
-					},
-				});
+				}, 500);
 			}
+
+			// ✅ Add Unclustered Points Layer (Markers)
+			this.mapInstance.addLayer({
+				id: "unclustered-point",
+				type: "circle",
+				source: sourceId,
+				filter: ["!", ["has", "point_count"]], // Only show when NOT clustered
+				paint: {
+					"circle-color": "#ff0000", // Example color (adjust if needed)
+					"circle-radius": 6,
+					"circle-stroke-width": 2,
+					"circle-stroke-color": "#ffffff",
+				},
+			});
+
 			// ✅ If clustering is disabled, add individual markers instead
 			if (!enableClustering) {
 				this.addMarkersFromGeoJSON(geojsonData);

@@ -13,13 +13,21 @@ router.register({
 	Pages: PagesController,
 });
 
-function generateMap(options: {
+interface ClusteringOption {
+	maxCount: number;
+	color: string;
+	size: number;
+}
+interface Options {
+	// ...
 	containerId: string;
 	mapboxKey: string;
 	mapOptions: Partial<mapboxgl.MapOptions>;
 	geoJsonUrl: string;
 	enableClustering: boolean;
-}) {
+	clusteringOptions?: ClusteringOption[];
+}
+function generateMap(options: Options) {
 	router.run();
 
 	Mapbox.loadMap(
@@ -28,6 +36,11 @@ function generateMap(options: {
 		options.mapOptions,
 		options.geoJsonUrl,
 		options.enableClustering,
+		options.clusteringOptions?.map((cluster) => ({
+			maxCount: cluster.maxCount,
+			color: cluster.color,
+			size: cluster.size,
+		})),
 	).catch((error: unknown) => {
 		Logger.error(
 			"Error loading map:",
@@ -39,29 +52,9 @@ function generateMap(options: {
  *
  * TODO:
  *
- * 1] Add clustering options:
- *
- * clusteringOptions: {
- *		clusters: {
- *			{
- *            maxCount: 10,
- *            color: #3f83cc,
- * 			  size: 25
- *			},
- *			{
- *            maxCount: 25,
- *            color: #d1c51f,
- * 			  size: 25
- *			},
- *			{
- *            maxCount: 50,
- *            color: #1f993f,
- * 			  size: 25
- *			}
- * }
- *
  * 2] Fix while clustering it will show markes not only dots
  * 3] Add options to function generate map to have there +-
+ * 4] Connect it to wordpressData
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -78,6 +71,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			interactive: true /* enabled dragging */,
 		},
 		geoJsonUrl: "/map.geojson",
-		enableClustering: true,
+		enableClustering: false,
+		clusteringOptions: [
+			{ maxCount: 2, color: "#4287f5", size: 25 },
+			{ maxCount: 5, color: "#44a637", size: 25 },
+			{ maxCount: 12, color: "#4f328c", size: 25 },
+		],
 	});
 });
