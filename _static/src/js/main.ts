@@ -60,6 +60,10 @@ function generateMap(options: Options) {
  *
  * 1] Connect it to wordpressData
  * 2] Fix while clustering it will show markes not only dots
+ * 3] Nastavení mapy dát do administrace - vytvořit tam něco jako repeater, který tam bude moc tvrořit něco jako více typů map třeba pro více stránek
+ *
+ * ---
+ * *) Custom filetrs
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -71,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			style: "mapbox://styles/mapbox/dark-v11",
 			center: [18.2951, 49.835],
 			zoom: 14,
-			pitch: 0,
+			pitch: 45,
 			bearing: 0,
 			interactive: true, // Enabled dragging
 		},
@@ -83,8 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			{ maxCount: 12, color: "#4f328c", size: 25 },
 		],
 		customMapOptions: {
-			zoom: false, // Show +/- icons for zoom and compass
-			fullscreen: false, // Show fullscreen options
+			zoom: true, // Show +/- icons for zoom and compass
+			fullscreen: true, // Show fullscreen options
 		},
 	});
 });
