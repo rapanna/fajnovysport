@@ -52,6 +52,10 @@ function generateMap(options: Options) {
 			error instanceof Error ? error : new Error(String(error)),
 		);
 	});
+
+	/**
+	 * Mapbox.loadMap(http://localhost/test/?mapbox_configuration&map_name=new2)
+	 */
 }
 
 /**
@@ -59,8 +63,9 @@ function generateMap(options: Options) {
  * TODO:
  *
  * 1] Connect it to wordpressData
- * 2] Fix while clustering it will show markes not only dots
- * 3] Nastavení mapy dát do administrace - vytvořit tam něco jako repeater, který tam bude moc tvrořit něco jako více typů map třeba pro více stránek
+ * 2] Napojit nastavení mapy na můj plugin
+ * 3] Fix while clustering it will show markes not only dots
+ * 4] Filters in typescript
  *
  * ---
  * *) Custom filetrs
@@ -92,3 +97,22 @@ document.addEventListener("DOMContentLoaded", () => {
 		},
 	});
 });
+
+/**
+ * document.addEventListener("DOMContentLoaded", () => {
+ * 	fetch("localhost/test/?mapbox_configuration", { mode: "no-cors" })
+ * 		.then((response: globalThis.Response) => {
+ * 			if (!response.ok) {
+ * 				throw new Error("Failed to fetch map configuration");
+ * 			}
+ * 			return response.json();
+ * 		})
+ * 		.then((configData) => {
+ * 			Logger.log(configData);
+ * 			generateMap(configData as Options);
+ * 		})
+ * 		.catch((error: unknown) => {
+ * 			Logger.error("Error loading map configuration:", error as Error);
+ * 		});
+ * });
+ */
