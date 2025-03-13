@@ -15,7 +15,8 @@
 			"properties": {
 				"name": "Marker 1",
 				"popupText": "This is Marker 1 in Ostrava!",
-				"markerStyle": "red"
+				"markerStyle": "red",
+				"obvod": "Ostrava"
 			}
 		},
 		{

@@ -58,6 +58,56 @@ function generateMap(options: Options) {
 	 */
 }
 
+interface MapConfiguration {
+	// Add properties here that match the expected shape of the data
+	containerId: string;
+	mapboxKey: string;
+	mapOptions: {
+		style: string;
+		center: [number, number];
+		zoom: number;
+		pitch: number;
+		bearing: number;
+		interactive: boolean;
+	};
+	geoJsonUrl: string;
+	enableClustering: boolean;
+	clusteringOptions: {
+		maxCount: number;
+		color: string;
+		size: number;
+	}[];
+	customMapOptions: {
+		zoom: boolean;
+		fullscreen: boolean;
+	};
+}
+function parseConfigurationFromUrl(url: string): Promise<MapConfiguration> {
+	const urlParams = new URLSearchParams(url.split("?")[1]);
+	const mapName = urlParams.get("map_name");
+
+	if (!mapName) {
+		throw new Error("Missing map_name parameter in URL");
+	}
+
+	return fetch(url, {
+		method: "GET",
+		mode: "cors",
+		credentials: "same-origin",
+		headers: {
+			"Content-Type": "application/json",
+		},
+	})
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error(
+					`HTTP error! status: ${response.status.toString()}`,
+				);
+			}
+			return response.json();
+		})
+		.then((data: MapConfiguration) => data);
+}
 /**
  *
  * TODO:
@@ -72,47 +122,75 @@ function generateMap(options: Options) {
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-	generateMap({
-		containerId: "mapContainer",
-		mapboxKey:
-			"pk.eyJ1Ijoib3ZhbmV0LW1hcCIsImEiOiJjbDVtYjB4ZHkwczBwM2RvNGZ4Nmh1MDhtIn0.ixRzP7HDbiFv0kgxQVPzgg",
-		mapOptions: {
-			style: "mapbox://styles/mapbox/dark-v11",
-			center: [18.2951, 49.835],
-			zoom: 14,
-			pitch: 45,
-			bearing: 0,
-			interactive: true, // Enabled dragging
-		},
-		geoJsonUrl: "/map.geojson",
-		enableClustering: true,
-		clusteringOptions: [
-			{ maxCount: 2, color: "#4287f5", size: 25 },
-			{ maxCount: 5, color: "#44a637", size: 25 },
-			{ maxCount: 12, color: "#4f328c", size: 25 },
-		],
-		customMapOptions: {
-			zoom: true, // Show +/- icons for zoom and compass
-			fullscreen: true, // Show fullscreen options
-		},
-	});
-});
+	// Generate map instance from code settings
+	/**
+	 * generateMap({
+	 * 	containerId: "mapContainer",
+	 * 	mapboxKey:
+	 * 		"pk.eyJ1Ijoib3ZhbmV0LW1hcCIsImEiOiJjbDVtYjB4ZHkwczBwM2RvNGZ4Nmh1MDhtIn0.ixRzP7HDbiFv0kgxQVPzgg",
+	 * 	mapOptions: {
+	 * 		style: "mapbox://styles/mapbox/dark-v11",
+	 * 		center: [18.2951, 49.835],
+	 * 		zoom: 14,
+	 * 		pitch: 45,
+	 * 		bearing: 0,
+	 * 		interactive: true, // Enabled dragging
+	 * 	},
+	 * 	geoJsonUrl: "/map.geojson",
+	 * 	enableClustering: true,
+	 * 	clusteringOptions: [
+	 * 		{ maxCount: 2, color: "#4287f5", size: 25 },
+	 * 		{ maxCount: 5, color: "#44a637", size: 25 },
+	 * 		{ maxCount: 12, color: "#4f328c", size: 25 },
+	 * 	],
+	 * 	customMapOptions: {
+	 * 		zoom: true, // Show +/- icons for zoom and compass
+	 * 		fullscreen: true, // Show fullscreen options
+	 * 	},
+	 * });
+	 */
+	// localhost/test.json
+	Logger.log("----------------------------------");
 
-/**
- * document.addEventListener("DOMContentLoaded", () => {
- * 	fetch("localhost/test/?mapbox_configuration", { mode: "no-cors" })
- * 		.then((response: globalThis.Response) => {
- * 			if (!response.ok) {
- * 				throw new Error("Failed to fetch map configuration");
- * 			}
- * 			return response.json();
- * 		})
- * 		.then((configData) => {
- * 			Logger.log(configData);
- * 			generateMap(configData as Options);
- * 		})
- * 		.catch((error: unknown) => {
- * 			Logger.error("Error loading map configuration:", error as Error);
- * 		});
- * });
- */
+	parseConfigurationFromUrl(
+		"http://localhost/test/?mapbox_configuration&map_name=mapbox_real_test",
+	)
+		.then((config) => {
+			Logger.log("----------------------------------");
+			Logger.log("Parsed configuration:", config);
+			// Ensure mapOptions is correctly structured
+			config.mapOptions = { ...config.mapOptions };
+			if (typeof config.mapOptions === "object") {
+				config.mapOptions = { ...config.mapOptions };
+			}
+
+			generateMap(config);
+		})
+		.catch((error: unknown) => {
+			if (error instanceof Error) {
+				Logger.error("Error parsing configuration:", error);
+			} else {
+				Logger.error(
+					"Error parsing configuration:",
+					new Error(String(error)),
+				);
+			}
+		});
+	Logger.log("----------------------------------");
+
+	// TODO: Generate map instance from URL
+	/**  http://localhost/test/?mapbox_configuration&map_name=mapbox_real_test*/
+	/**
+	 * const config = parseConfigurationFromUrl(
+	 * 	"http://localhost/test/?mapbox_configuration&map_name=test",
+	 * )
+	 * 	.then((config) => {
+	 * 		Logger.log("Parsed configuration:", config);
+	 * 	})
+	 * 	.catch((error: unknown) => {
+	 * 		Logger.error("Error parsing configuration:", error as Error);
+	 * 	});
+	 * Logger.log("Map CONFIG:");
+	 * Logger.log(config);
+	 */
+});

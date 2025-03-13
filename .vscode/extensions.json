@@ -7,6 +7,7 @@
 		"mikestead.dotenv",
 		"sainoba.px-to-rem",
 		"whatwedo.twig",
-		"redhat.vscode-yaml"
+		"redhat.vscode-yaml",
+		"github.copilot-chat"
 	]
 }
