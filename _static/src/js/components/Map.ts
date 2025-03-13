@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import mapboxgl, { Map as MapboxMap } from "mapbox-gl";
 import Logger from "./Logger";
 
@@ -95,7 +94,7 @@ class Mapbox {
 	private addMapControls(customMapOptions?: {
 		zoom: boolean;
 		fullscreen: boolean;
-	}) {
+	}): void {
 		if (this.mapInstance) {
 			// Zoom Control (including +/- icons)
 			if (customMapOptions?.zoom) {
