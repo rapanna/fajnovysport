@@ -31,6 +31,112 @@ interface Options {
 	};
 }
 
+// Update MapConfiguration interface
+interface GeoJsonPostsConfig {
+	postType: string;
+	postCategory?: string;
+	latitudeField: string;
+	longitudeField: string;
+	popupTemplate: string;
+	customFields: string[];
+}
+
+export interface GeoJSONFeature {
+	type: "Feature";
+	geometry: {
+		type: "Point";
+		coordinates: [number, number];
+	};
+	properties: {
+		id?: number;
+		title?: string;
+		popupContent?: string;
+		customFields?: Record<string, string | number | boolean>;
+	};
+}
+
+export interface GeoJSON {
+	type: "FeatureCollection";
+	features: GeoJSONFeature[];
+}
+
+interface MapConfiguration {
+	containerId: string;
+	mapboxKey: string;
+	mapOptions: {
+		style: string;
+		center: [number, number];
+		zoom: number;
+		pitch: number;
+		bearing: number;
+		interactive: boolean;
+	};
+	enableClustering: boolean;
+	customMapOptions: {
+		zoom: boolean;
+		fullscreen: boolean;
+	};
+	geoJsonMode?: "direct" | "posts";
+	geoJsonUrl: string;
+	geoJsonPosts?: GeoJsonPostsConfig;
+	geoJson?: GeoJSON;
+	clusteringOptions?: ClusteringOption[];
+}
+
+export async function loadGeoJson(config: MapConfiguration): Promise<GeoJSON> {
+	if (config.geoJsonMode === "posts" && config.geoJsonPosts) {
+		// Load from WordPress posts
+		const postsUrl = new URL(config.geoJsonUrl);
+		postsUrl.searchParams.append("mode", "posts");
+		postsUrl.searchParams.append("post_type", config.geoJsonPosts.postType);
+		if (config.geoJsonPosts.postCategory) {
+			postsUrl.searchParams.append(
+				"category",
+				config.geoJsonPosts.postCategory,
+			);
+		}
+
+		try {
+			const response = await fetch(postsUrl.toString(), {
+				headers: {
+					Accept: "application/json",
+				},
+			});
+
+			if (!response.ok) {
+				throw new Error(
+					`HTTP error! status: ${response.status.toString()}`,
+				);
+			}
+
+			return (await response.json()) as GeoJSON;
+		} catch (error) {
+			Logger.error(
+				"Error loading GeoJSON from posts:",
+				error instanceof Error ? error : new Error(String(error)),
+			);
+			throw error;
+		}
+	} else {
+		// Load direct GeoJSON
+		try {
+			const response = await fetch(config.geoJsonUrl);
+			if (!response.ok) {
+				throw new Error(
+					`HTTP error! status: ${response.status.toString()}`,
+				);
+			}
+			return (await response.json()) as GeoJSON;
+		} catch (error) {
+			Logger.error(
+				"Error loading GeoJSON:",
+				error instanceof Error ? error : new Error(String(error)),
+			);
+			throw error;
+		}
+	}
+}
+
 function generateMap(options: Options) {
 	router.run();
 
@@ -58,30 +164,6 @@ function generateMap(options: Options) {
 	 */
 }
 
-interface MapConfiguration {
-	// Add properties here that match the expected shape of the data
-	containerId: string;
-	mapboxKey: string;
-	mapOptions: {
-		style: string;
-		center: [number, number];
-		zoom: number;
-		pitch: number;
-		bearing: number;
-		interactive: boolean;
-	};
-	geoJsonUrl: string;
-	enableClustering: boolean;
-	clusteringOptions: {
-		maxCount: number;
-		color: string;
-		size: number;
-	}[];
-	customMapOptions: {
-		zoom: boolean;
-		fullscreen: boolean;
-	};
-}
 function parseConfigurationFromUrl(url: string): Promise<MapConfiguration> {
 	const urlParams = new URLSearchParams(url.split("?")[1]);
 	const mapName = urlParams.get("map_name");
@@ -153,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	Logger.log("----------------------------------");
 
 	parseConfigurationFromUrl(
-		"http://localhost/test/?mapbox_configuration&map_name=mapbox_real_test",
+		"http://localhost/test/?mapbox_configuration&map_name=locations",
 	)
 		.then((config) => {
 			Logger.log("----------------------------------");
