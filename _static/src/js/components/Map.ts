@@ -77,6 +77,13 @@ class Mapbox {
 
 			this.addMapControls(customMapOptions);
 
+			// Check if geoJsonUrl is provided and not empty
+			if (!geoJsonUrl) {
+				Logger.error("No GeoJSON URL provided");
+				return;
+			}
+
+			Logger.log("Loading GeoJSON from URL:", geoJsonUrl);
 			await this.loadGeoJSONData(
 				geoJsonUrl,
 				enableClustering,
@@ -127,6 +134,7 @@ class Mapbox {
 		}
 
 		try {
+			Logger.log("Fetching GeoJSON from:", geoJsonUrl);
 			const response = await fetch(geoJsonUrl);
 			if (!response.ok) {
 				throw new Error(
@@ -283,6 +291,7 @@ class Mapbox {
 				"Error loading GeoJSON data:",
 				error instanceof Error ? error : new Error(String(error)),
 			);
+			Logger.error("Incorrect url:", new Error(geoJsonUrl));
 		}
 	}
 

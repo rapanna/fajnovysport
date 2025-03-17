@@ -84,118 +84,197 @@ interface MapConfiguration {
 }
 
 export async function loadGeoJson(config: MapConfiguration): Promise<GeoJSON> {
-	if (config.geoJsonMode === "posts" && config.geoJsonPosts) {
-		// Load from WordPress posts
-		const postsUrl = new URL(config.geoJsonUrl);
-		postsUrl.searchParams.append("mode", "posts");
-		postsUrl.searchParams.append("post_type", config.geoJsonPosts.postType);
-		if (config.geoJsonPosts.postCategory) {
-			postsUrl.searchParams.append(
-				"category",
-				config.geoJsonPosts.postCategory,
-			);
-		}
+	try {
+		// If geoJsonMode is posts and we have geoJsonPosts config
+		if (config.geoJsonMode === "posts" && config.geoJsonPosts) {
+			// Use the geoJson directly if it's provided in the config
+			if (config.geoJson) {
+				Logger.log("Using provided geoJson from config");
+				return config.geoJson;
+			}
 
-		try {
+			// Otherwise fetch from URL
+			const postsUrl = new URL(config.geoJsonUrl);
+			postsUrl.searchParams.append("mode", "posts");
+			postsUrl.searchParams.append(
+				"post_type",
+				config.geoJsonPosts.postType,
+			);
+			if (config.geoJsonPosts.postCategory) {
+				postsUrl.searchParams.append(
+					"category",
+					config.geoJsonPosts.postCategory,
+				);
+			}
+
+			Logger.log("Fetching GeoJSON from:", postsUrl.toString());
+
 			const response = await fetch(postsUrl.toString(), {
 				headers: {
 					Accept: "application/json",
+					"Content-Type": "application/json",
 				},
 			});
 
 			if (!response.ok) {
+				const text = await response.text();
+				Logger.error(
+					"Server response:",
+					new Error(
+						`HTTP error! status: ${response.status.toString()}, contentType: ${response.headers.get("content-type") ?? "null"}`,
+					),
+				);
+				throw new Error(
+					`HTTP error! status: ${response.status.toString()}`,
+				);
+			}
+
+			const contentType = response.headers.get("content-type");
+			if (!contentType?.includes("application/json")) {
+				const text = await response.text();
+				Logger.error(
+					"Invalid content type:",
+					new Error(`Expected JSON but got ${contentType ?? "null"}`),
+				);
+				throw new Error(
+					`Expected JSON but got ${contentType ?? "null"}`,
+				);
+			}
+
+			return (await response.json()) as GeoJSON;
+		} else {
+			// Use direct GeoJSON data if provided
+			if (config.geoJson) {
+				Logger.log("Using provided geoJson from config");
+				return config.geoJson;
+			}
+
+			// Otherwise fetch from URL
+			Logger.log("Fetching GeoJSON from:", config.geoJsonUrl);
+			const response = await fetch(config.geoJsonUrl);
+
+			if (!response.ok) {
+				const text = await response.text();
+				const error = new Error(response.statusText);
+				(error as Error & { details?: { body: string } }).details = {
+					body: text.substring(0, 500),
+				};
+				Logger.error("Server response:", error);
 				throw new Error(
 					`HTTP error! status: ${response.status.toString()}`,
 				);
 			}
 
 			return (await response.json()) as GeoJSON;
-		} catch (error) {
-			Logger.error(
-				"Error loading GeoJSON from posts:",
-				error instanceof Error ? error : new Error(String(error)),
-			);
-			throw error;
 		}
-	} else {
-		// Load direct GeoJSON
-		try {
-			const response = await fetch(config.geoJsonUrl);
-			if (!response.ok) {
-				throw new Error(
-					`HTTP error! status: ${response.status.toString()}`,
-				);
-			}
-			return (await response.json()) as GeoJSON;
-		} catch (error) {
-			Logger.error(
-				"Error loading GeoJSON:",
-				error instanceof Error ? error : new Error(String(error)),
-			);
-			throw error;
-		}
+	} catch (error) {
+		Logger.error(
+			"Error loading GeoJSON:",
+			error instanceof Error ? error : new Error(String(error)),
+		);
+		throw error;
 	}
 }
 
-function generateMap(options: Options) {
-	router.run();
+function generateMap(config: MapConfiguration) {
+	// If we have direct GeoJSON data in the config, create a data URL
+	const geoJsonUrl = config.geoJson
+		? `data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify(config.geoJson))}`
+		: config.geoJsonUrl;
+
+	if (!geoJsonUrl) {
+		Logger.error("No GeoJSON URL or data provided in configuration");
+		return;
+	}
 
 	Mapbox.loadMap(
-		options.containerId,
-		options.mapboxKey,
-		options.mapOptions,
-		options.geoJsonUrl,
-		options.enableClustering,
-		options.clusteringOptions?.map((cluster) => ({
-			maxCount: cluster.maxCount,
-			color: cluster.color,
-			size: cluster.size,
-		})),
-		options.customMapOptions, // Pass customMapOptions here
+		config.containerId,
+		config.mapboxKey,
+		config.mapOptions,
+		geoJsonUrl,
+		config.enableClustering,
+		config.clusteringOptions,
+		config.customMapOptions,
 	).catch((error: unknown) => {
 		Logger.error(
 			"Error loading map:",
 			error instanceof Error ? error : new Error(String(error)),
 		);
 	});
-
-	/**
-	 * Mapbox.loadMap(http://localhost/test/?mapbox_configuration&map_name=new2)
-	 */
 }
-
+/**
+ * Mapbox.loadMap(http://localhost/test/?mapbox_configuration&map_name=new2)
+ */
 function parseConfigurationFromUrl(url: string): Promise<MapConfiguration> {
-	const urlParams = new URLSearchParams(url.split("?")[1]);
-	const mapName = urlParams.get("map_name");
+	const fullUrl = new URL(url);
+	const mapName = fullUrl.searchParams.get("map_name");
 
 	if (!mapName) {
 		throw new Error("Missing map_name parameter in URL");
 	}
 
+	Logger.log("Fetching configuration from:", url);
+
 	return fetch(url, {
 		method: "GET",
-		mode: "cors",
-		credentials: "same-origin",
 		headers: {
+			Accept: "application/json",
 			"Content-Type": "application/json",
 		},
-	})
-		.then((response) => {
-			if (!response.ok) {
-				throw new Error(
-					`HTTP error! status: ${response.status.toString()}`,
-				);
+		mode: "cors",
+		credentials: "same-origin",
+	}).then(async (response) => {
+		const text = await response.text();
+
+		// Detailed logging of the response
+		Logger.log("Server Response:", {
+			url: response.url,
+			status: response.status,
+			statusText: response.statusText,
+			headers: Object.fromEntries(response.headers.entries()),
+			contentType: response.headers.get("content-type"),
+			bodyPreview: text.substring(0, 200),
+		});
+
+		if (!response.ok) {
+			throw new Error(
+				`HTTP error! status: ${response.status.toString()}, body: ${text.substring(0, 100)}`,
+			);
+		}
+
+		try {
+			const data = JSON.parse(text) as MapConfiguration;
+			Logger.log("Parsed JSON data:", data);
+			return data;
+		} catch (e) {
+			class CustomError extends Error {
+				public details?: { receivedData: string };
+				constructor(
+					message: string,
+					details?: { receivedData: string },
+				) {
+					super(message);
+					this.name = "CustomError";
+					this.details = details;
+				}
 			}
-			return response.json();
-		})
-		.then((data: MapConfiguration) => data);
+
+			Logger.error(
+				"JSON Parse Error:",
+				new CustomError(String(e), {
+					receivedData: text.substring(0, 200),
+				}),
+			);
+			throw new Error(`Invalid JSON response: ${text.substring(0, 100)}`);
+		}
+	});
 }
 /**
  *
  * TODO:
  *
  * 1] Connect it to wordpressData
- * 2] Napojit nastavení mapy na můj plugin
+ * 2] Napojit nastavení mapy na můj plugin -- HOTOVO
  * 3] Fix while clustering it will show markes not only dots
  * 4] Filters in typescript
  *
@@ -204,34 +283,6 @@ function parseConfigurationFromUrl(url: string): Promise<MapConfiguration> {
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-	// Generate map instance from code settings
-	/**
-	 * generateMap({
-	 * 	containerId: "mapContainer",
-	 * 	mapboxKey:
-	 * 		"pk.eyJ1Ijoib3ZhbmV0LW1hcCIsImEiOiJjbDVtYjB4ZHkwczBwM2RvNGZ4Nmh1MDhtIn0.ixRzP7HDbiFv0kgxQVPzgg",
-	 * 	mapOptions: {
-	 * 		style: "mapbox://styles/mapbox/dark-v11",
-	 * 		center: [18.2951, 49.835],
-	 * 		zoom: 14,
-	 * 		pitch: 45,
-	 * 		bearing: 0,
-	 * 		interactive: true, // Enabled dragging
-	 * 	},
-	 * 	geoJsonUrl: "/map.geojson",
-	 * 	enableClustering: true,
-	 * 	clusteringOptions: [
-	 * 		{ maxCount: 2, color: "#4287f5", size: 25 },
-	 * 		{ maxCount: 5, color: "#44a637", size: 25 },
-	 * 		{ maxCount: 12, color: "#4f328c", size: 25 },
-	 * 	],
-	 * 	customMapOptions: {
-	 * 		zoom: true, // Show +/- icons for zoom and compass
-	 * 		fullscreen: true, // Show fullscreen options
-	 * 	},
-	 * });
-	 */
-	// localhost/test.json
 	Logger.log("----------------------------------");
 
 	parseConfigurationFromUrl(
