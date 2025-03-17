@@ -83,6 +83,23 @@ interface MapConfiguration {
 	clusteringOptions?: ClusteringOption[];
 }
 
+/**
+ * Loads GeoJSON data from either a direct configuration object or a remote URL.
+ *
+ * @param config {MapConfiguration} The map configuration object containing:
+ *   - geoJsonMode: "direct" | "posts" - Source of GeoJSON data
+ *   - geoJson?: GeoJSON - Direct GeoJSON data if available
+ *   - geoJsonUrl: string - URL to fetch GeoJSON data if direct data not provided
+ *   - geoJsonPosts?: GeoJsonPostsConfig - WordPress posts configuration for posts mode
+ *
+ * @returns {Promise<GeoJSON>} A promise that resolves to a GeoJSON object containing:
+ *   - type: "FeatureCollection"
+ *   - features: Array of GeoJSON features
+ *
+ * @throws {Error} If the server response is not OK (non-200 status)
+ * @throws {Error} If the response content type is not application/json
+ * @throws {Error} If the response cannot be parsed as JSON
+ */
 export async function loadGeoJson(config: MapConfiguration): Promise<GeoJSON> {
 	try {
 		// If geoJsonMode is posts and we have geoJsonPosts config
@@ -176,6 +193,24 @@ export async function loadGeoJson(config: MapConfiguration): Promise<GeoJSON> {
 	}
 }
 
+/**
+ * Generates and initializes a Mapbox map instance with the provided configuration.
+ *
+ * @param config {MapConfiguration} The map configuration object containing:
+ *   - containerId: string - ID of the HTML container for the map
+ *   - mapboxKey: string - Mapbox API key
+ *   - mapOptions: object - Map display options (style, center, zoom, etc.)
+ *   - geoJson?: GeoJSON - Direct GeoJSON data if available
+ *   - geoJsonUrl: string - URL to fetch GeoJSON data if direct data not provided
+ *   - enableClustering: boolean - Whether to enable marker clustering
+ *   - clusteringOptions?: ClusteringOption[] - Marker clustering settings
+ *   - customMapOptions?: object - Additional map control options
+ *
+ * @returns {void}
+ *
+ * @throws {Error} If no GeoJSON URL or data is provided in configuration
+ * @throws {Error} If map initialization fails
+ */
 function generateMap(config: MapConfiguration) {
 	// If we have direct GeoJSON data in the config, create a data URL
 	const geoJsonUrl = config.geoJson
@@ -202,8 +237,41 @@ function generateMap(config: MapConfiguration) {
 		);
 	});
 }
+
 /**
- * Mapbox.loadMap(http://localhost/test/?mapbox_configuration&map_name=new2)
+ * Fetches and parses map configuration from a specified URL endpoint.
+ *
+ * @param url {string} The URL to fetch the map configuration from.
+ *                     Expected format: "http://domain/path/?mapbox_configuration&map_name=<mapName>"
+ *
+ * @returns {Promise<MapConfiguration>} A promise that resolves to a MapConfiguration object:
+ * {
+ *   containerId: string;         // ID of the HTML container for the map
+ *   mapboxKey: string;          // Mapbox API key
+ *   mapOptions: {               // Map display options
+ *     style: string;            // Mapbox style URL
+ *     center: [number, number]; // Initial center coordinates [lng, lat]
+ *     zoom: number;            // Initial zoom level
+ *     pitch: number;           // Map pitch in degrees
+ *     bearing: number;         // Map bearing in degrees
+ *     interactive: boolean;    // Whether the map can be interacted with
+ *   };
+ *   enableClustering: boolean;  // Whether to enable marker clustering
+ *   customMapOptions: {         // Additional map control options
+ *     zoom: boolean;           // Show zoom controls
+ *     fullscreen: boolean;     // Show fullscreen control
+ *   };
+ *   geoJsonMode?: "direct" | "posts";  // Source of GeoJSON data
+ *   geoJsonUrl: string;                // URL to fetch GeoJSON data
+ *   geoJsonPosts?: GeoJsonPostsConfig; // WordPress posts configuration
+ *   geoJson?: GeoJSON;                 // Direct GeoJSON data
+ *   clusteringOptions?: ClusteringOption[]; // Marker clustering settings
+ * }
+ *
+ * @throws {Error} If map_name parameter is missing in URL
+ * @throws {Error} If the server response is not OK (non-200 status)
+ * @throws {Error} If the response is not valid JSON
+ *
  */
 function parseConfigurationFromUrl(url: string): Promise<MapConfiguration> {
 	const fullUrl = new URL(url);
@@ -269,11 +337,12 @@ function parseConfigurationFromUrl(url: string): Promise<MapConfiguration> {
 		}
 	});
 }
+
 /**
  *
  * TODO:
  *
- * 1] Connect it to wordpressData
+ * 1] Connect it to wordpressData -- HOTOVO
  * 2] Napojit nastavení mapy na můj plugin -- HOTOVO
  * 3] Fix while clustering it will show markes not only dots
  * 4] Filters in typescript
@@ -310,20 +379,4 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		});
 	Logger.log("----------------------------------");
-
-	// TODO: Generate map instance from URL
-	/**  http://localhost/test/?mapbox_configuration&map_name=mapbox_real_test*/
-	/**
-	 * const config = parseConfigurationFromUrl(
-	 * 	"http://localhost/test/?mapbox_configuration&map_name=test",
-	 * )
-	 * 	.then((config) => {
-	 * 		Logger.log("Parsed configuration:", config);
-	 * 	})
-	 * 	.catch((error: unknown) => {
-	 * 		Logger.error("Error parsing configuration:", error as Error);
-	 * 	});
-	 * Logger.log("Map CONFIG:");
-	 * Logger.log(config);
-	 */
 });
