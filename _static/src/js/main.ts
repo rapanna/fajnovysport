@@ -352,31 +352,18 @@ function parseConfigurationFromUrl(url: string): Promise<MapConfiguration> {
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-	Logger.log("----------------------------------");
-
 	parseConfigurationFromUrl(
-		"http://localhost/test/?mapbox_configuration&map_name=locations",
+		"http://localhost/test/?mapbox_configuration&map_name=locations-cluster",
 	)
 		.then((config) => {
-			Logger.log("----------------------------------");
-			Logger.log("Parsed configuration:", config);
 			// Ensure mapOptions is correctly structured
 			config.mapOptions = { ...config.mapOptions };
-			if (typeof config.mapOptions === "object") {
-				config.mapOptions = { ...config.mapOptions };
-			}
-
 			generateMap(config);
 		})
 		.catch((error: unknown) => {
-			if (error instanceof Error) {
-				Logger.error("Error parsing configuration:", error);
-			} else {
-				Logger.error(
-					"Error parsing configuration:",
-					new Error(String(error)),
-				);
-			}
+			Logger.error(
+				"Configuration error:",
+				error instanceof Error ? error : new Error(String(error)),
+			);
 		});
-	Logger.log("----------------------------------");
 });
