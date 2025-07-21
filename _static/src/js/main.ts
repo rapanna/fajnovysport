@@ -222,20 +222,23 @@ function generateMap(config: MapConfiguration) {
 		return;
 	}
 
-	Mapbox.loadMap(
-		config.containerId,
-		config.mapboxKey,
-		config.mapOptions,
-		geoJsonUrl,
-		config.enableClustering,
-		config.clusteringOptions,
-		config.customMapOptions,
-	).catch((error: unknown) => {
-		Logger.error(
-			"Error loading map:",
-			error instanceof Error ? error : new Error(String(error)),
-		);
-	});
+	const mapboxInstance = new Mapbox();
+	mapboxInstance
+		.loadMap(
+			config.containerId,
+			config.mapboxKey,
+			config.mapOptions,
+			geoJsonUrl,
+			config.enableClustering,
+			config.clusteringOptions,
+			config.customMapOptions,
+		)
+		.catch((error: unknown) => {
+			Logger.error(
+				"Error loading map:",
+				error instanceof Error ? error : new Error(String(error)),
+			);
+		});
 }
 
 /**

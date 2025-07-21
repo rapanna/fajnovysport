@@ -10,6 +10,8 @@ interface GeoJSONFeature {
 	};
 	properties: {
 		popupText?: string; // Optional popup text
+		cluster?: boolean; // Indicates if the feature is a cluster
+		cluster_id?: number; // Optional cluster ID for clustering
 	};
 }
 
@@ -17,6 +19,10 @@ interface GeoJSON {
 	type: "FeatureCollection";
 	features: GeoJSONFeature[];
 	custom_markers?: Record<string, string>;
+}
+
+interface GeoJSONWithCustomMarkers extends GeoJSON {
+	custom_markers: Record<string, string>;
 }
 
 interface ClusteringOption {
@@ -27,6 +33,43 @@ interface ClusteringOption {
 
 class Mapbox {
 	private mapInstance: MapboxMap | null = null;
+
+	// Method to clear existing map data
+	private clearExistingMapData(sourceId: string): void {
+		if (this.mapInstance) {
+			// Remove layers associated with the source
+			const layers = this.mapInstance.getStyle()?.layers ?? [];
+			layers.forEach((layer) => {
+				if (layer.source === sourceId) {
+					this.mapInstance?.removeLayer(layer.id);
+				}
+			});
+
+			// Remove the source
+			if (this.mapInstance.getSource(sourceId)) {
+				this.mapInstance.removeSource(sourceId);
+			}
+			try {
+				// Remove layers associated with the source
+				const layers = this.mapInstance.getStyle()?.layers ?? [];
+				layers.forEach((layer) => {
+					if (layer.source === sourceId) {
+						this.mapInstance?.removeLayer(layer.id);
+					}
+				});
+
+				// Remove the source
+				if (this.mapInstance.getSource(sourceId)) {
+					this.mapInstance.removeSource(sourceId);
+				}
+			} catch (error) {
+				Logger.error(
+					"Error processing GeoJSON data:",
+					error instanceof Error ? error : new Error(String(error)),
+				);
+			}
+		}
+	}
 
 	public async loadMap(
 		containerId: string,
@@ -83,7 +126,7 @@ class Mapbox {
 				return;
 			}
 
-			Logger.log("Loading GeoJSON from URL:", geoJsonUrl);
+			// Logger.log("Loading GeoJSON from URL:", geoJsonUrl);
 			await this.loadGeoJSONData(
 				geoJsonUrl,
 				enableClustering,
@@ -134,217 +177,221 @@ class Mapbox {
 		}
 
 		try {
-			Logger.log("Fetching GeoJSON from:", geoJsonUrl);
-			const response = await fetch(geoJsonUrl);
-			if (!response.ok) {
-				throw new Error(
-					`Failed to fetch GeoJSON file: ${response.statusText}`,
+			// Handle both URL and direct data
+			let geojsonData: GeoJSON;
+			if (geoJsonUrl.startsWith("data:")) {
+				// Parse the data URL
+				const decodedData = decodeURIComponent(
+					geoJsonUrl.split(",")[1],
 				);
+				geojsonData = JSON.parse(decodedData) as GeoJSON;
+			} else {
+				const response = await fetch(geoJsonUrl);
+				if (!response.ok) {
+					throw new Error(
+						`Failed to fetch GeoJSON file: ${response.statusText}`,
+					);
+				}
+				geojsonData = (await response.json()) as GeoJSON;
 			}
-
-			const geojsonData = (await response.json()) as GeoJSON;
-			Logger.log("Fetched GeoJSON:", geojsonData); // ✅ Debugging: Log fetched data
 
 			const sourceId = "places";
 
-			// ✅ Remove previous source if it exists
-			if (this.mapInstance.getSource(sourceId)) {
-				this.mapInstance.removeSource(sourceId);
-			}
+			// Remove previous source, layers, and markers
+			this.clearExistingMapData(sourceId);
 
-			// ✅ Add GeoJSON source with clustering support
+			// Add GeoJSON source
 			this.mapInstance.addSource(sourceId, {
 				type: "geojson",
 				data: geojsonData,
 				cluster: enableClustering,
-				clusterMaxZoom: 14, // Stop clustering at zoom level 14
-				clusterRadius: 50, // Cluster points within this radius (in pixels)
+				clusterMaxZoom: 14,
+				clusterRadius: 50,
 			});
-
-			// ✅ Ensure clusteringOptions has default values
-			if (!clusteringOptions || clusteringOptions.length === 0) {
-				clusteringOptions = [
-					{ maxCount: 3, color: "#3f83cc", size: 25 },
-				];
-			}
-
-			// ✅ Remove old layers if they exist
-			["clusters", "cluster-count", "unclustered-point"].forEach(
-				(layer) => {
-					if (this.mapInstance?.getLayer(layer)) {
-						this.mapInstance.removeLayer(layer);
-					}
-				},
-			);
 
 			if (enableClustering) {
-				// ✅ Create dynamic cluster styling
-				const clusterColors: (string | number)[] = ["#3f83cc"]; // Default
-				const clusterSizes: (string | number)[] = [20]; // Default
-
-				clusteringOptions.forEach(({ maxCount, color, size }) => {
-					clusterColors.push(maxCount, color);
-					clusterSizes.push(maxCount, size);
+				// Add cluster layers
+				this.mapInstance.addLayer({
+					id: "clusters",
+					type: "circle",
+					source: sourceId,
+					filter: ["has", "point_count"],
+					paint: {
+						"circle-color": "#3f83cc",
+						"circle-radius": 20,
+					},
 				});
 
-				// ✅ Delay layer addition to ensure the source is loaded
-				setTimeout(() => {
-					// ✅ Add Cluster Layer
-					this.mapInstance?.addLayer({
-						id: "clusters",
-						type: "circle",
-						source: sourceId,
-						filter: ["has", "point_count"],
-						paint: {
-							"circle-color": [
-								"step",
-								["get", "point_count"],
-								...clusterColors,
-							],
-							"circle-radius": [
-								"step",
-								["get", "point_count"],
-								...clusterSizes,
-							],
+				this.mapInstance.addLayer({
+					id: "cluster-count",
+					type: "symbol",
+					source: sourceId,
+					filter: ["has", "point_count"],
+					layout: {
+						"text-field": "{point_count_abbreviated}",
+						"text-font": [
+							"DIN Offc Pro Medium",
+							"Arial Unicode MS Bold",
+						],
+						"text-size": 12,
+					},
+				});
+
+				// Add click handler for clusters
+				this.mapInstance.on("click", "clusters", (e) => {
+					const features = this.mapInstance?.queryRenderedFeatures(
+						e.point,
+						{
+							layers: ["clusters"],
 						},
-					});
+					);
+					if (!features || features.length === 0) {
+						return;
+					}
 
-					// ✅ Add Cluster Count Labels
-					this.mapInstance?.addLayer({
-						id: "cluster-count",
-						type: "symbol",
-						source: sourceId,
-						filter: ["has", "point_count"],
-						layout: {
-							"text-field": "{point_count_abbreviated}",
-							"text-font": [
-								"DIN Offc Pro Medium",
-								"Arial Unicode MS Bold",
-							],
-							"text-size": 12,
-						},
-					});
+					const clusterId = (
+						features[0].properties as { cluster_id: number }
+					).cluster_id;
+					if (!this.mapInstance) {
+						Logger.error("Map instance is not initialized.");
+						return;
+					}
+					const source = this.mapInstance.getSource(sourceId);
+					if (!source || source.type !== "geojson") {
+						Logger.error("Failed to retrieve GeoJSON source.");
+						return;
+					}
 
-					// ✅ Add Cluster Expansion on Click
-					this.mapInstance?.on("click", "clusters", (event) => {
-						const features =
-							this.mapInstance?.queryRenderedFeatures(
-								event.point,
-								{
-									layers: ["clusters"],
-								},
-							);
-
-						if (!features || features.length === 0) {
+					source.getClusterExpansionZoom(clusterId, (err, zoom) => {
+						if (err || features[0].geometry.type !== "Point") {
 							return;
 						}
-
-						const clusterId = features[0].properties
-							?.cluster_id as number;
-						const source = this.mapInstance?.getSource(
-							sourceId,
-						) as mapboxgl.GeoJSONSource | null;
-
-						source?.getClusterExpansionZoom(
-							clusterId,
-							(err, zoom) => {
-								if (err) {
-									return;
-								}
-
-								if (
-									features[0].geometry.type === "Point" &&
-									zoom !== null
-								) {
-									this.mapInstance?.easeTo({
-										center: features[0].geometry
-											.coordinates as [number, number],
-										zoom,
-									});
-								}
-							},
-						);
+						this.mapInstance?.easeTo({
+							center: features[0].geometry.coordinates as [
+								number,
+								number,
+							],
+							zoom:
+								typeof zoom === "number" && !isNaN(zoom)
+									? zoom
+									: 14,
+						});
 					});
-				}, 500);
-			}
+				});
 
-			// ✅ Add Unclustered Points Layer (Markers)
-			this.mapInstance.addLayer({
-				id: "unclustered-point",
-				type: "circle",
-				source: sourceId,
-				filter: ["!", ["has", "point_count"]], // Only show when NOT clustered
-				paint: {
-					"circle-color": "#ff0000", // Example color (adjust if needed)
-					"circle-radius": 6,
-					"circle-stroke-width": 2,
-					"circle-stroke-color": "#ffffff",
-				},
-			});
+				// Change cursor on cluster hover
+				this.mapInstance.on("mouseenter", "clusters", () => {
+					if (this.mapInstance) {
+						this.mapInstance.getCanvas().style.cursor = "pointer";
+					}
+				});
 
-			// ✅ If clustering is disabled, add individual markers instead
-			if (!enableClustering) {
-				this.addMarkersFromGeoJSON(geojsonData);
+				this.mapInstance.on("mouseleave", "clusters", () => {
+					if (this.mapInstance) {
+						this.mapInstance.getCanvas().style.cursor = "";
+					}
+				});
 			}
 		} catch (error) {
 			Logger.error(
-				"Error loading GeoJSON data:",
+				"Error adding cluster layers:",
 				error instanceof Error ? error : new Error(String(error)),
 			);
-			Logger.error("Incorrect url:", new Error(geoJsonUrl));
+		} // Closing the try block
+
+		// Add markers for non-clustered points
+		try {
+			// Initial marker creation
+			this.addMarkersFromGeoJSON(geojsonData);
+			// Update markers on map movement
+			const geojsonDataCopy = geojsonData; // Fix: declare geojsonDataCopy for use in handler
+			this.mapInstance.on("moveend", () => {
+				// Clear existing markers
+				const existingMarkers =
+					document.querySelectorAll(".custom-marker");
+				existingMarkers.forEach((marker) => {
+					marker.remove();
+				});
+
+				// Get current visible features
+				const bounds = this.mapInstance?.getBounds();
+				const features =
+					bounds && this.mapInstance
+						? this.mapInstance.queryRenderedFeatures(
+								[
+									this.mapInstance.project([
+										bounds.getWest(),
+										bounds.getSouth(),
+									]),
+									this.mapInstance.project([
+										bounds.getEast(),
+										bounds.getNorth(),
+									]),
+								],
+								{ layers: ["clusters"] },
+							)
+						: [];
+				const visibleClusters = new Set(
+					features.map(
+						(f) =>
+							(f.properties as { cluster_id?: number })
+								.cluster_id,
+					),
+				);
+
+				// Add markers for non-clustered points
+				geojsonDataCopy.features.forEach((feature) => {
+					const bounds = this.mapInstance?.getBounds();
+					const [lng, lat] = feature.geometry.coordinates;
+
+					// Check if point is within current bounds and not in a cluster
+					if (
+						bounds?.contains([lng, lat]) &&
+						!visibleClusters.has(feature.properties?.cluster_id)
+					) {
+						this.addMarkerToMap(feature);
+					}
+				});
+			});
+		} catch (error: Error | null | undefined) {
+			Logger.error(
+				"Error processing GeoJSON data:",
+				error instanceof Error ? error : new Error(String(error)),
+			);
 		}
 	}
 
-	public addMarkersFromGeoJSON(geojson: GeoJSON): void {
+	// Function to add a single marker to the map
+	public addMarkerToMap(feature: GeoJSONFeature): void {
 		if (!this.mapInstance) {
-			Logger.error(
-				"Cannot add markers: Map instance is not initialized.",
-			);
+			Logger.error("Map instance is not initialized.");
 			return;
 		}
 
-		interface GeoJSONWithCustomMarkers {
-			custom_markers: Record<string, string>;
-			features: GeoJSONFeature[];
+		const { coordinates } = feature.geometry;
+		const { popupText } = feature.properties;
+
+		// Create a custom marker element
+		const markerElement = document.createElement("div");
+		markerElement.className = "custom-marker";
+
+		// Add marker to the map
+		new mapboxgl.Marker(markerElement)
+			.setLngLat(coordinates)
+			.setPopup(new mapboxgl.Popup().setText(popupText ?? ""))
+			.addTo(this.mapInstance);
+	}
+
+	// Function to add markers from GeoJSON data
+	private addMarkersFromGeoJSON(geojsonData: GeoJSON): void {
+		if (!this.mapInstance) {
+			Logger.error("Map instance is not initialized.");
+			return;
 		}
 
-		const { custom_markers, features } =
-			geojson as unknown as GeoJSONWithCustomMarkers;
-
-		features.forEach((feature: GeoJSONFeature) => {
-			const { coordinates } = feature.geometry;
-			const { popupText, markerStyle } = feature.properties as {
-				popupText?: string;
-				markerStyle: string;
-			};
-
-			// Get the correct marker icon from the custom_markers object
-			const markerIcon =
-				custom_markers[markerStyle] || custom_markers.red;
-
-			// Create a custom marker element
-			const markerElement = document.createElement("div");
-			markerElement.className = "custom-marker";
-			markerElement.style.backgroundImage = `url(${markerIcon})`;
-			markerElement.style.width = "30px";
-			markerElement.style.height = "50px";
-			markerElement.style.backgroundSize = "cover";
-
-			if (this.mapInstance) {
-				const marker = new mapboxgl.Marker(markerElement)
-					.setLngLat(coordinates)
-					.addTo(this.mapInstance);
-
-				// Set popup with text when clicked
-				if (popupText) {
-					const popup = new mapboxgl.Popup({ offset: 25 }).setText(
-						popupText,
-					);
-					marker.setPopup(popup);
-				}
-			}
+		geojsonData.features.forEach((feature) => {
+			this.addMarkerToMap(feature);
 		});
 	}
 }
-
-export default new Mapbox();
+export default Mapbox;
